@@ -1,0 +1,23 @@
+{
+  "name": "cirious-games-2021",
+  "version": "1.0.0",
+  "description": "Serious game for our end-of-the-year project - Developed in HTML, CSS and JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Corentin-Dessenne/CIRious-Games-2021.git"
+  },
+  "author": "Corentin Dessenne - Armand Deffrennes - Marie Pivette - Adel Eutamene - Noé Klopocki - Antoine Fournet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Corentin-Dessenne/CIRious-Games-2021/issues"
+  },
+  "homepage": "https://github.com/Corentin-Dessenne/CIRious-Games-2021#readme",
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "socket.io": "^4.0.1"
+  }
+}
