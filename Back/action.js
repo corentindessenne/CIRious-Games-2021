@@ -1,11 +1,12 @@
-//Each case with an action will have a different id with a type associated
-//id possibility :0 1 2
-//Type Possibility : Q(question), C(community), C(chance) 
+//Each case with an action will have a specified id, different coordinates and will save how many times there were used
 class action{
-    constructor(id, x, y){
+    constructor(id, x, y, type){
+        //Instance
         this.id = id;
         this.x = x;
         this.y = y;
-        this.type = type;
+        this.type = type; //Card or Special Effect
+        //Default
+        this.nbrOfUse = 0;//Count the number of time a player went to an action case
     }
 }
