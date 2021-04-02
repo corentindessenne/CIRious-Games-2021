@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/Corentin-Dessenne/CIRious-Games-2021#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "mysql": "^2.18.1",
+    "passport": "^0.4.1",
     "socket.io": "^4.0.1"
   }
 }
