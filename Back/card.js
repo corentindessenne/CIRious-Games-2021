@@ -1,3 +1,4 @@
+//Parent class
 class card{
     constructor(id, type, membership){
         this.id = id;//Id of the card
