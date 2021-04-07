@@ -1,7 +1,7 @@
 {
   "name": "cirious-games-2021",
   "version": "1.0.0",
-  "description": "Serious game for our end-of-the-year project - Developed in HTML, CSS and JavaScript",
+  "description": "Serious game developed as part  - Developed in HTML, CSS and JavaScript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,6 +25,7 @@
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "path": "^0.12.7",
+    "phaser": "^3.54.0",
     "socket.io": "^4.0.1"
   }
 }
