@@ -5,7 +5,7 @@ class action{
         this.id = id;
         this.x = x;
         this.y = y;
-        this.type = type; //Card or Special Effect
+        this.type = type; //Card or Special Effect. Will be an instance of card most of the time.
         //Default
         this.nbrOfUse = 0;//Count the number of time a player went to an action case
     }
