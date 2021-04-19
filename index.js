@@ -22,7 +22,7 @@ const fileUpload = require('express-fileupload');
 
 /**** Import project libs ****/
 
-const monopalim = require('./back/monopalim.js');
+//const monopalim = require('./back/monopalim.js');
 const House = require('./back/house.js');
 
 
@@ -66,6 +66,7 @@ if (app.get('env') === 'production') {
 /**** Code ****/
 
 let house = new House();
+let playersConnected = [];
 
 //first page when you are connected to the server
 app.get('/', (req, res) => {
@@ -73,6 +74,78 @@ app.get('/', (req, res) => {
     else res.sendFile(__dirname + '/front/html/welcome.html');
 });
 
+//redirection registration page
+app.get('/registration', (req, res) => {
+    res.sendFile(path.join(__dirname + '/Front/html/registration.html'));
+});
+
+//redirection connection page
+app.get('/connection', (req, res) => {
+    res.sendFile(path.join(__dirname + '/Front/html/connection.html'));
+});
+
+//redirection rooms page
+app.get('/menu', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/menu.html'));
+    else res.redirect('/');
+});
+
+//login with identifiers when the person already has an account
+app.post('/connect', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    con.query('SELECT * FROM accounts WHERE Username = ? AND Password = ?', [username, password], function(error, results) {
+        if(error) {
+            throw error;
+        }
+        else if (results.length > 0) {
+            req.session.loggedin = true;
+            req.session.username = username;
+            req.session.admin = results[0].admin == 1;
+            req.session.save();
+            playersConnected.push(req.session.username);
+            res.redirect('../menu');
+            console.log(playersConnected);
+        }
+        else {
+            res.send('Pseudo et/ou mot de passe incorrect(s) !');
+        }
+    });
+
+    con.query("SELECT PLayerIndex FROM accounts WHERE Username = ? AND Password = ?", [username, password], function (err, id) {
+        if (err) throw err;
+        req.session.id = id;
+    });
+
+});
+
+//login with identifiers when the person doesn't have an account
+app.post('/register', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    let email = req.body.email;
+
+    con.query('SELECT * FROM accounts WHERE Username = ?', [username], function(error, results) {
+        if (error) throw error;
+        else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
+        else {
+            con.query('INSERT INTO accounts (Username, email, Password, Admin) VALUES (?, ?, ?, ?)', [username, email, password, false], function(error) {
+                if(error) throw error;
+                req.session.loggedin = true;
+                req.session.username = username;
+                req.session.admin = false;
+                req.session.save();
+                res.redirect('../menu');
+            });
+        }
+    });
+    con.query("SELECT PLayerIndex FROM accounts WHERE Username = ? AND Password = ?", [username, password], function (err, result) {
+        if (err) throw err;
+        req.session.id = result;
+    });
+});
 
 /**** interaction with front ****/
 

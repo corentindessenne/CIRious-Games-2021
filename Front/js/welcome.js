@@ -6,7 +6,7 @@ let config = {
         preload: preload,
         create: create
     },
-    backgroundColor : '#DAE3F3'
+    backgroundColor : '#89D1D9'
 };
 
 let game = new Phaser.Game(config);
