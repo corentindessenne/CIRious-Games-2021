@@ -60,7 +60,36 @@ class board{
         this.chTab[19] = new chanceCard(19, "special", "freedom", "none", "Cheatmeal autorisé ! Cette carte peut être conservée pour une future utilisation ou être revendue.");//Exception à gérer
 
         //questionCard tab
-        this.qTab[0] = new questionCard(0, "Comment inciter les enfants à manger des légumes ?", ["Les enfants peuvent se passer des légumes.", "Il faut les forcer et les disputer s’ils ne finissent pas leur assiette.", "Il faut mélanger les légumes avec quelque chose qu’ils mangent avec plaisir."], [2]);
+        this.qTab[0] = new questionCard(0, "Comment inciter les enfants à manger des légumes ?", ["Les enfants peuvent se passer des légumes", "Il faut les forcer et les disputer s’ils ne finissent pas leur assiette", "Il faut mélanger les légumes avec quelque chose qu’ils mangent avec plaisir"], [2]);
+        this.qTab[1] = new questionCard(1, "Quel repas est le plus important de la journée ?", ["Le petit-déjeuner", "Déjeuner", "Goûter", "Dîner"], [0]);
+        this.qTab[2] = new questionCard(2, "Combien de repas doit-on prendre par jour ? ", ["1", "2", "3", "4"], [2]);
+        this.qTab[3] = new questionCard(3, "Lequel de ces aliments n’est pas un féculent en diététique ?", ["Choux-fleurs", "Maïs", "Lentilles", "Pdt"], [0]);
+        this.qTab[4] = new questionCard(4, "Quelle est la consommation idéale de poisson ?", ["1 fois par semaine", "2 fois par semaine", "3 fois par semaine"], [1]);
+        this.qTab[5] = new questionCard(5, "Est-ce que sauter le petit déjeuner fait maigrir ?", ["Oui, manger moins a pour conséquence de prendre moins de poids", "Non, car il rompt le jeun de la nuit et permet de donner à l’organisme l’énergie nécessaire pour la matinée"], [1]);
+        this.qTab[6] = new questionCard(6, "Quelle est la cause de la prise de poids chez les Français lors du premier confinement ?", ["Manque considérable d’activité physique", "Top Chef"], [0]);
+        this.qTab[7] = new questionCard(7, "Combien de litres d’eau est-il conseillé de boire par jour ?", ["3", "1.5", "4", "0.5"], [1]);
+        this.qTab[8] = new questionCard(8, "D’après vous, combien de fois peut-on manger fast-food ?", ["2 fois par mois", "4 fois par mois", "1 fois par jour", "365 à 366 fois par an"], [0]);
+        this.qTab[9] = new questionCard(9, "L’IMC doit normalement être compris entre :", ["15-20", "20-25", "25-30", "30-35"], [1]);
+        this.qTab[10] = new questionCard(10, "Quelle est la proportion d’eau dans ton corps ?", ["45%", "65%", "85%", "30%"], [1]);
+        this.qTab[11] = new questionCard(11, "Dois-je manger deux fois le soir lorsque je n’ai pas mangé le midi ?", ["Oui, il faut compenser l’absence du midi", "Non, la digestion sera beaucoup plus compliquée si l’on mange deux fois."], [1]);
+        this.qTab[12] = new questionCard(12, "Quelle est la consommation idéale de viande ?", ["Moins de 4 fois par semaine", "4 à 7 fois par semaine", "Plus de 7 fois par semaine"], [1]);
+        this.qTab[13] = new questionCard(13, "Est-ce que l’huile d’olive est bonne pour la santé ?", ["Oui, elle permet de prévenir les maladies cardiovasculaires", "Non, c’est un aliment qui fait prendre du poids"], [0]);
+        this.qTab[14] = new questionCard(14, "Les produits laitiers sont les aliments les plus riches en calcium.", ["Vrai", "Faux"], [0]);
+        this.qTab[15] = new questionCard(15, "Quel est le pourcentage d’enfants en surpoids ?", ["5%", "10%", "20%", "30%"], [0]);
+        this.qTab[16] = new questionCard(16, "Le sel est-il dangereux pour la santé ?", ["Oui, lorsque on en met dans tous ses plats", "Non, il est même vital pour notre organisme"], [1]);
+        this.qTab[17] = new questionCard(17, "Est-ce vrai qu’un étudiant sur 5 ne mange que 2 repas par jour ?", ["Oui", "Non"], [0]);
+        this.qTab[18] = new questionCard(18, "Quelle est la première cause de l’obésité ?", ["Facteurs génétiques", "Facteurs psychologiques", "Insuffisance des dépenses énergétiques quotidiennes"], [0]);
+        this.qTab[19] = new questionCard(19, "Quelle conséquence a l’alcool sur votre santé ?", ["Allongement de la vie", "Risque de cancers"], [1]);
+        this.qTab[20] = new questionCard(20, "Est-ce que le gras est essentiel à une bonne alimentation ?", ["Oui, il faut manger contenant des bonnes graisses : les oméga 3", "Non, il ne favorise uniquement notre prise de graisse corporelle"], [0]);
+        this.qTab[21] = new questionCard(21, "Qu’est ce que favorise l’apport de céréales complètes dans notre organisme ?", ["Elles permettent d’éviter le grignotage et sont beaucoup plus rassasiantes", "Les céréales complètes ne sont utiles en rien à notre organisme"], [0]);
+        this.qTab[22] = new questionCard(22, "Quel est l’effet d’une plus grande exposition au soleil ?", ["C’est nécessaire afin de favoriser un apport plus important en vitamine D", "Le soleil n’a pas de rapport avec notre équilibre alimentaire"], [0]);
+        this.qTab[23] = new questionCard(23, "Quel type de cuisson faut-il favoriser et pourquoi ?", ["La cuisson forte car elle permet de gagner du temps et donc de manger plus vite", "La cuisson à vapeur et à basse température dégrade moins les vitamines et les oligoéléments"], [1]);
+        this.qTab[24] = new questionCard(24, "Qu’est ce que l’effet dit « yo-yo » lors d’un régime amincissant ?", ["Le risque élevé de reprendre du poids à la suite d’un régime", "Le risque de ne pas réussir à finir son régime"], [0]);
+        this.qTab[25] = new questionCard(25, "Quelles sont les conséquences psychologiques d’un régime amincissant ?", ["Stress", "Distraction", "Aucun", "Alcool"], [0, 1, 3]);
+        this.qTab[26] = new questionCard(26, "Quel est la durée idéale d’un repas et dans quelles conditions ?", ["Assis, pendant au moins 20 minutes", "Dans n’importe quelle position pendant au moins 10 minutes"], [0]);
+        this.qTab[27] = new questionCard(27, "Quel est l’intérêt de la cuisine dîtes « maison » pour avoir un équilibre alimentaire ?", ["Elle permet d’apprendre de nouvelles recettes et d’améliorer ses compétences de cuisinier", "C’est une très bonne façon de garder le contrôle sur le contenu de son assiette"], [1]);
+        this.qTab[28] = new questionCard(28, "Quel est le plus grand prédateur de l’équilibre alimentaire ?", ["Le grignotage entre les repas", "Philippe Etchebest"], [0]);
+        this.qTab[29] = new questionCard(29, "Quel est le fruit qui apporte le plus de vitamine C ?", ["Le kiwi", "L’orange", "La banane"], [0]);
 
         //Init the 11x11 grid
         this.grid = new Array(11);
