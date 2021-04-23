@@ -98,16 +98,17 @@ class board{
         }
         //Init every case of the grid that we will use
         /* First Parcel */
+        //Done
         this.grid[10][10] = new action (0, 10, 10, "get", 400);//Exception à gérer
-        this.grid[10][9] = new propriety (0, "AVENUE DE LA BOUCHÉE DE PAIN", 60, "orange", 10, 9, "classic", [10, 90, 250, 30, 160], [50, 100, 25, 50]);
+        this.grid[10][9] = new propriety (0, "AVENUE DE LA BOUCHÉE DE PAIN", 15, "orange", 10, 9, "classic", 2);
         this.grid[10][8] = new action (1, 10, 8, "community", 0);
-        this.grid[10][7] = new propriety (1, "RUE DE LA POIRE EN DEUX", 60, "orange", 10, 7, "classic", [20, 180, 450, 60, 320], [50, 100, 25, 50]);
+        this.grid[10][7] = new propriety (1, "RUE DE LA POIRE EN DEUX", 15, "orange", 10, 7, "classic", 4);
         this.grid[10][6] = new action (2, 10, 6, "question", 0);
-        this.grid[10][5] = new propriety (2, "AUTOMNE", 200, "orange", 10, 5, "season", 50, undefined);
-        this.grid[10][4] = new propriety (3, "BOULEVARD DE LA TÊTE D'OEUF", 100, "orange", 10, 4, "classic", [30, 270, 550, 90, 400], [100, 300, 50, 250]);
+        this.grid[10][5] = new propriety (2, "AUTOMNE", 200, "orange", 200, 5, "season", 50);
+        this.grid[10][4] = new propriety (3, "BOULEVARD DE LA TÊTE D'OEUF", 25, "orange", 10, 4, "classic", 6);
         this.grid[10][3] = new action (3, 10, 3, "chance", 0);
-        this.grid[10][2] = new propriety (4, "RUE SERRÉE COMME DES SARDINES", 100, "orange", 10, 2, "classic", [30, 270, 550, 90, 400], [100, 300, 50, 250]);
-        this.grid[10][1] = new propriety (5, "AVENUE DE L\'EAU À LA BOUCHE", 120, "orange", 10, 1, "classic", [40, 300, 600, 100, 450], [100, 300, 50, 250]);
+        this.grid[10][2] = new propriety (4, "RUE SERRÉE COMME DES SARDINES", 25, "orange", 10, 2, "classic", 6);
+        this.grid[10][1] = new propriety (5, "AVENUE DE L\'EAU À LA BOUCHE", 30, "orange", 10, 1, "classic", 8);
         this.grid[10][0] = new action (4, 10, 0, "visitPrison", 0);//Exception à gérer
 
         /* Second Parcel */
@@ -138,7 +139,7 @@ class board{
         this.grid[1][10] = new propriety (20, "AVENUE DU GRAIN A MOUDRE", 60, "jaune", 1, 10, "classic", [10, 90, 250, 30, 160], [50, 100, 25, 50]);
         this.grid[2][10] = new propriety (21, "AVENUE DU MELON", 60, "jaune", 2, 10, "classic", [20, 180, 450, 60, 320], [50, 100, 25, 50]);
         this.grid[3][10] = new action (11, 3, 10, "community", 0)
-        this.grid[4][10] = new propriety (22, "BOULEVARD DE L\'ARGENT DU BEURRE", 100, "jaune", 4, 10, "classic", [30, 270, 550, 90, 400], [100, 300, 50, 250]);
+        this.grid[4][10] = new propriety (22, "IMPASSE DU CHOU BLANC", 100, "jaune", 4, 10, "classic", [30, 270, 550, 90, 400], [100, 300, 50, 250]);
         this.grid[5][10] = new propriety (23, "ETE", 200, "jaune", 5, 10, "season", 50, undefined);
         this.grid[6][10] = new action (12, 6, 10, "chance", 0);
         this.grid[7][10] = new propriety (24, "AVENUE DU DINDON DE LA FARCE", 100, "jaune", 7, 10, "classic", [30, 270, 550, 90, 400], [100, 300, 50, 250]);
