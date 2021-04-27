@@ -32,6 +32,7 @@ class monopalim{
         this.dice1 = 1;
         this.dice2 = 1;
         this.castValue = this.dice1 + this.dice2;
+        this.isCast = false;
 
         //Initate board
         this.board = new board();
@@ -49,25 +50,76 @@ class monopalim{
         this.dice1 = Math.floor(Math.random() * 6) + 1;
         this.dice2 = Math.floor(Math.random() * 6) + 1;
         this.castValue = this.dice1 + this.dice2;
+        this.isCast = true;
     }
 
     selectCase(x, y){
         this.selectedCase = this.board.grid[x][y];
     }
 
-    //Before casting the dice
-    beforeCast(){
-        //If we have selected a propriety
-        if (typeof this.selectedCase != 'undefined'){
+
+    //Core functions
+
+    //Need Test
+    move(){
+        //If player is on the first parcel
+        if (this.playerOrder[this.orderIndex].position[0] === 10){
+            //If player is exceeding the parcel
+            if(this.playerOrder[this.orderIndex].position[1] - this.castValue < 0){
+                //New Cast value after crossing the last parcel
+                let restValue = 10 - (this.playerOrder[this.orderIndex].position[1] + this.castValue);
+
+                //If still exceeding the actual parcel
+                if (restValue > 10){
+                    restValue -= 10;
+                    this.playerOrder[this.orderIndex].position = [0, restValue];
+                }
+
+                else {
+                    this.playerOrder[this.orderIndex].position = [10 - restValue, 0];
+                }
+            }
+
+            else {
+                this.playerOrder[this.orderIndex].position = [10, this.playerOrder[this.orderIndex].position[1] - this.castValue];
+            }
+        }
+
+        else if (this.playerOrder[this.orderIndex].position[1] === 0){
 
         }
-        else{
 
+        else if (this.playerOrder[this.orderIndex].position[0] === 0) {
+
+        }
+
+        else if (this.playerOrder[this.orderIndex].position[1] === 10){
+
+        }
+
+        else{
+            console.log("Player not on the board");
+            return false; //Didn't move
         }
     }
 
-    //After Casting the dice
-    afterCast(){
+    play(){
+        //We cast the dice first
+        this.castTheDice();
 
+        //We make the Movement
+        this.move();
+        
+        //We Make the interaction
+
+
+        //We make the action
+        
+
+        //Player finished his turn
+        this.orderIndex++;
+        this.isCast = false;
+
+        return true;//Did play
     }
 }
