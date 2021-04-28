@@ -84,23 +84,78 @@ class monopalim{
                 this.playerOrder[this.orderIndex].position = [10, this.playerOrder[this.orderIndex].position[1] - this.castValue];
             }
         }
-
+        //Same but on the second parcel
         else if (this.playerOrder[this.orderIndex].position[1] === 0){
+            //If player is exceeding the parcel
+            if(this.playerOrder[this.orderIndex].position[0] - this.castValue < 0){
+                //New Cast value after crossing the last parcel
+                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[0];
 
+                //If still exceeding the actual parcel
+                if (restValue > 10){
+                    restValue -= 10;
+                    this.playerOrder[this.orderIndex].position = [restValue, 10];
+                }
+
+                else {
+                    this.playerOrder[this.orderIndex].position = [0, restValue];
+                }
+            }
+
+            else {
+                this.playerOrder[this.orderIndex].position = [this.playerOrder[this.orderIndex].position[0] - this.castValue, 0];
+            }
         }
-
+        //Same but on the third parcel
         else if (this.playerOrder[this.orderIndex].position[0] === 0) {
+            //If player is exceeding the parcel
+            if(this.playerOrder[this.orderIndex].position[1] + this.castValue > 10){
+                //New Cast value after crossing the last parcel
+                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[1];
 
+                //If still exceeding the actual parcel
+                if (restValue > 10){
+                    restValue -= 10;
+                    this.playerOrder[this.orderIndex].position = [10, 10 - restValue];
+                }
+
+                else {
+                    this.playerOrder[this.orderIndex].position = [restValue, 10];
+                }
+            }
+
+            else {
+                this.playerOrder[this.orderIndex].position = [0, this.playerOrder[this.orderIndex].position[1] + this.castValue];
+            }
         }
-
+        //Same but on the fourth parcel
         else if (this.playerOrder[this.orderIndex].position[1] === 10){
+            //If player is exceeding the parcel
+            if(this.playerOrder[this.orderIndex].position[0] + this.castValue > 10){
+                //New Cast value after crossing the last parcel
+                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[0];
 
+                //If still exceeding the actual parcel
+                if (restValue > 10){
+                    restValue -= 10;
+                    this.playerOrder[this.orderIndex].position = [10 - restValue, 0];
+                }
+
+                else {
+                    this.playerOrder[this.orderIndex].position = [10, 10 - restValue];
+                }
+            }
+
+            else {
+                this.playerOrder[this.orderIndex].position = [this.playerOrder[this.orderIndex].position[0] + this.castValue, 10];
+            }
         }
-
+        //Bug
         else{
             console.log("Player not on the board");
             return false; //Didn't move
         }
+        return true;
     }
 
     play(){
