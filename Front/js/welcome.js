@@ -6,12 +6,18 @@ let config = {
         preload: preload,
         create: create
     },
+    scale: {
+        mode: Phaser.Scenes.FIT,
+        autoCenter: Phaser.CENTER_HORIZONTALLY,
+        parent: 'welcomeAnimation'
+    },
     backgroundColor : '#89D1D9'
-};
+    };
 
-let game = new Phaser.Game(config);
+game = new Phaser.Game(config);
 
 function preload() {
+
     let progressBar = this.add.graphics();
     let progressBox = this.add.graphics();
     progressBox.fillStyle(0x000000, 0.7);

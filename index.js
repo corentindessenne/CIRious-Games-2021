@@ -67,11 +67,12 @@ if (app.get('env') === 'production') {
 
 let house = new House();
 let playersConnected = [];
+let playersPublic = [];
 
 //first page when you are connected to the server
 app.get('/', (req, res) => {
-    if (req.session.loggedin) res.redirect('/rooms');
-    else res.sendFile(__dirname + '/front/html/welcome.html');
+    if (req.session.loggedin) res.redirect('/menu');
+    else res.sendFile(__dirname + '/Front/html/welcome.html');
 });
 
 //redirection registration page
@@ -84,10 +85,38 @@ app.get('/connection', (req, res) => {
     res.sendFile(path.join(__dirname + '/Front/html/connection.html'));
 });
 
-//redirection rooms page
+//redirection menu page
 app.get('/menu', (req, res) => {
     if (req.session.loggedin)
         res.sendFile(path.join(__dirname + '/Front/html/menu.html'));
+    else res.redirect('/');
+});
+
+//redirection aboutUs page
+app.get('/aboutUs', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/aboutUs.html'));
+    else res.redirect('/');
+});
+
+//redirection profil page
+app.get('/profil', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/profil.html'));
+    else res.redirect('/');
+});
+
+//redirection tutorial page
+app.get('/tutorial', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/tutorial.html'));
+    else res.redirect('/');
+});
+
+//redirection public game page
+app.get('/multijoueur', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/public.html'));
     else res.redirect('/');
 });
 
@@ -151,31 +180,34 @@ app.post('/register', (req, res) => {
 
 io.on('connection', socket => {
 
-    //create a public room
-    socket.on('public', () =>{
+    socket.on('multijoueur', ()=>{
         if (house.addWaiter(socket)) {
-            if (house.getWaiters().length >= 2) {
+            if (house.getWaiters().length >= 6) {
                 let waiters = house.popWaiters();
-                let room = house.addPublicRoom(waiters[0], waiters[1]);
-                room.game = 0;
-                room.board = 0;
-                room.state = 0;
+                let room = house.addPublicRoom(waiters[0], waiters[1], waiters[2], waiters[3], waiters[4], waiters[5]);
+                //room.game = new stratego();
+                //room.board = room.game.getBoardGame();
+                //room.state = 0;
 
                 //chrono
                 room.timeDebut = 0;
                 room.timeFin = 0;
                 room.timeGame = 0;
 
-                //to play
-                room.player1Ready = false;
-                room.player2Ready = false;
-                room.firstClick = false;
-                room.secondClick = false;
-
                 room.player1 = waiters[0];
                 room.player2 = waiters[1];
-                room.player1.emit('play', 'play as player1');
-                room.player2.emit('play', 'play as player2');
+                room.player3 = waiters[2];
+                room.player4 = waiters[3];
+                room.player5 = waiters[4];
+                room.player6 = waiters[5];
+
+                room.player1.emit('play');
+                room.player2.emit('play');
+                room.player3.emit('play');
+                room.player4.emit('play');
+                room.player5.emit('play');
+                room.player6.emit('play');
+
             } else socket.emit('public');
         }
     });

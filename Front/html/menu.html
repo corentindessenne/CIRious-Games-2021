@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Album example for Bootstrap</title>
+    <title>Monopalim</title>
 
     <!-- SCRIPT -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -22,76 +22,83 @@
     <link href="../css/menu.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="background-color: #89D1D9">
 
 <header>
-    <div class="navbar navbar-dark" style="background-color: #89D1D9">
+    <div class="navbar navbar-dark">
         <div class="container d-flex justify-content-between">
             <a href="#" class="navbar-brand d-flex align-items-center">
-                <img src="../assets/img/home.png" width="40" height="40">
+                <img id="home" src="../assets/img/home.png" width="40" height="40">
             </a>
             <a href="#" class="navbar-brand d-flex align-items-center">
                 <img src="../assets/img/menuBanner.png" width="400" height="70">
             </a>
             <a href="#" class="navbar-brand d-flex align-items-center">
-                <img src="../assets/img/profile.png" width="40" height="40">
+                <img id="profil" src="../assets/img/profile.png" width="40" height="40">
             </a>
         </div>
     </div>
 </header>
 
 <main role="main">
-    <div class="album py-5" style="background-color: #89D1D9">
+    <div class="album py-5">
         <div class="container">
-
             <div class="row">
-                <div class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
+                <div id="multijoueur" class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
                     <div class="card mb-4 box-shadow">
                         <div class="card-body" style="height: 50px">
-                            <p>Jouer en privé</p>
-                        </div>
-                        <img class="card-img-bottom" src="../assets/img/private.png" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
-                    </div>
-                </div>
-                <div class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-body" style="height: 50px">
-                            <p>Jouer en public</p>
+                            <p align="center">Multijoueur</p>
                         </div>
                         <img class="card-img-bottom" src="../assets/img/world.jpg" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
                     </div>
                 </div>
-                <div class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
+                <div id="prive" class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
                     <div class="card mb-4 box-shadow">
                         <div class="card-body" style="height: 50px">
-                            <p>Score</p>
+                            <p align="center">Rejoindre une partie privée</p>
+                        </div>
+                        <div class="card-body" style="height: 170px">
+                            <input class="form-control" type="password" id="input" required>
+                            <div class="text-center">
+                                <button type="submit" class="btn" style="background-color: #89D1D9; margin-top: 10px" id="validate">Valider</button>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn" style="background-color: #F2A413; margin-top: 10px" id="create">Créer une partie</button>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                <div id="local" class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body" style="height: 50px">
+                            <p align="center">Joueur en local</p>
+                        </div>
+                        <img class="card-img-bottom" src="../assets/img/family.jpg" alt="Card image cap" style="padding-left: 50px; padding-right: 50px" height="170px">
+                    </div>
+                </div>
+
+                <div id="score" class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body" style="height: 50px">
+                            <p align="center">Score</p>
                         </div>
                         <img class="card-img-bottom" src="../assets/img/score.png" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
                     </div>
                 </div>
-
-                <div class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
+                <div id="tutoriel" class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
                     <div class="card mb-4 box-shadow">
                         <div class="card-body" style="height: 50px">
-                            <p>A propos</p>
-                        </div>
-                        <img class="card-img-bottom" src="../assets/img/aboutUs.png" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
-                    </div>
-                </div>
-                <div class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-body" style="height: 50px">
-                            <p>Temporaire</p>
-                        </div>
-                        <img class="card-img-bottom" src="../assets/img/temp.png" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
-                    </div>
-                </div>
-                <div class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-body" style="height: 50px">
-                            <p>Tutoriel</p>
+                            <p align="center">Tutoriel</p>
                         </div>
                         <img class="card-img-bottom" src="../assets/img/tutorial.png" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
+                    </div>
+                </div>
+                <div id="aPropos" class="col-md-4"  style="padding-left: 20px; padding-right: 20px">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body" style="height: 50px">
+                            <p align="center">A propos</p>
+                        </div>
+                        <img class="card-img-bottom" src="../assets/img/aboutUs.png" alt="Card image cap" style="padding-left: 60px; padding-right: 60px" height="170px">
                     </div>
                 </div>
             </div>
@@ -99,5 +106,9 @@
     </div>
 
 </main>
+<script>
+    let socket = io();
+</script>
+<script src="../js/menu.js"></script>
 </body>
 </html>
