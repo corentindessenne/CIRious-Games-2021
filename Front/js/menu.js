@@ -16,3 +16,6 @@ profil.addEventListener('click', event =>{
 multijoueur.addEventListener('click', event =>{
     window.location.href = '/multijoueur';
 });
+aPropos.addEventListener('click', event =>{
+    window.location.href = '/aboutUs';
+});

@@ -1,10 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Monopalim</title>
+
+    <!-- SCRIPT -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- CSS links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!--My CSS-->
+    <link rel="stylesheet" href="../css/aboutUs.css">
 </head>
-<body>
-<p>A propos</p>
+
+<body style="background-color: #89D1D9">
+
+<header>
+    <div class="navbar navbar-dark">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 15px">
+                <img id="home" src="../assets/img/menu/home.png" width="40" height="40">
+            </a>
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 10px">
+                <img src="../assets/img/banner/aboutUsBanner.png" width="400" height="70">
+            </a>
+            <a href="#" class="navbar-brand d-flex align-items-center" >
+                <img id="profil" src="../assets/img/menu/profile.png" width="40" height="40">
+            </a>
+        </div>
+    </div>
+</header>
+<main role="main">
+    <div class="container">
+        <div class="row blog">
+            <div class="col-md-12">
+                <div id="blogCarousel" class="carousel slide" data-ride="carousel" data-interval="15000">
+
+                    <ol class="carousel-indicators" style="bottom: -50px">
+                        <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#blogCarousel" data-slide-to="1"></li>
+                    </ol>
+
+                    <!-- Carousel items -->
+                    <div class="carousel-inner" align="center">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="https://www.alain-bensoussan.com/wp-content/uploads/2017/03/33795004.jpg" alt="Bologna">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Adel</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Rôle d'Adel</h6>
+                                            <p class="card-text"> Petit texte sur Adel :)</p>
+                                            <a class="card-link" href="mailto:adel.eutamene@student.junia.com">adel.eutamene@student.junia.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="https://www.alain-bensoussan.com/wp-content/uploads/2017/03/33795004.jpg" alt="Bologna">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Antoine</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Rôle d'Antoine</h6>
+                                            <p class="card-text"> Petit texte sur Antoine :)</p>
+                                            <a class="card-link" href="mailto:antoine.fournet@student.junia.com">antoine.fournet@student.junia.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="https://www.alain-bensoussan.com/wp-content/uploads/2017/03/33795004.jpg" alt="Bologna">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Armand</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Rôle d'Armand</h6>
+                                            <p class="card-text"> Petit texte sur Armand :)</p>
+                                            <a class="card-link" href="mailto:armand.deffrennes@student.junia.com">armand.deffrennes@student.junia.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="https://www.alain-bensoussan.com/wp-content/uploads/2017/03/33795004.jpg" alt="Bologna">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Corentin</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Rôle de Corentin</h6>
+                                            <p class="card-text"> Petit texte sur Corentin :)</p>
+                                            <a class="card-link" href="mailto:corentin.dessenne@student.junia.com">corentin.dessenne@student.junia.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="https://www.alain-bensoussan.com/wp-content/uploads/2017/03/33795004.jpg" alt="Bologna">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Marie</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Rôle de Marie</h6>
+                                            <p class="card-text"> Petit texte sur Marie :)</p>
+                                            <a class="card-link" href="mailto:marie.pivette@student.junia.com">marie.pivette@student.junia.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="https://www.alain-bensoussan.com/wp-content/uploads/2017/03/33795004.jpg" alt="Bologna">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Noé</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Rôle de Noé</h6>
+                                            <p class="card-text"> Petit texte sur Noé :)</p>
+                                            <a class="card-link" href="mailto:noe.klopocki@student.junia.com">noe.klopocki@student.junia.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="../js/header.js"></script>
 </body>
 </html>

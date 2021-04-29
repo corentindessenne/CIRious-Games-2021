@@ -1,6 +1,5 @@
 class Room {
-    constructor(socket1, socket2, socket3, socket4, socket5, socket6, password, ...sockets) {
-        console.log(this.sockets = sockets.slice());
+    constructor(socket1, socket2, socket3, socket4, socket5, socket6, password) {
         this.player1 = socket1;
         this.player2 = socket2;
         this.player3 = socket3;

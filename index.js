@@ -179,7 +179,6 @@ app.post('/register', (req, res) => {
 /**** interaction with front ****/
 
 io.on('connection', socket => {
-
     socket.on('multijoueur', ()=>{
         if (house.addWaiter(socket)) {
             if (house.getWaiters().length >= 6) {
@@ -210,6 +209,11 @@ io.on('connection', socket => {
 
             } else socket.emit('public');
         }
+    });
+
+    socket.on('invitation', (user,message) => {
+        socket.join(user);
+        io.sockets.in(user).emit('invite',socket);
     });
 
     socket.on('logout', () => {

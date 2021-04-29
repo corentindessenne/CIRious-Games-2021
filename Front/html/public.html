@@ -26,14 +26,14 @@
 <header>
     <div class="navbar navbar-dark">
         <div class="container d-flex justify-content-between">
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <img id="home" src="../assets/img/home.png" width="40" height="40">
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 15px">
+                <img id="home" src="../assets/img/menu/home.png" width="40" height="40">
             </a>
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <img src="../assets/img/gameBanner.png" width="400" height="70">
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 10px">
+                <img src="../assets/img/banner/gameBanner.png" width="400" height="70">
             </a>
-            <a href="#" class="navbar-brand d-flex align-items-center">
-                <img id="profil" src="../assets/img/profile.png" width="40" height="40">
+            <a href="#" class="navbar-brand d-flex align-items-center" >
+                <img id="profil" src="../assets/img/menu/profile.png" width="40" height="40">
             </a>
         </div>
     </div>
@@ -41,13 +41,13 @@
 
 <main role="main">
     <h3 id="waiting" align="center" style="margin-top: 50px">En attente de joueurs...</h3>
-    <table id="waitingPlayers" align="center" style="margin-top: 50px; background-color: white; width: 200px; text-align: center" border="1px black">
-
-    </table>
+    <table id="waitingPlayers" align="center" style="margin-top: 50px; background-color: white; width: 200px; text-align: center" border="1px black"></table>
 </main>
 <script>
     let socket = io();
 </script>
 <script src="../js/public.js"></script>
+<script src="../js/header.js"></script>
+
 </body>
 </html>
