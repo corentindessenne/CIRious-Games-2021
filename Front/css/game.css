@@ -1,0 +1,67 @@
+body{
+    background: #89D1D9;
+    display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+    text-align: center;
+}
+
+/*Placement*/
+#taxes{
+    grid-area: 1 / 1 / 2 / 2; /* row start / column start / row end / column end*/
+    margin: 1px;
+}
+#myMoney{
+    grid-area: 2 / 1 / 3 / 2;
+    margin: 1px;
+}
+#myHB{
+    grid-area: 3 / 1 / 4 / 2;
+    margin: 1px;
+}
+
+#game{
+    grid-area: 1 / 2 / 4 / 5;
+    margin: 1px;
+}
+
+#currentPlayer{
+    grid-area: 1 / 5 / 2 / 6;
+    margin: 1px;
+}
+#myPropriety{
+    grid-area: 2 / 5 / 4 / 6;
+    margin: 1px;
+}
+
+/*Visual*/
+
+/*Centered Board*/
+#monopalimBoard{
+    display: block;
+}
+#monopalimBoard #gameBox{
+    border: solid 1px black;
+	box-sizing: border-box;
+	vertical-align: middle;
+	text-align: center;
+    width: 90px;
+    height: 65px;
+}
+
+/*Propriety Tab*/
+/*#propriety{
+    display: block;
+    border: solid 1px black;
+    width: 100%;
+}
+#propriety th{
+    border: solid 1px black;
+    background: red;
+}
+#propriety td{
+    border: solid 1px black;
+	box-sizing: border-box;
+	vertical-align: middle;
+	text-align: center;
+}*/

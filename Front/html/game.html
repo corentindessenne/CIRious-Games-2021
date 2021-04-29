@@ -1,88 +1,247 @@
 <!DOCTYPE html>
+
 <head>
     <title>Monopalim - Game</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="../CSS/game.css"/>
-    <script type="text/javascript" src="../../Back/js/card.js"></script>
-    <script type="text/javascript" src="../../Back/js/chanceCard.js"></script>
-    <script type="text/javascript" src="../../Back/js/communityCard.js"></script>
-    <script type="text/javascript" src="../../Back/js/questionCard.js"></script>
-    <script type="text/javascript" src="../../Back/js/action.js"></script>
-    <script type="text/javascript" src="../../Back/js/propriety.js"></script>
-    <script type="text/javascript" src="../../Back/js/board.js"></script>
-    <script type="text/javascript" src="../../Back/js/player.js"></script>
-    <script type="text/javascript" src="../../Back/js/monopalim.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../CSS/game.css" />
+    <script type="text/javascript" src="../../Back/game/card.js"></script>
+    <script type="text/javascript" src="../../Back/game/chanceCard.js"></script>
+    <script type="text/javascript" src="../../Back/game/communityCard.js"></script>
+    <script type="text/javascript" src="../../Back/game/questionCard.js"></script>
+    <script type="text/javascript" src="../../Back/game/action.js"></script>
+    <script type="text/javascript" src="../../Back/game/propriety.js"></script>
+    <script type="text/javascript" src="../../Back/game/board.js"></script>
+    <script type="text/javascript" src="../../Back/game/player.js"></script>
+    <script type="text/javascript" src="../../Back/game/monopalim.js"></script>
     <script type="text/javascript" src="../js/view.js"></script>
 </head>
 
 <body>
-    <table id="monopalimBoard">
-        <!--First Line-->
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+    <!--First Part-->
+    <!--Player State info (Money, HB, money at the center)-->
+    <div id="taxes">
+        Money in the center : <span id="taxesMoney"></span> 
+    </div>
+    <div id="myMoney">
+        My Money <span id="playerMoney"></span>
+    </div>
+    <div id="myHB">
+        Score Nutritionnel <span id="playerHB"></span>
+    </div>
+    <!--Second Part-->
+    <!--Game Board-->
+    <div id="game">
+        <table id="monopalimBoard">
+            <!--First Line-->
+            <tr>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+            </tr>
 
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <!--Last Line-->
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBox"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td id="gameBox"></td>
+            </tr>
+
+            <!--Last Line-->
+            <tr>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+                <td id="gameBox"></td>
+            </tr>
+        </table>
+    </div>
+    <!--Third Part-->
+    <!--Propriety Tab & Game Info-->
+    <div id="currentPlayer">
+        C'est au tour de <span id="playerName"></span>
+    </div>
+    <div id="myPropriety">
+        <table id="propriety" class="table table-hover table-bordered table-striped table-primary">
+            <!--Titles-->
+            <thead class="bg-danger">
+                <tr>
+                    <th>Propriétés</th>
+                    <th>Stade</th>
+                    <th>Apports</th>
+                </tr>
+            </thead>
+            <!--Infos-->
+            <tbody>
+                <tr>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>    
+                </tr>
+                <tr>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>    
+                </tr>
+                <tr>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>    
+                </tr>
+                <tr>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>    
+                </tr>
+                <tr>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>    
+                </tr>
+                <tr>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>    
+                </tr>
+            </tbody> 
+        </table>
+    </div>
+
     <script type="text/javascript" src="../js/gameTest.js"></script>
 </body>
 
