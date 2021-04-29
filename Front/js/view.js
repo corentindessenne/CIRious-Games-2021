@@ -8,6 +8,7 @@ class view{
         this.initListener();
         this.displayCurrentPlayer();
         this.displayMap();
+        this.displayDice();
     }
 
     //Listeners we use for the game
@@ -35,11 +36,27 @@ class view{
         }
     }
     displayDice(){//Displaying the dice
+        //HTML Elements we will change
         let dice1Value = document.getElementById('dice1');
         let dice2Value = document.getElementById('dice2');
-        let diceSum = document.getElementById('diceSum')
-        dice1Value.innerText = this.game.dice1;
-        dice2Value.innerText = this.game.dice2;
+        let diceSum = document.getElementById('diceSum');
+
+        //Remove old Img
+        if(dice1Value.children[0] !== undefined){
+            dice1Value.removeChild(dice1Value.children[0]);
+        }
+        if(dice2Value.children[0] !== undefined){
+            dice2Value.removeChild(dice2Value.children[0]);
+        }
+        //Create new ones
+        //Img
+        let img = document.createElement('img');
+        let img2 = document.createElement('img');
+        img.src = "../assets/img/e" + (this.game.dice1) + ".png";
+        img2.src = "../assets/img/e" + (this.game.dice2) + ".png";
+        //Insert it
+        dice1Value.appendChild(img);
+        dice2Value.appendChild(img2);
         diceSum.innerText = this.game.dice1 + this.game.dice2;
         return true;
     }

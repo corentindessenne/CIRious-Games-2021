@@ -26,6 +26,7 @@ body{
 }
 #dice{
     grid-area: 1 / 2 / 2 / 5;
+    margin:1px;
 }
 
 #currentPlayer{

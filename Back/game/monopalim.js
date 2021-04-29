@@ -60,7 +60,7 @@ class monopalim{
 
     //Core functions
 
-    //TESTED AND WORKED (JK)
+    //TESTED AND FUNCTIONNAL
     move(){
         //If player is on the first parcel
         if (this.playerOrder[this.orderIndex].position[0] === 10){
@@ -172,7 +172,7 @@ class monopalim{
         //We make the action
 
 
-        console.log(this.playerOrder[this.orderIndex].username + ' : ' + this.playerOrder[this.orderIndex].position + ' roll value : ' + this.dice1 + ' ' + this.dice2);
+        
         //Check if player finished his turn
         if (this.dice1 !== this.dice2){
             this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
