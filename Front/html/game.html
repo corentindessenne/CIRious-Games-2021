@@ -22,15 +22,21 @@
     <!--First Part-->
     <!--Player State info (Money, HB, money at the center)-->
     <div id="taxes">
-        Money in the center : <span id="taxesMoney"></span> 
+        Money in the center : <span id="taxesMoney">0</span> 
     </div>
     <div id="myMoney">
-        My Money <span id="playerMoney"></span>
+        My Money : <span id="playerMoney">1500</span>
     </div>
     <div id="myHB">
-        Score Nutritionnel <span id="playerHB"></span>
+        Score Nutritionnel : <span id="playerHB">50</span>
     </div>
     <!--Second Part-->
+    <div id="dice">
+        Valeur dé 1 : <span id="dice1">0</span>
+        <br>Valeur dé 2 : <span id="dice2">0</span>
+        <br>Somme : <span id="diceSum">0</span>
+        <br><button type="button" id="rollDice" class="btn btn-info">LANCER</button>
+    </div>
     <!--Game Board-->
     <div id="game">
         <table id="monopalimBoard">
@@ -191,6 +197,7 @@
             </tr>
         </table>
     </div>
+    
     <!--Third Part-->
     <!--Propriety Tab & Game Info-->
     <div id="currentPlayer">

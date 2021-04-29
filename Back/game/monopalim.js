@@ -60,14 +60,14 @@ class monopalim{
 
     //Core functions
 
-    //Need Test
+    //TESTED AND WORKED (JK)
     move(){
         //If player is on the first parcel
         if (this.playerOrder[this.orderIndex].position[0] === 10){
             //If player is exceeding the parcel
             if(this.playerOrder[this.orderIndex].position[1] - this.castValue < 0){
                 //New Cast value after crossing the last parcel
-                let restValue = 10 - (this.playerOrder[this.orderIndex].position[1] + this.castValue);
+                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[1];
 
                 //If still exceeding the actual parcel
                 if (restValue > 10){
@@ -111,16 +111,16 @@ class monopalim{
             //If player is exceeding the parcel
             if(this.playerOrder[this.orderIndex].position[1] + this.castValue > 10){
                 //New Cast value after crossing the last parcel
-                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[1];
+                let restValue = 10 - (this.castValue + this.playerOrder[this.orderIndex].position[1]);//Negative number
 
                 //If still exceeding the actual parcel
-                if (restValue > 10){
-                    restValue -= 10;
-                    this.playerOrder[this.orderIndex].position = [10, 10 - restValue];
+                if (restValue < -10){
+                    restValue += 10;
+                    this.playerOrder[this.orderIndex].position = [10, 10 + restValue];
                 }
 
                 else {
-                    this.playerOrder[this.orderIndex].position = [restValue, 10];
+                    this.playerOrder[this.orderIndex].position = [-restValue, 10];
                 }
             }
 
@@ -133,16 +133,16 @@ class monopalim{
             //If player is exceeding the parcel
             if(this.playerOrder[this.orderIndex].position[0] + this.castValue > 10){
                 //New Cast value after crossing the last parcel
-                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[0];
+                let restValue = 10 - (this.castValue + this.playerOrder[this.orderIndex].position[0]);//Negative Number
 
                 //If still exceeding the actual parcel
-                if (restValue > 10){
-                    restValue -= 10;
-                    this.playerOrder[this.orderIndex].position = [10 - restValue, 0];
+                if (restValue < -10){
+                    restValue += 10;
+                    this.playerOrder[this.orderIndex].position = [10 + restValue, 0];
                 }
 
                 else {
-                    this.playerOrder[this.orderIndex].position = [10, 10 - restValue];
+                    this.playerOrder[this.orderIndex].position = [10, 10 + restValue];
                 }
             }
 
@@ -159,8 +159,9 @@ class monopalim{
     }
 
     play(){
-        //We cast the dice first
-        this.castTheDice();
+        if (!this.isCast){
+            return false;
+        }
 
         //We make the Movement
         this.move();
@@ -169,10 +170,14 @@ class monopalim{
 
 
         //We make the action
-        
 
-        //Player finished his turn
-        this.orderIndex++;
+
+        console.log(this.playerOrder[this.orderIndex].username + ' : ' + this.playerOrder[this.orderIndex].position + ' roll value : ' + this.dice1 + ' ' + this.dice2);
+        //Check if player finished his turn
+        if (this.dice1 !== this.dice2){
+            this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
+        }
+
         this.isCast = false;
 
         return true;//Did play
