@@ -1,5 +1,5 @@
 let home = document.getElementById('home');
-let profil = document.getElementById('profil');
+let profil = document.getElementById('profile');
 let multijoueur = document.getElementById('multijoueur');
 let prive = document.getElementById('prive');
 let local = document.getElementById('local');
@@ -11,7 +11,7 @@ home.addEventListener('click', event =>{
     window.location.href = '/menu';
 });
 profil.addEventListener('click', event =>{
-    window.location.href = '/profil';
+    window.location.href = '/profile';
 });
 multijoueur.addEventListener('click', event =>{
     window.location.href = '/multijoueur';

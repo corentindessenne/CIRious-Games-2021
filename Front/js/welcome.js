@@ -28,7 +28,7 @@ function preload() {
     let loadingText = this.make.text({
         x: width / 2,
         y: height / 2 - 50,
-        text: 'Loading...',
+        text: 'Chargement...',
         style: {
             font: '20px monospace',
             fill: '#000000'

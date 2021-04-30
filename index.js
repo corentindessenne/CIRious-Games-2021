@@ -99,10 +99,17 @@ app.get('/aboutUs', (req, res) => {
     else res.redirect('/');
 });
 
-//redirection profil page
-app.get('/profil', (req, res) => {
+//redirection profile page
+app.get('/profile', (req, res) => {
     if (req.session.loggedin)
-        res.sendFile(path.join(__dirname + '/Front/html/profil.html'));
+        res.sendFile(path.join(__dirname + '/Front/html/profile.html'));
+    else res.redirect('/');
+});
+
+//redirection editProfile page
+app.get('/editProfile', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/editProfile.html'));
     else res.redirect('/');
 });
 
