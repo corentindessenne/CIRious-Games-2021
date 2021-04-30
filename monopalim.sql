@@ -35,7 +35,7 @@ CREATE TABLE `accounts` (
   `username` varchar(50) DEFAULT NULL,
   `email` varchar(125) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `picture` varchar(255) NOT NULL,
+  `picture` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
