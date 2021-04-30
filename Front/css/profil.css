@@ -1,0 +1,44 @@
+img#profile_pic{
+    border-radius: 50%;
+    max-width: 70%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#customBtn {
+    border: none;
+    background-color: #DEB887;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#customBtn:hover {
+    opacity: 0.8;
+    transition: all 500ms ease;
+}
+
+#preview {
+    margin: 2rem auto 1.5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 300px;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+.preview_img {
+    display: none;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+#currentMail{
+    padding-top: 0.9rem;
+    text-align: justify;
+    font-size: 110%;
+}

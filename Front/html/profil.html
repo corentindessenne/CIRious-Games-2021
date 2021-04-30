@@ -20,6 +20,8 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/menu.css" rel="stylesheet">
+    <link href="../css/profil.css" rel="stylesheet">
+
 </head>
 
 <body style="background-color: #89D1D9">
@@ -41,7 +43,123 @@
 </header>
 
 <main role="main">
-    <h2 align="center">Profil</h2>
+
+    <div class="container">
+        <div class="row" style="margin-top: 3rem;">
+            <div class="col-sm-4">
+                <img id="profile_pic" name="profilePic" src="../assets/img/aboutUs/random.png" alt="Photo de profil" style="border: 1px dotted white; background-color: white">
+                <div>
+                    <h2 id="playerPseudo" style="color: white; margin-top: 1.5rem;"></h2>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <nav>
+                    <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+                        <a style="color: #DEB887; background-color: #1f1d21;" class="nav-link active" id="nav-pseudo-tab" data-toggle="tab" href="#nav-pseudo" role="tab" aria-controls="nav-pseudo" aria-selected="true">Modifier votre pseudo</a>
+                        <a style="color: #DEB887; background-color: #1f1d21;" class="nav-link" id="nav-email-tab" data-toggle="tab" href="#nav-email" role="tab" aria-controls="nav-email" aria-selected="false">Modifier l'adresse mail</a>
+                        <a style="color: #DEB887; background-color: #1f1d21;" class="nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false">Modifier votre mot de Passe</a>
+                        <a style="color: #DEB887; background-color: #1f1d21;" class="nav-link" id="nav-picture-tab" data-toggle="tab" href="#nav-picture" role="tab" aria-controls="nav-picture" aria-selected="false">Modifier votre photo de Profil</a>
+                        <a style="color: #DEB887; background-color: #1f1d21;" class="nav-link" id="nav-delete-tab" data-toggle="tab" href="#nav-deletion" role="tab" aria-controls="nav-deletion" aria-selected="false">Supprimer le compte</a>
+                    </div>
+                </nav>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-pseudo" role="tabpanel" aria-labelledby="nav-pseudo-tab">
+                        <form action="/changePseudo" method="post">
+                            <div class="form-group row mt-2">
+                                <label for="newUsername" class="col-sm-2 col-form-label" style="color: white;">Nouveau pseudo</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control mt-2" name="newUsername" id="newUsername" placeholder="Nouveau pseudo" onkeyup="checkUsername()">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="confirmNewUsername" class="col-sm-2 col-form-label" style="color: white;">Confirmer votre pseudo</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control mt-2" id="confirmNewUsername" placeholder="Confirmer votre pseudo" onkeyup="checkUsername()">
+                                </div>
+                            </div>
+                            <div id="userMessage" style="color: white; margin-bottom: 1rem;"></div>
+                            <button type="submit" class="btn btn-success" id="changeUsername" disabled="disabled">Confirmer</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-email" role="tabpanel" aria-labelledby="nav-email-tab">
+                        <form action="/changeMail" method="post">
+                            <div class="form-group row">
+                                <label for="currentMail" class="col-sm-2 col-form-label mt-2" style="color: white;">Email actuel</label>
+                                <div class="col-sm-10">
+                                    <p id="currentMail" style="color: white;"></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="newEmail" class="col-sm-2 col-form-label" style="color: white;">Nouvelle adresse mail</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control mt-2" name="newEmail" id="newEmail" placeholder="Nouvelle adresse mail" onkeyup="checkMailAddress()">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="confirmNewEmail" class="col-sm-2 col-form-label" style="color: white;">Confirmer votre adresse mail</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control mt-2" id="confirmNewEmail" placeholder="Confirmer votre mail" onkeyup="checkMailAddress()">
+                                </div>
+                            </div>
+                            <div id="emailMessage" style="color: white; margin-bottom: 1rem;"></div>
+                            <button type="submit" class="btn btn-success" id="changeEmail" disabled="disabled">Confirmer</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+                        <form action="/changePassword" method="post">
+                            <div class="form-group row">
+                                <label for="newPassword" class="col-sm-2 col-form-label mt-2" style="color: white;">Nouveau mot de passe</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control mt-3" name="newPassword" id="newPassword" placeholder="Mot de passe" onkeyup="checkPassword()">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="confirmNewPassword" class="col-sm-2 col-form-label mt-2" style="color: white;">Confirmer le mot de passe</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control mt-3" id="confirmNewPassword" placeholder="Mot de passe" onkeyup="checkPassword()">
+                                </div>
+                            </div>
+                            <div id="passwordMessage" style="color: white; margin-bottom: 1rem;"></div>
+                            <button type="submit" class="btn btn-success" id="changePassword" disabled="disabled">Confirmer</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-picture" role="tabpanel" aria-labelledby="nav-picture-tab">
+                        <form action="/changePicture" method="post" enctype="multipart/form-data">
+                            <div class="custom-file mt-3">
+                                <input type="file" id="newPicture" hidden="hidden" name="fileToUpload"/>
+                                <button id="customBtn" type="button" class="btn">Choisissez un fichier</button>
+                                <p id="custom-space" style="color: white; margin-top: 0.7rem;">Pas de fichier sélectionné</p>
+                            </div>
+                            <div id="preview">
+                                <img src="" id="preview_img" class="preview_img" alt="Aperçu"/>
+                                <span id="preview_text" class="preview_text" style="color: white;">Aperçu</span>
+                            </div>
+                            <button type="submit" class="btn btn-success" id="changePicture" disabled="disabled">Confirmer</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-deletion" role="tabpanel" aria-labelledby="nav-deletion-tab">
+                        <p style="color: white;" class="mt-2">Vous voulez partir ? Nous sommes tristes (un peu) mais espérons vous revoir très bientôt.</p>
+                        <h4 style="color: white;"><strong>Attention !</strong> Cette opération est irréversible !</h4>
+                        <form action="/deletion" method="post">
+                            <div class="form-group row">
+                                <label for="confirmDeletion" class="col-sm-2 col-form-label mt-2" style="color: white;">Entrez votre pseudo :</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control mt-3" id="confirmDeletion" name="pseudoDelete" placeholder="Pseudo" onkeyup="checkDeletion()">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-danger mt-2" id="deleteAccount" disabled="disabled">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <script>
     let socket = io();
