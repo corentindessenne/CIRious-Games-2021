@@ -76,7 +76,7 @@ class view{
         this.game.castTheDice();
         this.displayDice();
         //Play
-        this.game.play();
+        this.game.executeMove();
         //Update
         this.displayMap();
         this.displayCurrentPlayer();

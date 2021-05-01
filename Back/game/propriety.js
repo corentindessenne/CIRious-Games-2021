@@ -38,7 +38,7 @@ class propriety {
         }
 
         //Default values
-        this.belonging = "none";//it belongs to no one, else it belong to the playerd id
+        this.belonging = "none";//it belongs to no one, else it belong to the players id
         this.nutriscore = 3;//Every Nutriscore is set as 3 by default
         this.upgradeRate = 0;//Every upgrade level is set as 0 by default
         this.image = undefined; //Will be implemented in the view.js file
