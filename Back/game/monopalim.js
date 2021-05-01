@@ -158,6 +158,23 @@ class monopalim{
         return true;
     }
 
+    //Need Test
+    actionInteraction(box){
+
+    }
+
+    //NeedTest
+    proprietyInteraction(box){
+        //If it belongs to no one, nothing happens
+        if (box.belonging === "none"){
+            return true;
+        }
+        let bill = box.income[box.upgradeRate];
+        this.playerOrder[this.orderIndex].money -= bill;
+        //Access to the player who has the propriety and exchange money
+    }
+
+    //Main function
     play(){
         if (!this.isCast){
             return false;
@@ -168,8 +185,16 @@ class monopalim{
         
         //We Make the interaction
 
+        //Action box
+        if (this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]].money !== undefined) {
+            this.actionInteraction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
+        }
+        //Propriety box
+        else{
+            this.proprietyInteraction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
+        }
 
-        //We make the action
+        //We make the action (Build, rebought, upgrade, etc...)
 
 
         
