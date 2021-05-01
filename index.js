@@ -187,18 +187,20 @@ app.post('/register', (req, res) => {
 
 io.on('connection', socket => {
     socket.on('multijoueur', ()=>{
+        house.setNbPlayers(6);
         if (house.addWaiter(socket)) {
             if (house.getWaiters().length >= 6) {
                 let waiters = house.popWaiters();
-                let room = house.addPublicRoom(waiters[0], waiters[1], waiters[2], waiters[3], waiters[4], waiters[5]);
+                let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2], waiters[3], waiters[4], waiters[5]]);
+
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
                 //room.state = 0;
 
                 //chrono
-                room.timeDebut = 0;
-                room.timeFin = 0;
-                room.timeGame = 0;
+                //room.timeDebut = 0;
+                //room.timeFin = 0;
+                //room.timeGame = 0;
 
                 room.player1 = waiters[0];
                 room.player2 = waiters[1];
