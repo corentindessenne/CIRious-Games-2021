@@ -9,6 +9,8 @@ class view{
         this.displayCurrentPlayer();
         this.displayMap();
         this.displayDice();
+        this.displayMoney();
+        this.displayHealthyBar();
     }
 
     //Listeners we use for the game
@@ -17,6 +19,32 @@ class view{
         let rollButton = document.getElementById('rollDice');
         rollButton.addEventListener('click', () => {
             this.rollEvent();
+        });
+
+        //Actions on boxes
+        let buyButton = document.getElementById('buy');
+        let redeemButton = document.getElementById('redeem');
+        let upgradeButton = document.getElementById('upgrade');
+        let nothingButton = document.getElementById('nothing');
+        buyButton.addEventListener('click', () => {
+            this.actionEvent("buy");
+        });
+        redeemButton.addEventListener('click', () => {
+            this.actionEvent("redeem");
+        });
+        upgradeButton.addEventListener('click', () => {
+            this.actionEvent("upgrade");
+        });
+        nothingButton.addEventListener('click', () => {
+            this.actionEvent("nothing");
+        });
+
+        //Upgrade Buttons
+        document.querySelectorAll('btn btn-warning').forEach(item => {
+            item.addEventListener('click', () => {
+                this.game.upgradeRequest = item.textContent;
+                console.log(this.game.upgradeRequest);
+            });
         });
     }
 
@@ -60,18 +88,36 @@ class view{
         diceSum.innerText = this.game.dice1 + this.game.dice2;
         return true;
     }
-
-    //wrapped functions
+    displayMoney(){
+        let money = document.getElementById('playerMoney');
+        money.innerText = this.game.playerOrder[this.game.orderIndex].money;
+        return true;
+    }
+    displayHealthyBar(){
+        let hb = document.getElementById('playerHB');
+        hb.innerText = this.game.playerOrder[this.game.orderIndex].healthyBar;
+        return true;
+    }
     displayCurrentPlayer(){//Used to set up the turn
         let currentPlayer = document.getElementById('playerName');
         currentPlayer.innerText = this.game.playerOrder[this.game.orderIndex].username;
         return true;
     }
+    displayButtons(){
+        let selectUpgrade = document.getElementById('selectUpgrade');
+        selectUpgrade.innerText = "";
+        document.querySelectorAll('btn btn-warning').forEach(item => {
+            item.disabled = false;
+        });
+    }
 
+    //Listener functions
+    
     rollEvent(){//Used for the dice
         if (this.game.isCast){
             return false;//Only 1 roll is available per turn unless counter indication
         }
+        this.displayButtons();
         //Roll
         this.game.castTheDice();
         this.displayDice();
@@ -79,8 +125,32 @@ class view{
         this.game.executeMove();
         //Update
         this.displayMap();
-        this.displayCurrentPlayer();
+        this.displayMoney();
+        this.displayHealthyBar();
 
         return true;//Worked well
+    }
+
+    actionEvent(action){//Used for the action in game
+        //If we don't know what do we upgrade
+        if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined'){
+            this.selectUpgradeEvent();
+        }
+        this.game.executeAction(action);
+        this.displayCurrentPlayer();
+        this.displayMoney();
+        this.displayHealthyBar();
+
+        return true;
+    }
+
+    selectUpgradeEvent(){
+        //We display new stuff
+        let selectUpgrade = document.getElementById('selectUpgrade');
+        selectUpgrade.innerText = "En quoi vouliez-vous améliorer votre propriété ?";
+        document.querySelectorAll('btn btn-warning').forEach(item => {
+            item.disabled = true;
+        });
+        return true;
     }
 }

@@ -33,8 +33,8 @@ class propriety {
             this.price[4] = value * 3.5;
         }
         else{
-            this.income = income;//Income never change
-            this.price = undefined;//There is no upgrade
+            this.income = [income];//Income never change
+            this.price = [value];//There is no upgrade
         }
 
         //Default values

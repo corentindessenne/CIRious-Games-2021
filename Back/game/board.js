@@ -124,7 +124,7 @@ class board{
         this.grid[0][0] = new action (7, 0, 0, "getStockedBasket", 0);//Exception à gérer
 
         /* Third Parcel */
-        this.grid[0][1] = new propriety (13, " SUR AVENUE DU COEUR D\'ARTICHAUT", 55, "vert", 0, 1, "classic", 18);
+        this.grid[0][1] = new propriety (13, "AVENUE DU COEUR D\'ARTICHAUT", 55, "vert", 0, 1, "classic", 18);
         this.grid[0][2] = new action (8, 0, 2, "chance", 0);
         this.grid[0][3] = new propriety (14, "RUE DE LA BOUFFÉE D\'AIL FRAIS", 55, "vert", 0, 3, "classic", 18);
         this.grid[0][4] = new propriety (15, "BOULEVARD MI-FIGUE MI-RAISIN", 60, "vert", 0, 4, "classic", 20);        

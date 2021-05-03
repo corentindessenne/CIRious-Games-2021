@@ -1,16 +1,16 @@
 class monopalim{
     constructor (player1, player2, player3, player4, player5, player6){
         //Will also be used as a "preOrderTab" in a future part (bonus)
-        let playerTab = [];
-        playerTab.push(player1);
-        playerTab.push(player2);
-        playerTab.push(player3);
-        playerTab.push(player4);
+        this.playerTab = [];
+        this.playerTab.push(player1);
+        this.playerTab.push(player2);
+        this.playerTab.push(player3);
+        this.playerTab.push(player4);
         if (typeof player5 != 'undefined'){
-            playerTab.push(player5);
+            this.playerTab.push(player5);
         }
         if (typeof player6 != 'undefined'){
-            playerTab.push(player6);
+            this.playerTab.push(player6);
         }
 
         //Initiate players order
@@ -36,7 +36,7 @@ class monopalim{
 
         //Initate board
         this.board = new board();
-        this.wannaDoSomething = undefined;//Wanna: Buy / Rebuy / Upgrade / Nothing
+        this.upgradeRequest = undefined;//grocery / supermarket / market / organic shop
         this.selectedCase = undefined;
 
         this.taxesMoney = 0;
@@ -59,8 +59,8 @@ class monopalim{
         this.selectedCase = this.board.grid[x][y];
     }
 
-    doSomething(doWhat){
-        this.wannaDoSomething = doWhat;
+    requestUpgrade(upgrade){
+        this.upgradeRequest = upgrade;
     }    
 
     pay(payer, amount, paid){
@@ -81,6 +81,78 @@ class monopalim{
                 break;
         }
 
+        return true;
+    }
+
+    buyAction(player, box){
+        if (box.belonging !== "none"){
+            return this.redeemAction(player, box);
+        }
+        
+        if (player.money >= box.price[box.upgradeRate]){
+            //Pays the propriety
+            this.pay(player, box.price[box.upgradeRate], "bank");
+            //Makes the board know
+            box.belonging = player.id;
+            //Gets the propriety
+            player.myPropriety[box.id] = box;
+            return true;//Bought
+        }
+        return false;//Not Bought
+    }
+
+    redeemAction(player, box){
+        if (box.belonging === "none"){
+            return this.buyAction(player, box);
+        }
+        //Buying a propriety back is double the price of the actual upgrade
+        if (player.money >= box.price[box.upgradeRate] * 2){
+            //Pays the propriety
+            this.pay(player, box.price[box.upgradeRate] * 2, this.playerTab[box.belonging]);
+            //Removes the propriety of the ex owner
+            this.playerTab[box.belonging].myPropriety[box.id] = undefined;
+            //Makes the board know
+            box.belonging = player.id;
+            //Gets the propriety
+            player.myPropriety[box.id] = box;
+            return true;//Bought
+        }
+        return false;//Not bought
+    }
+
+    //Not completed, need to verify each upgrade
+    upgradeAction(player, box){
+        //Check if the propriety belongs to the right user
+        if (player.id !== box.belonging){
+            return this.buyAction(player, box);
+        }
+        if (typeof this.upgradeRequest === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season"){
+            return false;
+        }
+
+        //Switch the string to a number
+        let upgradeId = 0;
+        switch (this.upgradeRequest) {
+            case "grocery":
+                upgradeId = 1;	
+                break;
+            case "supermarket":
+                upgradeId = 2;	
+                break;
+            case "market":
+                upgradeId = 3;	
+                break;
+            case "organic shop":
+                upgradeId = 4;	
+                break;
+        }
+
+        //Check if upgrade is valid
+        if (box.upgradeRate !== 0 && (box.upgradeRate - upgradeId >= 2 || box.upgradeRate - upgradeId <= -2)){
+            return false;
+        }
+
+        this.pay(this.playerOrder[this.orderIndex], box.price[upgradeId], "bank");
         return true;
     }
 
@@ -214,10 +286,11 @@ class monopalim{
             console.log("Player not on the board");
             return false; //Didn't move
         }
+        console.log(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
         return true;
     }
 
-    //Need Test
+    //Need Test and not completed at all
     actionInteraction(box){
 
     }
@@ -235,24 +308,21 @@ class monopalim{
     }
 
     //Need Test, ALMOST DONE
-    proprietyAction(box, player){
+    proprietyAction(box, player, action){
         //Security
-        if (this.wannaDoSomething === undefined){
+        if (action === undefined){
             console.log("We don't know what the player wants to do");
             return false;
         }
 
         //We skip this part if he doesn't want to do anything
-        switch (this.wannaDoSomething) {
+        switch (action) {
             case "buy":
-                this.pay(this.playerOrder[this.orderIndex], box.price[box.upgradeRate], "bank");
-                break;
-            case "rebuy":
-                this.pay(this.playerOrder[this.orderIndex], box.price[box.upgradeRate] * 2, this.playerTab[box.belonging]);
-                break;
+                return this.buyAction(player, box);
+            case "redeem":
+                return this.redeemAction(player, box);
             case "upgrade":
-                
-                break;
+                return this.upgradeAction(player, box);
             case "nothing": 
                 break;
         }
@@ -282,11 +352,11 @@ class monopalim{
         return true;//Did play
     }
 
-    executeAction(upgrade){
+    executeAction(whatToDo){
         //Check if it's a propriety
         if (this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]].color !== undefined){
-            //We make the action (Build, rebought, upgrade, etc...)
-            this.proprietyAction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]], this.playerOrder[this.orderIndex], upgrade);
+            //We make the action (buy, redeem, upgrade, etc...)
+            this.proprietyAction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]], this.playerOrder[this.orderIndex], whatToDo);
         }
         
 
@@ -296,5 +366,8 @@ class monopalim{
         }
 
         this.isCast = false;
+        this.upgradeRequest = undefined;
+
+        return true;
     }
 }

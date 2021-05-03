@@ -16,7 +16,7 @@ class player {
         //Pre-defined
         this.position = [10, 10];//Player position
         this.money = 1500;//Player money
-        this.myPropriety = new Array (25);//Player propriety
+        this.myPropriety = new Array (26);//Player propriety
         this.state = true; //True = Alive, False = Dead
     }
 }
