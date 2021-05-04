@@ -19,3 +19,6 @@ multijoueur.addEventListener('click', event =>{
 aPropos.addEventListener('click', event =>{
     window.location.href = '/aboutUs';
 });
+tutoriel.addEventListener('click', event =>{
+    window.location.href = '/tutorial';
+});
