@@ -37,3 +37,52 @@ footer p {
 }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+#importantrules { 
+    border : 3px groove #0f6980; 
+    margin: 1em 20%; 
+    top : 10px;
+    } 
+    
+#identity { 
+    border : 3px groove #0f6980; 
+    position: absolute; 
+    top: 80px; 
+    left: 1%; 
+    width: 18%; 
+    } 
+     
+    
+#gamemodes { 
+    border : 3px groove #0f6980;
+    position: absolute; 
+    top: 80px; 
+    right: 1%; 
+    width: 18%; 
+    } 
+    
+#propertyactions { 
+    border : 3px groove #0f6980;  
+    margin: 1em 20%; 
+    } 
+    
+#specialcases {
+        border : 3px groove #0f6980; 
+        position: absolute; 
+        top: 500px; 
+        right: 1%; 
+        width: 18%;
+    }
+    
+#details { 
+        border : 3px groove #0f6980; 
+        position: absolute; 
+        top: 500px; 
+        left: 1%; 
+        width: 18%;
+    } 
+    
+#houseimprovment { 
+        border : 3px groove #0f6980;  
+        margin: 1em 20%;   
+        } 
