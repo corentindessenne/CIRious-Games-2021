@@ -11,6 +11,8 @@ class view{
         this.displayDice();
         this.displayMoney();
         this.displayHealthyBar();
+        this.displayProprietyTab();
+        this.actionButtons("disable");
     }
 
     //Listeners we use for the game
@@ -103,13 +105,68 @@ class view{
         currentPlayer.innerText = this.game.playerOrder[this.game.orderIndex].username;
         return true;
     }
-    displayButtons(){
-        let selectUpgrade = document.getElementById('selectUpgrade');
-        selectUpgrade.innerText = "";
-        document.querySelectorAll('btn btn-warning').forEach(item => {
-            item.disabled = false;
-        });
+    displayProprietyTab(){
+        let proprietyTab = document.getElementById('propriety');
+        //Delete old infos
+        let line = 1;
+        for(let i = 0; i < this.game.playerOrder[this.game.orderIndex].myPropriety.length; i++){
+            if (typeof this.game.playerOrder[this.game.orderIndex].myPropriety[i] !== 'undefined'){
+
+                if (line > 7){
+                    proprietyTab.deleteRow(line);
+                    for (let cpt = 0; cpt < 3; cpt++){
+                        proprietyTab.rows[ligne].insertCell(cpt);
+                    }    
+                }
+                else{
+                    proprietyTab.rows[line].cells[0].innerText = "";
+                    proprietyTab.rows[line].cells[1].innerText = "";
+                    proprietyTab.rows[line].cells[2].innerText = "";
+                }
+                line++;
+            }
+        }
+
+        //Add new infos
+        line = 1;
+        for (let i = 0; i < this.game.playerOrder[this.game.orderIndex].myPropriety.length; i++){
+            if (typeof this.game.playerOrder[this.game.orderIndex].myPropriety[i] !== 'undefined'){
+                if (line > 7){
+                    proprietyTab.insertRow(line);
+                    for (let cpt = 0; cpt < 3; cpt++){
+                        proprietyTab.rows[ligne].insertCell(cpt);
+                    }    
+                }
+                proprietyTab.rows[line].cells[0].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].name;
+                proprietyTab.rows[line].cells[1].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].upgradeRate;
+                proprietyTab.rows[line].cells[2].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].income[this.game.playerOrder[this.game.orderIndex].myPropriety[i].upgradeRate];
+                line++;
+            }
+        }
     }
+    actionButtons(request){//Used to enable or disable buttons
+        let button1 = document.getElementById('buy');
+        let button2 = document.getElementById('redeem');
+        let button3 = document.getElementById('upgrade');
+        let button4 = document.getElementById('nothing');
+
+        //Enable buttons
+        if (request === "enable"){
+            button1.disabled = false;
+            button2.disabled = false;
+            button3.disabled = false;
+            button4.disabled = false;
+            return true;
+        }
+
+        //Disable buttons
+        button1.disabled = true;
+        button2.disabled = true;
+        button3.disabled = true;
+        button4.disabled = true;
+        return true;
+    }
+
 
     //Listener functions
     
@@ -117,7 +174,6 @@ class view{
         if (this.game.isCast){
             return false;//Only 1 roll is available per turn unless counter indication
         }
-        this.displayButtons();
         //Roll
         this.game.castTheDice();
         this.displayDice();
@@ -128,10 +184,15 @@ class view{
         this.displayMoney();
         this.displayHealthyBar();
 
+        this.actionButtons("enable");
+
         return true;//Worked well
     }
 
     actionEvent(action){//Used for the action in game
+        if (this.game.hasMoved === false){
+            return false;
+        }
         //If we don't know what do we upgrade
         if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined'){
             this.selectUpgradeEvent();
@@ -140,6 +201,9 @@ class view{
         this.displayCurrentPlayer();
         this.displayMoney();
         this.displayHealthyBar();
+        this.displayProprietyTab();
+
+        this.actionButtons("disable");
 
         return true;
     }

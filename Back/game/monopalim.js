@@ -38,6 +38,7 @@ class monopalim{
         this.board = new board();
         this.upgradeRequest = undefined;//grocery / supermarket / market / organic shop
         this.selectedCase = undefined;
+        this.hasMoved = false;
 
         this.taxesMoney = 0;
 
@@ -84,6 +85,7 @@ class monopalim{
         return true;
     }
 
+    //Tested and functionnal
     buyAction(player, box){
         if (box.belonging !== "none"){
             return this.redeemAction(player, box);
@@ -101,6 +103,7 @@ class monopalim{
         return false;//Not Bought
     }
 
+    //Tested and functionnal
     redeemAction(player, box){
         if (box.belonging === "none"){
             return this.buyAction(player, box);
@@ -120,7 +123,7 @@ class monopalim{
         return false;//Not bought
     }
 
-    //Not completed, need to verify each upgrade
+    //Tested and functionnal
     upgradeAction(player, box){
         //Check if the propriety belongs to the right user
         if (player.id !== box.belonging){
@@ -152,39 +155,7 @@ class monopalim{
             return false;
         }
 
-        this.pay(this.playerOrder[this.orderIndex], box.price[upgradeId], "bank");
-        return true;
-    }
-
-    //Not completed, need to verify each upgrade
-    upgradeSomething(box, upgrade, player){
-        //Check if the propriety belongs to the right user
-        if (player.id !== box.belonging){
-            console.log("Can't Upgrade this");
-            return false;
-        }
-
-        //Switch the string to a number
-        let upgradeId = 0;
-        switch (upgrade) {
-            case "grocery":
-                upgradeId = 1;	
-                break;
-            case "supermarket":
-                upgradeId = 2;	
-                break;
-            case "market":
-                upgradeId = 3;	
-                break;
-            case "organic shop":
-                upgradeId = 4;	
-                break;
-        }
-
-        //Check if upgrade is valid
-        // WILL COME SOON
-
-        //If is valid
+        box.upgradeRate = upgradeId;
         this.pay(this.playerOrder[this.orderIndex], box.price[upgradeId], "bank");
         return true;
     }
@@ -349,17 +320,22 @@ class monopalim{
             this.proprietyInteraction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
         }
 
+        this.hasMoved = true;
+
         return true;//Did play
     }
 
     executeAction(whatToDo){
+        if (this.hasMoved === false){
+            return this.executeMove();
+        }
+
         //Check if it's a propriety
         if (this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]].color !== undefined){
             //We make the action (buy, redeem, upgrade, etc...)
             this.proprietyAction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]], this.playerOrder[this.orderIndex], whatToDo);
         }
         
-
         //Check if player finished his turn
         if (this.dice1 !== this.dice2){
             this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
@@ -367,6 +343,7 @@ class monopalim{
 
         this.isCast = false;
         this.upgradeRequest = undefined;
+        this.hasMoved = false;
 
         return true;
     }
