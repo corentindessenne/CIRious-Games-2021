@@ -14,7 +14,8 @@ class monopalim{
         }
 
         //Initiate players order
-        this.playerOrder = [];
+        this.initPlayerOrder(this.playerTab);
+        /*this.playerOrder = [];
         this.playerOrder.push(player1);//Index 0
         this.playerOrder.push(player2);// 1
         this.playerOrder.push(player3);// 2
@@ -24,7 +25,7 @@ class monopalim{
             if (typeof player6 != 'undefined'){
                 this.playerOrder.push(player6);
             }
-        }
+        }*/
         //Player order Index
         this.orderIndex = 0;
 
@@ -47,6 +48,40 @@ class monopalim{
         this.ccIndex = 0;
         this.chIndex = 0;
     }
+    
+    //Init Function
+    initPlayerOrder(objectTab){
+        let playerOrdered = 0;
+        let randomIndex = 0;
+        //Generate every Index possibility
+        let possibleIndex = [0, 1, 2, 3];
+        if (objectTab.length > 4){
+            possibleIndex.push(4);
+            if(objectTab.length > 5){
+                possibleIndex.push(5);
+            }
+        }
+        this.playerOrder = new Array (objectTab.length + 1);
+        for (let i = 0; i < objectTab.length; i++){
+            randomIndex = Math.floor(Math.random() * (objectTab.length - 1));//Take a number between 0 & nbr of players
+            if (typeof this.playerOrder[randomIndex] === 'undefined'){
+                this.playerOrder[randomIndex] = objectTab[i];
+            }
+            else{
+
+            }
+        }
+        console.log("Players ordered");
+        return true;
+    }
+
+    //Check Function
+    isUpgradeable(box){
+        if(typeof box.color === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season"){
+            return false;
+        }
+        return true;
+    }
 
     //Actions in the game
     castTheDice(){//Roll the dice !
@@ -58,13 +93,6 @@ class monopalim{
 
     selectCase(x, y){
         this.selectedCase = this.board.grid[x][y];
-    }
-
-    isUpgradeable(box){
-        if(typeof box.color === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season"){
-            return false;
-        }
-        return true;
     }
 
     requestUpgrade(upgrade){
