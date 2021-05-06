@@ -49,9 +49,9 @@ class monopalim{
         this.chIndex = 0;
     }
     
-    //Init Function
+    //Initialisation Function
+    //Tested and functionnal
     initPlayerOrder(objectTab){
-        let playerOrdered = 0;
         let randomIndex = 0;
         //Generate every Index possibility
         let possibleIndex = [0, 1, 2, 3];
@@ -61,17 +61,15 @@ class monopalim{
                 possibleIndex.push(5);
             }
         }
-        this.playerOrder = new Array (objectTab.length + 1);
+        //Generate the order tab
+        this.playerOrder = new Array (objectTab.length);
         for (let i = 0; i < objectTab.length; i++){
-            randomIndex = Math.floor(Math.random() * (objectTab.length - 1));//Take a number between 0 & nbr of players
-            if (typeof this.playerOrder[randomIndex] === 'undefined'){
-                this.playerOrder[randomIndex] = objectTab[i];
-            }
-            else{
-
-            }
+            randomIndex = Math.floor(Math.random() * (possibleIndex.length - 1));//Take a number between 0 & nbr of index available
+            //The first player is the one that ha the same id as "random index"
+            this.playerOrder[i] = objectTab[possibleIndex[randomIndex]];
+            //Delete the used index
+            possibleIndex.splice(randomIndex, 1);
         }
-        console.log("Players ordered");
         return true;
     }
 
