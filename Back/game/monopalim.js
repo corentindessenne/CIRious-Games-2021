@@ -60,6 +60,13 @@ class monopalim{
         this.selectedCase = this.board.grid[x][y];
     }
 
+    isUpgradeable(box){
+        if(typeof box.color === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season"){
+            return false;
+        }
+        return true;
+    }
+
     requestUpgrade(upgrade){
         this.upgradeRequest = upgrade;
     }    
@@ -129,7 +136,7 @@ class monopalim{
         if (player.id !== box.belonging){
             return this.buyAction(player, box);
         }
-        if (typeof this.upgradeRequest === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season"){
+        if (typeof this.upgradeRequest === 'undefined' || !this.isUpgradeable(box)){
             return false;
         }
 
@@ -266,7 +273,7 @@ class monopalim{
 
     }
 
-    //Need Test but completed
+    //TESTED AND FUNCTIONNAL
     proprietyInteraction(box){
         //If it belongs to no one, nothing happens
         if (box.belonging === "none"){
@@ -278,7 +285,7 @@ class monopalim{
         return true;
     }
 
-    //Need Test, ALMOST DONE
+    //TESTED AND FUNCTIONNAL
     proprietyAction(box, player, action){
         //Security
         if (action === undefined){
@@ -326,6 +333,7 @@ class monopalim{
     }
 
     executeAction(whatToDo){
+        //Security
         if (this.hasMoved === false){
             return this.executeMove();
         }

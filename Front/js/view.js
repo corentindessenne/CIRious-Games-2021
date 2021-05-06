@@ -13,6 +13,7 @@ class view{
         this.displayHealthyBar();
         this.displayProprietyTab();
         this.actionButtons("disable");
+        this.upgradeButtons("disable");
     }
 
     //Listeners we use for the game
@@ -42,11 +43,25 @@ class view{
         });
 
         //Upgrade Buttons
-        document.querySelectorAll('btn btn-warning').forEach(item => {
-            item.addEventListener('click', () => {
-                this.game.upgradeRequest = item.textContent;
-                console.log(this.game.upgradeRequest);
-            });
+        let button1 = document.getElementById('upgradeChoice1');
+        let button2 = document.getElementById('upgradeChoice2');
+        let button3 = document.getElementById('upgradeChoice3');
+        let button4 = document.getElementById('upgradeChoice4');
+        button1.addEventListener('click', () => {
+            this.game.upgradeRequest = button1.textContent;
+            return this.actionEvent("upgrade")
+        });
+        button2.addEventListener('click', () => {
+            this.game.upgradeRequest = button2.textContent;
+            return this.actionEvent("upgrade")
+        });
+        button3.addEventListener('click', () => {
+            this.game.upgradeRequest = button3.textContent;
+            return this.actionEvent("upgrade")
+        });
+        button4.addEventListener('click', () => {
+            this.game.upgradeRequest = button4.textContent;
+            return this.actionEvent("upgrade")
         });
     }
 
@@ -57,11 +72,16 @@ class view{
         for(let a = 0; a < 11; a++){
             for (let b = 0; b < 11; b++){
                 gameBoard.rows[a].cells[b].innerText = '';
+                gameBoard.rows[a].cells[b].style.backgroundColor = '';
+                //We change the background color if we have this propriety
+                if (typeof this.game.board.grid[a][b] !== 'undefined' && this.game.board.grid[a][b].belonging === this.game.playerOrder[this.game.orderIndex].id){
+                    gameBoard.rows[a].cells[b].style.backgroundColor = 'red';
+                }
             }
         }
         //We show the new position
         for (let i = 0; i < this.game.playerOrder.length; i++){
-            gameBoard.rows[this.game.playerOrder[i].position[0]].cells[this.game.playerOrder[i].position[1]].innerText = i;//Worked first try :D 
+            gameBoard.rows[this.game.playerOrder[i].position[0]].cells[this.game.playerOrder[i].position[1]].innerText = this.game.playerOrder[i].username;
             //Will be changed to image after
         }
     }
@@ -109,29 +129,16 @@ class view{
         let proprietyTab = document.getElementById('propriety');
         //Delete old infos
         let line = 1;
-        for(let i = 0; i < this.game.playerOrder[this.game.orderIndex].myPropriety.length; i++){
-            if (typeof this.game.playerOrder[this.game.orderIndex].myPropriety[i] !== 'undefined'){
-
-                if (line > 7){
-                    proprietyTab.deleteRow(line);
-                    for (let cpt = 0; cpt < 3; cpt++){
-                        proprietyTab.rows[ligne].insertCell(cpt);
-                    }    
-                }
-                else{
-                    proprietyTab.rows[line].cells[0].innerText = "";
-                    proprietyTab.rows[line].cells[1].innerText = "";
-                    proprietyTab.rows[line].cells[2].innerText = "";
-                }
-                line++;
-            }
+        for(let i = 1; i < 10; i++){
+            proprietyTab.rows[i].cells[0].innerText = "";
+            proprietyTab.rows[i].cells[1].innerText = "";
+            proprietyTab.rows[i].cells[2].innerText = "";
         }
 
         //Add new infos
-        line = 1;
         for (let i = 0; i < this.game.playerOrder[this.game.orderIndex].myPropriety.length; i++){
             if (typeof this.game.playerOrder[this.game.orderIndex].myPropriety[i] !== 'undefined'){
-                if (line > 7){
+                if (line > 10){
                     proprietyTab.insertRow(line);
                     for (let cpt = 0; cpt < 3; cpt++){
                         proprietyTab.rows[ligne].insertCell(cpt);
@@ -166,7 +173,29 @@ class view{
         button4.disabled = true;
         return true;
     }
+    upgradeButtons(request){
+        this.actionButtons("disable");
+        let button1 = document.getElementById('upgradeChoice1');
+        let button2 = document.getElementById('upgradeChoice2');
+        let button3 = document.getElementById('upgradeChoice3');
+        let button4 = document.getElementById('upgradeChoice4');
 
+        //Enable buttons
+        if (request === "enable"){
+            button1.disabled = false;
+            button2.disabled = false;
+            button3.disabled = false;
+            button4.disabled = false;
+            return true;
+        }
+
+        //Disable buttons
+        button1.disabled = true;
+        button2.disabled = true;
+        button3.disabled = true;
+        button4.disabled = true;
+        return true;
+    }
 
     //Listener functions
     
@@ -194,27 +223,20 @@ class view{
             return false;
         }
         //If we don't know what do we upgrade
-        if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined'){
-            this.selectUpgradeEvent();
+        if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])){
+            this.actionButtons("disable");
+            return this.upgradeButtons("enable");
         }
         this.game.executeAction(action);
         this.displayCurrentPlayer();
         this.displayMoney();
         this.displayHealthyBar();
         this.displayProprietyTab();
+        this.displayMap();
 
         this.actionButtons("disable");
+        this.upgradeButtons("disable");
 
-        return true;
-    }
-
-    selectUpgradeEvent(){
-        //We display new stuff
-        let selectUpgrade = document.getElementById('selectUpgrade');
-        selectUpgrade.innerText = "En quoi vouliez-vous améliorer votre propriété ?";
-        document.querySelectorAll('btn btn-warning').forEach(item => {
-            item.disabled = true;
-        });
         return true;
     }
 }
