@@ -43,10 +43,11 @@ class monopalim{
 
         this.taxesMoney = 0;
 
-        //Initiate the question index
+        //Initiate the cards index
         this.qIndex = 0;
         this.ccIndex = 0;
         this.chIndex = 0;
+        this.currentAnswer = [];
     }
     
     //Initialisation Function
@@ -101,7 +102,7 @@ class monopalim{
         if (payer.money < amount){
             return false;
         }
-
+        
         payer.money -= amount;
         
         switch (paid) {
@@ -191,6 +192,10 @@ class monopalim{
         box.upgradeRate = upgradeId;
         this.pay(this.playerOrder[this.orderIndex], box.price[upgradeId], "bank");
         return true;
+    }
+
+    askQuestion(){
+        return this.board.qTab[this.qIndex].question;
     }
 
     //Core functions
@@ -296,6 +301,58 @@ class monopalim{
 
     //Need Test and not completed at all
     actionInteraction(box){
+        //There are many different type of action box
+        //First of all the player is getting asked for the question, then he answers, then the interaction is made depending on the answer
+        switch (box.type) {
+            case "question":
+                return this.askQuestion();
+            case "chance":
+                return this.chanceInteraction(this.playerOrder[this.orderIndex], box);
+            case "community":
+                return this.communityInteraction(this.playerOrder[this.orderIndex], box);
+            //Special interaction
+            default:
+                return this.specialInteraction(this.playerOrder[this.orderIndex], box);
+        }
+    }
+
+    //Finished and need tests
+    AnswerInteraction(player, question){
+        if (typeof this.currentAnswer[0] === 'undefined'){
+            console.log("No Answer");
+            return false;
+        }
+
+        //Money the player wins
+        let pot = 0;
+        //Answers check
+        for(let i = 0; i < question.correctAnswerId.length; i++){
+            //If he doesn't find the right answer
+            if (typeof this.currentAnswer[i] === 'undefined' || question.correctAnswerId[i] !== this.currentAnswer[i]){
+                return false;
+            }
+            //Every good answer make the pot grow
+            else{
+                pot+=50;
+            }
+        }
+
+        //Passing the check means he gets paid
+        player.money += pot;
+        //Changing question
+        this.qIndex = (this.qIndex + 1) % 30;
+        return true;
+    }
+
+    chanceInteraction(player, box){
+
+    }
+
+    communityInteraction(player, box){
+
+    }
+
+    specialInteraction(player, box){
 
     }
 
