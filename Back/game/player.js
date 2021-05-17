@@ -19,5 +19,7 @@ class player {
         this.myPropriety = new Array (26);//Player propriety
         this.myCards = [];//Player's card like a freedom of diet
         this.state = true; //True = Alive, False = Dead
+        this.isJailed = false; //Is the player in jail or not
+        this.timeJailed = 0;//Nb of turn a player has been jailed
     }
 }

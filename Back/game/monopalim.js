@@ -188,10 +188,26 @@ class monopalim{
         return this.board.qTab[this.qIndex].question;
     }
 
+    askDecision(){
+        return "Veux tu sortir de prison ? (50b)";
+    }
+
+    //Need Tests
+    playerRelease(player){
+        this.pay(player, 50, "taxes");
+        player.isJailed = false;
+        player.timeJailed = 0;
+        return true;//Player can play
+    }
+
     //Core functions
 
     //TESTED AND FUNCTIONNAL
     move(player, castValue){
+        if (player.isJailed){
+            console.log("Player is in prison");
+            return true;
+        }
         //If player is on the first parcel
         if (player.position[0] === 10){
             //If player is exceeding the parcel
@@ -285,11 +301,43 @@ class monopalim{
             console.log("Player not on the board");
             return false; //Didn't move
         }
+        
+        //Special interaction for the start
+        //Player finds the start on his way
+
         console.log(this.board.grid[player.position[0]][player.position[1]]);
         return true;
     }
 
-    //Need Test and not completed at all
+    endTurn(){
+        this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
+        this.isCast = false;
+        this.upgradeRequest = undefined;
+        this.hasMoved = false;
+        return true;
+    }
+
+    //Need Tests
+    jailInteraction(player){
+        //Player can play
+        if (!player.isJailed){
+            return true;
+        }
+        if (!this.isCast){
+            this.castTheDice();
+        }
+
+        if (this.dice1 !== this.dice2){
+            if (player.timeJailed < 3){
+                player.timeJailed++;
+                this.endTurn();
+                return false;//Player can't play  
+            }
+        }
+        return this.playerRelease(player);
+    }
+
+    //Need Test and almost completed
     actionInteraction(box){
         //There are many different type of action box
         switch (box.type) {
@@ -334,6 +382,7 @@ class monopalim{
         return true;
     }
 
+    //Almost finished and need tests
     chanceInteraction(player, box){
         //There are different type of chance card
         switch (this.board.chTab[this.chIndex].effectType) {
@@ -367,22 +416,82 @@ class monopalim{
                 }
                 //Special interaction
                 else{
-
+                    console.log("Not Implemented yet");
                 }
+                if (player.position === [10, 0]){
+                    player.isJailed = true;
+                }
+                this.executeInteraction(player);
                 break;
             //Player gets a free diet card
             case "special":
                 player.myCards.push(this.board.chTab[this.chIndex].effect);
                 break;
         }
+        
+        //Random index between 0 & 19
+        this.chIndex = Math.floor(Math.random() * 19);
+
+        return true;
     }
 
+    //Almost finished and need tests
     communityInteraction(player, box){
+        //There are different type of chance card
+        switch (this.board.ccTab[this.ccIndex].effectType) {
+            //Player wins money
+            case "get":
+                player.money += this.board.ccTab[this.ccIndex].effect;
+                break;
+            //Player gives money
+            case "give":
+                //Special interaction depending on player's choice
+                if (this.board.ccTab[this.ccIndex].effect === "50 Or"){
+                    console.log("Not Implemented Yet");
+                }
+                //Regular interaction
+                else{
+                    this.pay(player, this.board.ccTab[this.ccIndex].effect, this.board.ccTab[this.ccIndex].byTo);
+                }
+                break;
+            //Player is moving, no special interaction here
+            case "goto":
+                player.position = this.board.ccTab[this.ccIndex].effect;
+                if (player.position === [10, 0]){
+                    player.isJailed = true;
+                }
+                break;
+            //Player gets a free diet card
+            case "special":
+                player.myCards.push(this.board.ccTab[this.ccIndex].effect);
+                break;
+        }
+        
+        //Random index between 0 & 18
+        this.ccIndex = Math.floor(Math.random() * 18);
 
+        return true;
     }
 
+    //Finished and need tests
     specialInteraction(player, box){
-
+        switch (box.type) {
+            case "start":
+                player.money += 200;
+                break;
+            case "visitPrison":
+                console.log("Just Passing By");
+                break;
+            case "getStockedBasket":
+                player.money += this.taxesMoney;
+                this.taxesMoney = 0;
+                break;
+            case "gotoPrison":
+                player.position = [10, 0];
+                player.isJailed = true;
+                break;
+        }
+        return true;
     }
 
     //TESTED AND FUNCTIONNAL
@@ -429,19 +538,22 @@ class monopalim{
         this.move(this.playerOrder[this.orderIndex], this.castValue);
         
         //We Make the interaction
-
-        //Action box
-        if (this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]].money !== undefined) {
-            this.actionInteraction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
-        }
-        //Propriety box
-        else{
-            this.proprietyInteraction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
-        }
-
+        this.executeInteraction(this.playerOrder[this.orderIndex]);
         this.hasMoved = true;
 
         return true;//Did play
+    }
+
+    executeInteraction(player){
+        //Action box
+        if (this.board.grid[player.position[0]][player.position[1]].money !== undefined) {
+            this.actionInteraction(this.board.grid[player.position[0]][player.position[1]]);
+        }
+        //Propriety box
+        else{
+            this.proprietyInteraction(this.board.grid[player.position[0]][player.position[1]]);
+        }
+        return true;
     }
 
     executeAction(whatToDo){
