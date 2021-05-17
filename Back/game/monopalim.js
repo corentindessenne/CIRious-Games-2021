@@ -34,14 +34,14 @@ class monopalim{
         this.taxesMoney = 0;
 
         //Initiate the cards index
-        this.qIndex = 0;
-        this.ccIndex = 0;
-        this.chIndex = 0;
+        this.qIndex = Math.floor(Math.random() * 29);
+        this.ccIndex = Math.floor(Math.random() * 18);
+        this.chIndex = Math.floor(Math.random() * 19);
         this.currentAnswer = [];
     }
     
     //Initialisation Function
-    //Tested and functionnal
+    //Tested and functional
     initPlayerOrder(objectTab){
         let randomIndex = 0;
         //Generate every Index possibility
@@ -66,10 +66,7 @@ class monopalim{
 
     //Check Function
     isUpgradeable(box){
-        if(typeof box.color === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season"){
-            return false;
-        }
-        return true;
+        return !(typeof box.color === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season");
     }
 
     //Actions in the game
@@ -109,7 +106,7 @@ class monopalim{
         return true;
     }
 
-    //Tested and functionnal
+    //Tested and functional
     buyAction(player, box){
         if (box.belonging !== "none"){
             return this.redeemAction(player, box);
@@ -127,7 +124,7 @@ class monopalim{
         return false;//Not Bought
     }
 
-    //Tested and functionnal
+    //Tested and functional
     redeemAction(player, box){
         if (box.belonging === "none"){
             return this.buyAction(player, box);
@@ -147,7 +144,7 @@ class monopalim{
         return false;//Not bought
     }
 
-    //Tested and functionnal
+    //Tested and functional
     upgradeAction(player, box){
         //Check if the propriety belongs to the right user
         if (player.id !== box.belonging){
@@ -188,11 +185,7 @@ class monopalim{
         return this.board.qTab[this.qIndex].question;
     }
 
-    askDecision(){
-        return "Veux tu sortir de prison ? (50b)";
-    }
-
-    //Tested and functionnal
+    //Tested and functional
     playerRelease(player){
         if (this.dice1 !== this.dice2){
             this.pay(player, 50, "taxes");
@@ -202,14 +195,22 @@ class monopalim{
         return true;//Player can play
     }
 
+    //Functional
+    findNearest(player, locationType){
+        while (this.board.grid[player.position[0]][player.position[1]].type !== locationType){
+            this.move(player, 1);
+        }
+        return true;
+    }
+
     //Core functions
 
-    //TESTED AND FUNCTIONNAL
+    //TESTED AND FUNCTIONAL
     move(player, castValue){
         if (player.isJailed){
-            console.log("Player is in prison");
             return true;
         }
+
         //If player is on the first parcel
         if (player.position[0] === 10){
             //If player is exceeding the parcel
@@ -319,7 +320,7 @@ class monopalim{
         return true;
     }
 
-    //Tested and functionnal
+    //Tested and functional
     jailInteraction(player){
         //Player can play
         if (!player.isJailed){
@@ -346,6 +347,7 @@ class monopalim{
         //First of all the player is getting asked for the question, then he answers, then the interaction is made depending on the answer
             case "question":
                 return this.askQuestion();
+            //Just making an interaction function with those two
             case "chance":
                 return this.chanceInteraction(this.playerOrder[this.orderIndex], box);
             case "community":
@@ -384,7 +386,7 @@ class monopalim{
         return true;
     }
 
-    //Almost finished and need tests
+    //Functional
     chanceInteraction(player, box){
         console.log(this.board.chTab[this.chIndex]);
         //There are different type of chance card
@@ -414,13 +416,29 @@ class monopalim{
             //Player is moving
             case "goto":
                 //Regular interaction
-                if (typeof this.board.chTab[this.chIndex].effect[0] !== 'undefined'){
+                if (typeof this.board.chTab[this.chIndex].effect[0] !== 'string'){
                     player.position = this.board.chTab[this.chIndex].effect;
                 }
                 //Special interaction
                 else{
-                    console.log("Not Implemented yet");
+                    //Player steps back
+                    if (this.board.chTab[this.chIndex].effect === "-3"){
+                        if (player.position === [0, 2]){
+                            player.position = [1, 0];
+                        }
+                        else{
+                            this.move(player, -3);
+                        }
+                    }
+                    //Player goes to the nearest point
+                    else if (this.board.chTab[this.chIndex].effect === "+S"){
+                       this.findNearest(player, "season");
+                    }
+                    else{
+                        this.findNearest(player, "question");
+                    }
                 }
+                //If the player has been move to this location
                 if (player.position === [10, 0]){
                     player.isJailed = true;
                 }
@@ -453,6 +471,16 @@ class monopalim{
                 if (this.board.ccTab[this.ccIndex].effect === "50 Or"){
                     console.log("Not Implemented Yet");
                 }
+                else if (this.board.ccTab[this.ccIndex].effect === "75*"){
+                    let pot = 0;
+                    for (let i = 0; i < player.myPropriety.length; i++){
+                        //Player pays 60b for each propriety that has an upgrade
+                        if (typeof player.myPropriety[i] !== 'undefined' && player.myPropriety[i].upgradeRate > 0){
+                            pot += 75;
+                        }
+                    }
+                    this.pay(player, pot, this.board.ccTab[this.chIndex].byTo);
+                }
                 //Regular interaction
                 else{
                     this.pay(player, this.board.ccTab[this.ccIndex].effect, this.board.ccTab[this.ccIndex].byTo);
@@ -477,7 +505,7 @@ class monopalim{
         return true;
     }
 
-    //Finished and need tests
+    //Functional
     specialInteraction(player, box){
         switch (box.type) {
             case "start":
@@ -497,7 +525,7 @@ class monopalim{
         return true;
     }
 
-    //TESTED AND FUNCTIONNAL
+    //TESTED AND FUNCTIONAL
     proprietyInteraction(box){
         //If it belongs to no one, nothing happens
         if (box.belonging === "none"){
@@ -509,7 +537,7 @@ class monopalim{
         return true;
     }
 
-    //TESTED AND FUNCTIONNAL
+    //TESTED AND FUNCTIONAL
     proprietyAction(box, player, action){
         //Security
         if (action === undefined){
@@ -536,8 +564,6 @@ class monopalim{
         if (!this.isCast){
             return false;
         }
-
-        console.log(this.playerOrder);
 
         //We make the Movement
         this.move(this.playerOrder[this.orderIndex], this.castValue);

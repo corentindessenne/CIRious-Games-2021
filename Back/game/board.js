@@ -53,9 +53,9 @@ class board{
         this.chTab[13] = new chanceCard(13, "goto", [0, 1], "none", "Rendez-vous à l’AVENUE DU COEUR D\'ARTICHAUT, si vous passez par la case départ touchez 200 blés.");
         this.chTab[14] = new chanceCard(14, "goto", "-3", "none", "Reculez de trois cases.");//Excpetion à gérer
         this.chTab[15] = new chanceCard(15, "goto", [10, 0], "none", "Votre médecin vous envoie en diète sans passer par la case départ.");
-        this.chTab[16] = new chanceCard(16, "goto", "+?", "none", "Avancez jusqu’à la saison la plus proche. Si elle n’appartient à personne, vous pouvez l’acheter. Si elle appartient à un joueur vous devez lui payer deux fois le loyer demandé.");//Exception à gérer
-        this.chTab[17] = new chanceCard(17, "goto", "+??", "none", "Avancez jusqu’à la saison la plus proche. Si elle n’appartient à personne, vous pouvez l’acheter. Si elle appartient à un joueur vous devez lui payer deux fois le loyer demandé.");//Exception à gérer
-        this.chTab[18] = new chanceCard(18, "goto", "+x", "none", "Etant un grand sportif, on décide de vous interviewer pour le journal de 20h. Avancez jusqu’à la prochaine case Question.");//Exception à gérer
+        this.chTab[16] = new chanceCard(16, "goto", "+S", "none", "Avancez jusqu’à la saison la plus proche. Si elle n’appartient à personne, vous pouvez l’acheter. Si elle appartient à un joueur vous devez lui payer deux fois le loyer demandé.");//Exception à gérer
+        this.chTab[17] = new chanceCard(17, "goto", "+S", "none", "Avancez jusqu’à la saison la plus proche. Si elle n’appartient à personne, vous pouvez l’acheter. Si elle appartient à un joueur vous devez lui payer deux fois le loyer demandé.");//Exception à gérer
+        this.chTab[18] = new chanceCard(18, "goto", "+Q", "none", "Etant un grand sportif, on décide de vous interviewer pour le journal de 20h. Avancez jusqu’à la prochaine case Question.");//Exception à gérer
         /* SPECIAL CARD */
         this.chTab[19] = new chanceCard(19, "special", "freedom", "none", "Cheatmeal autorisé ! Cette carte peut être conservée pour une future utilisation ou être revendue.");//Exception à gérer
 
