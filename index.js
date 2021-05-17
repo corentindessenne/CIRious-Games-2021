@@ -20,7 +20,7 @@ const mysql = require('mysql');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = 12;
 const salt = bcrypt.genSaltSync(saltRounds);
 
 /**** Import project libs ****/
@@ -135,10 +135,11 @@ app.post('/connect', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    const hash = bcrypt.hashSync(password, salt);
+    let passwordHash = bcrypt.hashSync(password, salt);
 
     if(!playersConnected.includes(username)) { //if you are not already connected
-        con.query('SELECT * FROM accounts WHERE BINARY username = ? AND password = ?', [username, hash], function (error, results) {
+
+        con.query('SELECT * FROM accounts WHERE BINARY username = ? AND password = ?', [username, passwordHash], function (error, results) {
             if (error) {
                 throw error;
             } else if (results.length > 0) {
@@ -170,20 +171,17 @@ app.post('/register', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let email = req.body.email;
-    const hash = bcrypt.hashSync(password, salt);
+    let passwordHash = bcrypt.hashSync(password, salt);
 
     con.query('SELECT * FROM accounts WHERE BINARY username = ?', [username], function(error, results) {
         if (error) throw error;
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
             console.log('test n°1');
-            con.query('INSERT INTO accounts (username, email, password) VALUES (?, ?, ?)', [username, email, hash], function(error) {
+            con.query('INSERT INTO accounts (username, email, password) VALUES (?, ?, ?)', [username, email, passwordHash], function(error, results) {
                 if(error) throw error;
-                req.session.loggedin = true;
-                req.session.username = username;
-                req.session.admin = false;
-                req.session.save();
-                console.log('test n°2 ' + hash);
+                console.log('Row inserted:' + results.affectedRows);
+                console.log('test n°2 ' + passwordHash);
                 res.redirect('../connection');
             });
         }
