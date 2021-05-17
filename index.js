@@ -19,10 +19,13 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 /**** Import project libs ****/
 
-//const monopalim = require('./back/monopalim.js');
+//const monopalim = require('./back/game/monopalim.js');
 const House = require('./back/house.js');
 
 
@@ -132,28 +135,33 @@ app.post('/connect', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    con.query('SELECT * FROM accounts WHERE Username = ? AND Password = ?', [username, password], function(error, results) {
-        if(error) {
-            throw error;
-        }
-        else if (results.length > 0) {
-            req.session.loggedin = true;
-            req.session.username = username;
-            req.session.admin = results[0].admin == 1;
-            req.session.save();
-            playersConnected.push(req.session.username);
-            res.redirect('../menu');
-            console.log(playersConnected);
-        }
-        else {
-            res.send('Pseudo et/ou mot de passe incorrect(s) !');
-        }
-    });
+    const hash = bcrypt.hashSync(password, salt);
 
-    con.query("SELECT PLayerIndex FROM accounts WHERE Username = ? AND Password = ?", [username, password], function (err, id) {
-        if (err) throw err;
-        req.session.id = id;
-    });
+    if(!playersConnected.includes(username)) { //if you are not already connected
+        con.query('SELECT * FROM accounts WHERE BINARY username = ? AND password = ?', [username, hash], function (error, results) {
+            if (error) {
+                throw error;
+            } else if (results.length > 0) {
+                req.session.loggedin = true;
+                req.session.username = username;
+                req.session.admin = results[0].admin == 1;
+                req.session.save();
+                playersConnected.push(req.session.username);
+                res.redirect('../menu');
+                console.log(playersConnected);
+            } else {
+                res.send('Pseudo et/ou mot de passe incorrect(s) !');
+            }
+        });
+
+        con.query("SELECT PLayerIndex FROM accounts WHERE BINARY username = ? AND password = ?", [username, password], function (err, id) {
+            if (err) throw err;
+            req.session.id = id;
+        });
+    }
+    else{
+        res.send('Vous êtes déjà connecté');
+    }
 
 });
 
@@ -162,18 +170,21 @@ app.post('/register', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let email = req.body.email;
+    const hash = bcrypt.hashSync(password, salt);
 
-    con.query('SELECT * FROM accounts WHERE Username = ?', [username], function(error, results) {
+    con.query('SELECT * FROM accounts WHERE BINARY username = ?', [username], function(error, results) {
         if (error) throw error;
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
-            con.query('INSERT INTO accounts (Username, email, Password, Admin) VALUES (?, ?, ?, ?)', [username, email, password, false], function(error) {
+            console.log('test n°1');
+            con.query('INSERT INTO accounts (username, email, password) VALUES (?, ?, ?)', [username, email, hash], function(error) {
                 if(error) throw error;
                 req.session.loggedin = true;
                 req.session.username = username;
                 req.session.admin = false;
                 req.session.save();
-                res.redirect('../menu');
+                console.log('test n°2 ' + hash);
+                res.redirect('../connection');
             });
         }
     });
@@ -195,12 +206,12 @@ io.on('connection', socket => {
 
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
-                //room.state = 0;
+                room.state = 0;
 
                 //chrono
-                //room.timeDebut = 0;
-                //room.timeFin = 0;
-                //room.timeGame = 0;
+                room.timeDebut = 0;
+                room.timeFin = 0;
+                room.timeGame = 0;
 
                 room.player1 = waiters[0];
                 room.player2 = waiters[1];
@@ -209,18 +220,18 @@ io.on('connection', socket => {
                 room.player5 = waiters[4];
                 room.player6 = waiters[5];
 
-                room.player1.emit('play');
-                room.player2.emit('play');
-                room.player3.emit('play');
-                room.player4.emit('play');
-                room.player5.emit('play');
-                room.player6.emit('play');
+                room.player1.emit('play', room.player1.handshake.session.username);
+                room.player2.emit('play', room.player2.handshake.session.username);
+                room.player3.emit('play', room.player3.handshake.session.username);
+                room.player4.emit('play', room.player4.handshake.session.username);
+                room.player5.emit('play', room.player5.handshake.session.username);
+                room.player6.emit('play', room.player6.handshake.session.username);
 
             } else socket.emit('public');
         }
     });
 
-    socket.on('invitation', (user,message) => {
+    socket.on('invitation', (user) => {
         socket.join(user);
         io.sockets.in(user).emit('invite',socket);
     });

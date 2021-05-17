@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SCRIPT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <title>Monopalim</title>
+
+    <!--My CSS-->
+    <link rel="stylesheet" href="../css/connectionPage.css">
+
+</head>
+<body>
+<div class="container">
+
+    <div class="two" id="two">
+        <div class="text">Inscription Monopalim</div>
+        <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
+
+            <div class="data">
+                <label for="email">Adresse email</label>
+                <input name="email" class="form-control" id="email" type="text" required>
+            </div>
+
+            <div class="data">
+                <label for="username">Pseudo</label>
+                <input name="username" class="form-control" id="username" type="text" required>
+            </div>
+
+            <div class="data">
+                <label for="password">Mot de passe</label>
+                <input name="password" class="form-control" type="password" id="password" onkeyup="checkPassword();" required>
+            </div>
+
+            <div class="data">
+                <label for="confirm_password">Confirmez votre mot de passe</label>
+                <input type="password" id="confirm_password" onkeyup="checkPassword();" required>
+            </div>
+            <div style="margin-bottom: 3%; color: red; display: none" id="confirmMessage">Les mots de passe ne correspondent pas.</div>
+
+            <button class="btn-form" type="submit" id="inscription" disabled="disabled">S'inscrire</button>
+
+            <div class="signup-link" style="margin-top: 15px;">
+                Déjà membre ? <a href="../html/connection.html" style="text-decoration: none">Se connecter</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    let socket = io();
+</script>
+<script type="text/javascript" src="../js/registration.js"></script>
+
+</body>
+</html>

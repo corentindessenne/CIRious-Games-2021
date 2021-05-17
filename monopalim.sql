@@ -34,7 +34,7 @@ CREATE TABLE `accounts` (
   `playerIndex` int(11) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `email` varchar(125) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `picture` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -43,12 +43,13 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`playerIndex`, `username`, `email`, `password`, `picture`) VALUES
-(1, 'test', 'test@test.fr', '1234', 'mstile-150x150.png'),
-(2, 'Marie', 'marie@marie.com', '123456', 'bitmoji-Marie.png'),
-(3, 'Armand', 'armand@armand.fr', 'Jambon34', 'bitmoji-Armand.png'),
-(4, 'Corentin', 'corentin@corentin.fr', 'azerty', 'bitmoji-Coco.png'),
-(5, 'Noé', 'noe@noe.fr', 'WoW', 'bitmoji-Noe.png'),
-(6, 'Adel', 'adel@adel.fr', 'password', 'bitmoji-Adel.png');
+(1, 'test', 'test@test.fr', '1234', 'random.png'),
+(2, 'Adel', 'adel@adel.fr', 'password', 'adel.png'),
+(3, 'Antoine', 'antoine@antoine.fr', 'ANTOINE', 'antoine.png'),
+(4, 'Armand', 'armand@armand.fr', 'Jambon34', 'armand.png'),
+(5, 'Corentin', 'corentin@corentin.fr', 'azerty', 'coco.png'),
+(6, 'Marie', 'marie@marie.com', '123456', 'marie.png'),
+(7, 'Noé', 'noe@noe.fr', 'WoW', 'noe.png');
 
 -- --------------------------------------------------------
 
