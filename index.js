@@ -135,24 +135,25 @@ app.post('/connect', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    let passwordHash = bcrypt.hashSync(password, salt);
-
     if(!playersConnected.includes(username)) { //if you are not already connected
-
-        con.query('SELECT * FROM accounts WHERE BINARY username = ? AND password = ?', [username, passwordHash], function (error, results) {
+        con.query('SELECT * FROM accounts WHERE BINARY username = ? collate utf8_bin', [username], function(error, result){
             if (error) {
                 throw error;
-            } else if (results.length > 0) {
-                req.session.loggedin = true;
-                req.session.username = username;
-                req.session.admin = results[0].admin == 1;
-                req.session.save();
-                playersConnected.push(req.session.username);
-                res.redirect('../menu');
-                console.log(playersConnected);
+            }
+            else if (result.length > 0) {
+                let passwordHash = bcrypt.hashSync(password, result[0].salt);
+                if(passwordHash === result[0].password) {
+                    req.session.loggedin = true;
+                    req.session.username = username;
+                    req.session.save();
+                    playersConnected.push(req.session.username);
+                    res.redirect('../menu');
+                    console.log(playersConnected);
+                }
             } else {
                 res.send('Pseudo et/ou mot de passe incorrect(s) !');
             }
+
         });
 
         con.query("SELECT PLayerIndex FROM accounts WHERE BINARY username = ? AND password = ?", [username, password], function (err, id) {
@@ -178,7 +179,7 @@ app.post('/register', (req, res) => {
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
             console.log('test n°1');
-            con.query('INSERT INTO accounts (username, email, password) VALUES (?, ?, ?)', [username, email, passwordHash], function(error, results) {
+            con.query('INSERT INTO accounts (username, email, password, salt) VALUES (?, ?, ?, ?)', [username, email, passwordHash, salt], function(error, results) {
                 if(error) throw error;
                 console.log('Row inserted:' + results.affectedRows);
                 console.log('test n°2 ' + passwordHash);

@@ -1,16 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le :  mar. 13 avr. 2021 à 22:58
--- Version du serveur :  5.7.17
--- Version de PHP :  5.6.30
-
-CREATE DATABASE `monopalim`;
+-- Hôte : 127.0.0.1:3306
+-- Généré le : lun. 17 mai 2021 à 15:38
+-- Version du serveur :  8.0.21
+-- Version de PHP : 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -21,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `monopalim`
+-- Base de données : `monopalim`
 --
 
 -- --------------------------------------------------------
@@ -30,76 +27,52 @@ SET time_zone = "+00:00";
 -- Structure de la table `accounts`
 --
 
-CREATE TABLE `accounts` (
-  `playerIndex` int(11) NOT NULL,
-  `username` varchar(50) DEFAULT NULL,
+DROP TABLE IF EXISTS `accounts`;
+CREATE TABLE IF NOT EXISTS `accounts` (
+  `playerIndex` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) collate utf8_bin DEFAULT NULL,
   `email` varchar(125) DEFAULT NULL,
   `password` varchar(1000) DEFAULT NULL,
-  `picture` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `salt` varchar(1000) DEFAULT NULL,
+  `picture` varchar(255) NOT NULL,
+  PRIMARY KEY (`playerIndex`),
+  UNIQUE KEY `Username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `accounts`
 --
 
-INSERT INTO `accounts` (`playerIndex`, `username`, `email`, `password`, `picture`) VALUES
-(1, 'test', 'test@test.fr', '1234', 'random.png'),
-(2, 'Adel', 'adel@adel.fr', 'password', 'adel.png'),
-(3, 'Antoine', 'antoine@antoine.fr', 'ANTOINE', 'antoine.png'),
-(4, 'Armand', 'armand@armand.fr', 'Jambon34', 'armand.png'),
-(5, 'Corentin', 'corentin@corentin.fr', 'azerty', 'coco.png'),
-(6, 'Marie', 'marie@marie.com', '123456', 'marie.png'),
-(7, 'Noé', 'noe@noe.fr', 'WoW', 'noe.png');
+INSERT INTO `accounts` (`playerIndex`, `username`, `email`, `password`, `salt`, `picture`) VALUES
+(1, 'Test', 'test@test.fr', '$2b$12$Rs5FAdNfCI5ndU22yhohuuvGGSrnQq887i.weBS93OB72odndEEe2', '$2b$12$Rs5FAdNfCI5ndU22yhohuu', ''),
+(2, 'Adel', 'adel@adel.fr', '$2b$12$Rs5FAdNfCI5ndU22yhohuu1fv0.RvDsoDpJqNXbSfEfzEjSvNCsFS', '$2b$12$Rs5FAdNfCI5ndU22yhohuu', ''),
+(3, 'Antoine', 'antoine@antoine.fr', '$2b$12$2xL993MsQWL6NeU8lsb3S.DIZ/267pyQCQ9/LYf3gbCyS7.07KYJ2', '$2b$12$2xL993MsQWL6NeU8lsb3S.', ''),
+(4, 'Armand', 'armand@armand.fr', '$2b$12$zmd3r2uUosN2ysr9i0lSk.B1panIdDLd.HARikJPHkUBh9buZjoz.', '$2b$12$zmd3r2uUosN2ysr9i0lSk.', ''),
+(5, 'Corentin', 'corentin@corentin.fr', '$2b$12$zDYqrSUxpIL6gJjPhu.dXuw5uZvHtG8QFpitfZxPgprvSIoLUy3ay', '$2b$12$zDYqrSUxpIL6gJjPhu.dXu', ''),
+(6, 'Marie', 'marie@marie.fr', '$2b$12$oKKqY1cJqY.PzYd8EpRLSuONJN7blreAr2TzNA95gTbBtEtlfO3Ai', '$2b$12$oKKqY1cJqY.PzYd8EpRLSu', ''),
+(7, 'Noé', 'noe@noe.fr', '$2b$12$pMJMyspESBehPvYdGfZXE.L4Y4YhR7Q3xz7XygE0Mx.9SWcK8jcPG', '$2b$12$pMJMyspESBehPvYdGfZXE.', '');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `monopalimSave`
+-- Structure de la table `monopalimsave`
 --
 
-CREATE TABLE `monopalimSave` (
-  `saveIndex` int(11) NOT NULL,
+DROP TABLE IF EXISTS `monopalimsave`;
+CREATE TABLE IF NOT EXISTS `monopalimsave` (
+  `saveIndex` int NOT NULL AUTO_INCREMENT,
   `player1` varchar(50) DEFAULT NULL,
   `player2` varchar(50) DEFAULT NULL,
   `time` time NOT NULL,
   `gameState` tinyint(1) DEFAULT NULL,
-  `nbTurns` int(2) DEFAULT NULL,
-  `winner` varchar(50) DEFAULT NULL
+  `nbTurns` int DEFAULT NULL,
+  `winner` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`saveIndex`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `accounts`
---
-ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`playerIndex`),
-  ADD UNIQUE KEY `Username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- Index pour la table `monopalimSave`
---
-ALTER TABLE `monopalimSave`
-  ADD PRIMARY KEY (`saveIndex`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `accounts`
---
-ALTER TABLE `accounts`
-  MODIFY `playerIndex` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT pour la table `monopalimSave`
---
-ALTER TABLE `monopalimSave`
-  MODIFY `saveIndex` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
