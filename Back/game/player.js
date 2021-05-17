@@ -17,6 +17,7 @@ class player {
         this.position = [10, 10];//Player position
         this.money = 1500;//Player money
         this.myPropriety = new Array (26);//Player propriety
+        this.myCards = [];//Player's card like a freedom of diet
         this.state = true; //True = Alive, False = Dead
     }
 }

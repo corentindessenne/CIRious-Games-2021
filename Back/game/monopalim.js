@@ -15,17 +15,7 @@ class monopalim{
 
         //Initiate players order
         this.initPlayerOrder(this.playerTab);
-        /*this.playerOrder = [];
-        this.playerOrder.push(player1);//Index 0
-        this.playerOrder.push(player2);// 1
-        this.playerOrder.push(player3);// 2
-        this.playerOrder.push(player4);// ....
-        if (typeof player5 != 'undefined'){
-            this.playerOrder.push(player5);
-            if (typeof player6 != 'undefined'){
-                this.playerOrder.push(player6);
-            }
-        }*/
+
         //Player order Index
         this.orderIndex = 0;
 
@@ -201,93 +191,93 @@ class monopalim{
     //Core functions
 
     //TESTED AND FUNCTIONNAL
-    move(){
+    move(player, castValue){
         //If player is on the first parcel
-        if (this.playerOrder[this.orderIndex].position[0] === 10){
+        if (player.position[0] === 10){
             //If player is exceeding the parcel
-            if(this.playerOrder[this.orderIndex].position[1] - this.castValue < 0){
+            if(player.position[1] - castValue < 0){
                 //New Cast value after crossing the last parcel
-                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[1];
+                let restValue = castValue - player.position[1];
 
                 //If still exceeding the actual parcel
                 if (restValue > 10){
                     restValue -= 10;
-                    this.playerOrder[this.orderIndex].position = [0, restValue];
+                    player.position = [0, restValue];
                 }
 
                 else {
-                    this.playerOrder[this.orderIndex].position = [10 - restValue, 0];
+                    player.position = [10 - restValue, 0];
                 }
             }
 
             else {
-                this.playerOrder[this.orderIndex].position = [10, this.playerOrder[this.orderIndex].position[1] - this.castValue];
+                player.position = [10, player.position[1] - castValue];
             }
         }
         //Same but on the second parcel
-        else if (this.playerOrder[this.orderIndex].position[1] === 0){
+        else if (player.position[1] === 0){
             //If player is exceeding the parcel
-            if(this.playerOrder[this.orderIndex].position[0] - this.castValue < 0){
+            if(player.position[0] - castValue < 0){
                 //New Cast value after crossing the last parcel
-                let restValue = this.castValue - this.playerOrder[this.orderIndex].position[0];
+                let restValue = castValue - player.position[0];
 
                 //If still exceeding the actual parcel
                 if (restValue > 10){
                     restValue -= 10;
-                    this.playerOrder[this.orderIndex].position = [restValue, 10];
+                    player.position = [restValue, 10];
                 }
 
                 else {
-                    this.playerOrder[this.orderIndex].position = [0, restValue];
+                    player.position = [0, restValue];
                 }
             }
 
             else {
-                this.playerOrder[this.orderIndex].position = [this.playerOrder[this.orderIndex].position[0] - this.castValue, 0];
+                player.position = [player.position[0] - castValue, 0];
             }
         }
         //Same but on the third parcel
-        else if (this.playerOrder[this.orderIndex].position[0] === 0) {
+        else if (player.position[0] === 0) {
             //If player is exceeding the parcel
-            if(this.playerOrder[this.orderIndex].position[1] + this.castValue > 10){
+            if(player.position[1] + castValue > 10){
                 //New Cast value after crossing the last parcel
-                let restValue = 10 - (this.castValue + this.playerOrder[this.orderIndex].position[1]);//Negative number
+                let restValue = 10 - (castValue + player.position[1]);//Negative number
 
                 //If still exceeding the actual parcel
                 if (restValue < -10){
                     restValue += 10;
-                    this.playerOrder[this.orderIndex].position = [10, 10 + restValue];
+                    player.position = [10, 10 + restValue];
                 }
 
                 else {
-                    this.playerOrder[this.orderIndex].position = [-restValue, 10];
+                    player.position = [-restValue, 10];
                 }
             }
 
             else {
-                this.playerOrder[this.orderIndex].position = [0, this.playerOrder[this.orderIndex].position[1] + this.castValue];
+                player.position = [0, player.position[1] + castValue];
             }
         }
         //Same but on the fourth parcel
-        else if (this.playerOrder[this.orderIndex].position[1] === 10){
+        else if (player.position[1] === 10){
             //If player is exceeding the parcel
-            if(this.playerOrder[this.orderIndex].position[0] + this.castValue > 10){
+            if(player.position[0] + castValue > 10){
                 //New Cast value after crossing the last parcel
-                let restValue = 10 - (this.castValue + this.playerOrder[this.orderIndex].position[0]);//Negative Number
+                let restValue = 10 - (castValue + player.position[0]);//Negative Number
 
                 //If still exceeding the actual parcel
                 if (restValue < -10){
                     restValue += 10;
-                    this.playerOrder[this.orderIndex].position = [10 + restValue, 0];
+                    player.position = [10 + restValue, 0];
                 }
 
                 else {
-                    this.playerOrder[this.orderIndex].position = [10, 10 + restValue];
+                    player.position = [10, 10 + restValue];
                 }
             }
 
             else {
-                this.playerOrder[this.orderIndex].position = [this.playerOrder[this.orderIndex].position[0] + this.castValue, 10];
+                player.position = [player.position[0] + castValue, 10];
             }
         }
         //Bug
@@ -295,15 +285,15 @@ class monopalim{
             console.log("Player not on the board");
             return false; //Didn't move
         }
-        console.log(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]]);
+        console.log(this.board.grid[player.position[0]][player.position[1]]);
         return true;
     }
 
     //Need Test and not completed at all
     actionInteraction(box){
         //There are many different type of action box
-        //First of all the player is getting asked for the question, then he answers, then the interaction is made depending on the answer
         switch (box.type) {
+        //First of all the player is getting asked for the question, then he answers, then the interaction is made depending on the answer
             case "question":
                 return this.askQuestion();
             case "chance":
@@ -345,7 +335,46 @@ class monopalim{
     }
 
     chanceInteraction(player, box){
+        //There are different type of chance card
+        switch (this.board.chTab[this.chIndex].effectType) {
+            //Player wins money
+            case "get":
+                player.money += this.board.chTab[this.chIndex].effect;
+                break;
+            //Player gives money
+            case "give":
+                //Special interaction depending on player's propriety
+                if (this.board.chTab[this.chIndex].effect === "60*"){
+                    let pot = 0;
+                    for (let i = 0; i < player.myPropriety.length; i++){
+                        //Player pays 60b for each propriety that has an upgrade 
+                        if (typeof player.myPropriety[i] !== 'undefined' && player.myPropriety[i].upgradeRate > 0){
+                            pot += 60;
+                        }
+                    }
+                    this.pay(player, pot, this.board.chTab[this.chIndex].byTo);
+                }
+                //Regular interaction
+                else{
+                    this.pay(player, this.board.chTab[this.chIndex].effect, this.board.chTab[this.chIndex].byTo);
+                }
+                break;
+            //Player is moving
+            case "goto":
+                //Regular interaction
+                if (typeof this.board.chTab[this.chIndex].effect[0] !== 'undefined'){
+                    player.position = this.board.chTab[this.chIndex].effect;
+                }
+                //Special interaction
+                else{
 
+                }
+                break;
+            //Player gets a free diet card
+            case "special":
+                player.myCards.push(this.board.chTab[this.chIndex].effect);
+                break;
+        }
     }
 
     communityInteraction(player, box){
@@ -397,7 +426,7 @@ class monopalim{
         }
 
         //We make the Movement
-        this.move();
+        this.move(this.playerOrder[this.orderIndex], this.castValue);
         
         //We Make the interaction
 

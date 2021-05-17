@@ -40,11 +40,11 @@ class board{
         this.chTab[2] = new chanceCard(2, "get", 50, "bank", "Déstockage de carotte. Recevez 50 blés.");
         this.chTab[3] = new chanceCard(3, "get", 100, "bank", "N’ayant pas fait d’écart nutritionnel depuis un certain temps, la nutritionniste officielle de MONOPALIM décide de vous récompenser. Toucher 100 blés.");
         /* GIVE CARDS */ 
-        this.chTab[4] = new chanceCard (4, "give", 50, "bank", "Payez pour frais de fast-food, 50 blés.");
-        this.chTab[5] = new chanceCard (5, "give", 50, "bank", "Amende pour excès de calories, vous devez 50 blés.");
-        this.chTab[6] = new chanceCard (6, "give", 100, "bank", "Amende pour ivresse sur la voie publique, vous devez 100 blés.");
-        this.chTab[7] = new chanceCard (7, "give", 135, "bank", "Amende pour non-respect du couvre-feu, vous devez 135 blés.");
-        this.chTab[8] = new chanceCard (8, "give", 50, "bank", "Vous vous êtes fait rouler dans la farine. Versez 50 blés à chaque joueur.");
+        this.chTab[4] = new chanceCard (4, "give", 50, "taxes", "Payez pour frais de fast-food, 50 blés.");
+        this.chTab[5] = new chanceCard (5, "give", 50, "taxes", "Amende pour excès de calories, vous devez 50 blés.");
+        this.chTab[6] = new chanceCard (6, "give", 100, "taxes", "Amende pour ivresse sur la voie publique, vous devez 100 blés.");
+        this.chTab[7] = new chanceCard (7, "give", 135, "taxes", "Amende pour non-respect du couvre-feu, vous devez 135 blés.");
+        this.chTab[8] = new chanceCard (8, "give", 50, "taxes", "Vous vous êtes fait rouler dans la farine. Versez 50 blés à chaque joueur.");
         this.chTab[9] = new chanceCard (9, "give", "60*", "bank", "Rénovez vos marchés, magasin bio, grande surface et épiceries. Payez 60 blés pour chaque.");//Exception à gérer
         /* GO TO CARDS */
         this.chTab[10] = new chanceCard(10, "goto", [10, 10], "none", "Parce qu’un petit footing ne fait jamais de mal, retournez à la case départ et touchez 400 blés.");
