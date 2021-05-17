@@ -112,7 +112,9 @@ class view {
     }
     displayMoney() {
         let money = document.getElementById('playerMoney');
+        let taxesMoney = document.getElementById('taxesMoney');
         money.innerText = this.game.playerOrder[this.game.orderIndex].money;
+        taxesMoney.innerText = this.game.taxesMoney;
         return true;
     }
     displayHealthyBar() {
@@ -206,6 +208,15 @@ class view {
         return true;
     }
 
+    updateInfos(){
+        this.displayMap();
+        this.displayCurrentPlayer();
+        this.displayProprietyTab();
+        this.displayHealthyBar();
+        this.displayMoney();
+        this.displayJailStatus();
+    }
+
     //Listener functions
 
     rollEvent() {//Used for the dice
@@ -231,8 +242,7 @@ class view {
         
         else{
             //If the player is still in Jail it's the end of it's turn
-            return this.endTurnEvent();
-            
+            return this.endTurnEvent();  
         }
 
         return true;//Worked well

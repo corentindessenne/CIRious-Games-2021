@@ -192,9 +192,11 @@ class monopalim{
         return "Veux tu sortir de prison ? (50b)";
     }
 
-    //Need Tests
+    //Tested and functionnal
     playerRelease(player){
-        this.pay(player, 50, "taxes");
+        if (this.dice1 !== this.dice2){
+            this.pay(player, 50, "taxes");
+        }
         player.isJailed = false;
         player.timeJailed = 0;
         return true;//Player can play
@@ -317,7 +319,7 @@ class monopalim{
         return true;
     }
 
-    //Need Tests
+    //Tested and functionnal
     jailInteraction(player){
         //Player can play
         if (!player.isJailed){
@@ -384,6 +386,7 @@ class monopalim{
 
     //Almost finished and need tests
     chanceInteraction(player, box){
+        console.log(this.board.chTab[this.chIndex]);
         //There are different type of chance card
         switch (this.board.chTab[this.chIndex].effectType) {
             //Player wins money
@@ -437,6 +440,7 @@ class monopalim{
 
     //Almost finished and need tests
     communityInteraction(player, box){
+        console.log(this.board.ccTab[this.ccIndex]);
         //There are different type of chance card
         switch (this.board.ccTab[this.ccIndex].effectType) {
             //Player wins money
@@ -480,7 +484,6 @@ class monopalim{
                 player.money += 200;
                 break;
             case "visitPrison":
-                console.log("Just Passing By");
                 break;
             case "getStockedBasket":
                 player.money += this.taxesMoney;
@@ -534,6 +537,8 @@ class monopalim{
             return false;
         }
 
+        console.log(this.playerOrder);
+
         //We make the Movement
         this.move(this.playerOrder[this.orderIndex], this.castValue);
         
@@ -546,7 +551,7 @@ class monopalim{
 
     executeInteraction(player){
         //Action box
-        if (this.board.grid[player.position[0]][player.position[1]].money !== undefined) {
+        if (typeof this.board.grid[player.position[0]][player.position[1]].money !== 'undefined') {
             this.actionInteraction(this.board.grid[player.position[0]][player.position[1]]);
         }
         //Propriety box
