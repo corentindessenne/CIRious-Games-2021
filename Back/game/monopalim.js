@@ -30,7 +30,6 @@ class monopalim{
         this.upgradeRequest = undefined;//grocery / supermarket / market / organic shop
         this.selectedCase = undefined;
         this.hasMoved = false;
-
         this.taxesMoney = 0;
 
         //Initiate the cards index
@@ -349,9 +348,9 @@ class monopalim{
                 return this.askQuestion();
             //Just making an interaction function with those two
             case "chance":
-                return this.chanceInteraction(this.playerOrder[this.orderIndex], box);
+                return this.chanceInteraction(this.playerOrder[this.orderIndex]);
             case "community":
-                return this.communityInteraction(this.playerOrder[this.orderIndex], box);
+                return this.communityInteraction(this.playerOrder[this.orderIndex]);
             //Special interaction
             default:
                 return this.specialInteraction(this.playerOrder[this.orderIndex], box);
@@ -386,9 +385,8 @@ class monopalim{
         return true;
     }
 
-    //Functional
-    chanceInteraction(player, box){
-        console.log(this.board.chTab[this.chIndex]);
+    //Functional / Finished
+    chanceInteraction(player){
         //There are different type of chance card
         switch (this.board.chTab[this.chIndex].effectType) {
             //Player wins money
@@ -456,10 +454,9 @@ class monopalim{
         return true;
     }
 
-    //Almost finished and need tests
-    communityInteraction(player, box){
-        console.log(this.board.ccTab[this.ccIndex]);
-        //There are different type of chance card
+    //Need Tests / Finished
+    communityInteraction(player){
+        //There are different type of community card
         switch (this.board.ccTab[this.ccIndex].effectType) {
             //Player wins money
             case "get":
@@ -468,9 +465,10 @@ class monopalim{
             //Player gives money
             case "give":
                 //Special interaction depending on player's choice
-                if (this.board.ccTab[this.ccIndex].effect === "50 Or"){
-                    console.log("Not Implemented Yet");
+                if (this.board.ccTab[this.ccIndex].effect === "drawCh"){
+                    return this.chanceInteraction(player);
                 }
+                //Special interaction depending on player's propriety
                 else if (this.board.ccTab[this.ccIndex].effect === "75*"){
                     let pot = 0;
                     for (let i = 0; i < player.myPropriety.length; i++){
@@ -505,7 +503,7 @@ class monopalim{
         return true;
     }
 
-    //Functional
+    //Functional / Finished
     specialInteraction(player, box){
         switch (box.type) {
             case "start":
@@ -569,7 +567,6 @@ class monopalim{
         this.move(this.playerOrder[this.orderIndex], this.castValue);
         
         //We Make the interaction
-        this.executeInteraction(this.playerOrder[this.orderIndex]);
         this.hasMoved = true;
 
         return true;//Did play

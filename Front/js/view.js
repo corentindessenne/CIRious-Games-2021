@@ -207,8 +207,111 @@ class view {
         jailText.innerText = "";
         return true;
     }
+    displayBoxInfos(box, order) {
+        //Before diplaying, we clear every span & div
+        let boxType = document.getElementById('boxType');
+        let boxInfo = document.getElementById('cardContent');
+        let info = document.getElementById('proprietyContent');
 
-    updateInfos(){
+        boxType.innerText = "";
+        boxInfo.innerText = "";
+        if (typeof info.children[0] !== 'undefined'){
+            info.removeChild(info.children[0]);
+        }
+        
+        //We display for an Action box
+        if (typeof box.money !== 'undefined') {
+            let content = "null";
+            let type = "null";
+            switch (box.type) {
+                case "community":
+                    content = this.game.board.ccTab[this.game.ccIndex].string;
+                    type = "Case Caisse de Communauté";
+                    break;
+                case"question":
+                    content = this.game.board.qTab[this.game.qIndex].question;
+                    type = "Case Question";
+                    break;
+                case"chance":
+                    content = this.game.board.chTab[this.game.chIndex].string;
+                    type = "Case Chance";
+                    break;
+            
+                default:
+                    content = box.type;
+                    type = "Case Spéciale";
+                    break;
+            }
+            boxType.innerHTML = "Vous êtes sur une " + type + " !";
+            if (order === "yes"){
+                boxInfo.innerHTML = "La carte dit : " + content;
+            }
+        }
+        //We display for a Propriety box
+        else {
+            // creates a <table> element and a <tbody> element
+            let tbl = document.createElement("table");
+            let tblThead = document.createElement('thead');
+            let tblBody = document.createElement("tbody");
+
+            //Creating the thead
+            let theadRow = document.createElement("tr");
+            
+            for (let i = 0; i < 4; i++){
+                let cellText = document.createTextNode("Création en cours");
+                let cell = document.createElement('th');
+                cell.appendChild(cellText);
+                theadRow.appendChild(cell);
+            }
+            //We plug it into the Thead
+            tblThead.appendChild(theadRow);
+
+            //Creating the Body
+            // creates a table row
+            let row = document.createElement("tr");
+
+            for (let j = 0; j < 4; j++) {
+                // Create a <td> element and a text node, make the text
+                // node the contents of the <td>, and put the <td> at
+                // the end of the table row
+                let cell = document.createElement("td");
+                let cellText = document.createTextNode("Création en cours");
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            // add the row to the end of the table body
+            tblBody.appendChild(row);    
+
+            // put the <tbody> in the <table>
+            tbl.appendChild(tblThead);
+            tbl.appendChild(tblBody);
+            // appends <table> into <body>
+            info.appendChild(tbl);
+            
+
+            //Displaying infos
+            tbl.rows[0].cells[0].innerText = "Nom";
+            tbl.rows[0].cells[1].innerText = "Rachat";
+            tbl.rows[0].cells[2].innerText = "Propriétaire";
+            tbl.rows[0].cells[3].innerText = "Loyer";
+            tbl.rows[1].cells[0].innerText = box.name;
+            tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
+            if (box.belonging !== "none"){
+                tbl.rows[1].cells[2].innerText = this.game.playerTab[box.belonging].username;
+            }
+            else{
+                tbl.rows[1].cells[2].innerText = "Non achetée"
+            }
+            tbl.rows[1].cells[3].innerText = box.income[box.upgradeRate];
+
+            //Style
+            tbl.setAttribute("border", "2");
+            tbl.style.width ="100%";
+        }
+    }
+
+    updateInfos() {
         this.displayMap();
         this.displayCurrentPlayer();
         this.displayProprietyTab();
@@ -232,6 +335,8 @@ class view {
         if (this.game.jailInteraction(this.game.playerOrder[this.game.orderIndex])) {
             //Play
             this.game.executeMove();
+            this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
+            this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
             //Update
             this.displayMap();
             this.displayMoney();
@@ -239,10 +344,10 @@ class view {
 
             this.actionButtons("enable");
         }
-        
-        else{
+
+        else {
             //If the player is still in Jail it's the end of it's turn
-            return this.endTurnEvent();  
+            return this.endTurnEvent();
         }
 
         return true;//Worked well
@@ -271,6 +376,7 @@ class view {
         this.displayProprietyTab();
         this.displayMap();
         this.displayJailStatus();
+        this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "no");
 
         //Buttons
         this.actionButtons("disable");
