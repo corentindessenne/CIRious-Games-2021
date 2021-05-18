@@ -193,17 +193,46 @@ app.post('/register', (req, res) => {
     });
 });
 
+app.post('/changePseudo', (req,res)=>{
+    let newPseudo = req.body.newUsername;
+    let username = req.session.username;
+
+    con.query('UPDATE accounts SET Username = ? WHERE Username = ?', [newPseudo, username], function(error){
+        if(error)throw error;
+        req.session.username = newPseudo;
+        res.redirect('../editProfile');
+    });
+});
+
+app.post('/changeMail', (req, res) => {
+    let username = req.session.username;
+    let newMail = req.body.newEmail;
+
+    con.query('UPDATE accounts SET email = ? WHERE Username = ?', [newMail, username], function(err){
+        if(err)throw err;
+        res.redirect('../editProfile');
+    });
+});
+
+app.post('/changePassword', (req, res) => {
+    let username = req.session.username;
+    let newPassword = req.body.newPassword;
+
+    con.query('UPDATE accounts SET Password = ? WHERE Username = ?', [newPassword, username], function(err){
+        if(err)throw err;
+        res.redirect('../editProfile');
+    });
+});
+
 /**** interaction with front ****/
 
 io.on('connection', socket => {
     socket.on('multijoueur', ()=>{
-        house.setNbPlayers(3);
+        house.setNbPlayers(6);
         if (house.addWaiter(socket)) {
-            if (house.getWaiters().length >= 3) {
-                console.log('test');
+            if (house.getWaiters().length >= 6) {
                 let waiters = house.popWaiters();
-                console.log(waiters[0], waiters[1], waiters[2]);
-                let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2]]);
+                let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2], waiters[3], waiters[4], waiters[5]]);
 
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
@@ -217,18 +246,33 @@ io.on('connection', socket => {
                 room.player1 = waiters[0];
                 room.player2 = waiters[1];
                 room.player3 = waiters[2];
+                room.player4 = waiters[3];
+                room.player5 = waiters[4];
+                room.player6 = waiters[5];
 
 
                 room.player1.emit('play', room.player1.handshake.session.username);
                 room.player2.emit('play', room.player2.handshake.session.username);
-                room.player3.emit('play', room.player3.handshake.session.username);/*git 
+                room.player3.emit('play', room.player3.handshake.session.username);
                 room.player4.emit('play', room.player4.handshake.session.username);
                 room.player5.emit('play', room.player5.handshake.session.username);
                 room.player6.emit('play', room.player6.handshake.session.username);
-*/
+
             } else socket.emit('public');
-            console.log('taille maison ' + house.getWaiters().length);
         }
+    });
+
+    socket.on('callPseudo', () =>{
+        socket.emit('displayPseudo', socket.handshake.session.username);
+    });
+
+    socket.on('callMail', () => {
+        let username = socket.handshake.session.username;
+        con.query('SELECT email FROM accounts WHERE Username = ?', [username], function(err,res){
+            if(!err){
+                socket.emit('displayMail', res[0].email);
+            }
+        });
     });
 
     socket.on('invitation', (user) => {
