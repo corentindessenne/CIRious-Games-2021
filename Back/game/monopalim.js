@@ -70,11 +70,11 @@ class monopalim{
 
     //Actions in the game
     castTheDice(){//Roll the dice !
-        //this.dice1 = Math.floor(Math.random() * 6) + 1;
-        //this.dice2 = Math.floor(Math.random() * 6) + 1;
+        this.dice1 = Math.floor(Math.random() * 6) + 1;
+        this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
-        this.dice1 = 2;
-        this.dice2 = 2;
+        /*this.dice1 = 2;
+        this.dice2 = 2;*/
         this.castValue = this.dice1 + this.dice2;
         this.isCast = true;
     }

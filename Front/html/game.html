@@ -21,20 +21,20 @@
 <body>
     <!--First Part-->
     <!--Player State info (Money, HB, money at the center)-->
-    <div id="boxInfo">
-        <span id="boxType">Bienvenue sur la case départ !
-             <br> 
-             Vous commencez la partie avec 1500 blés. 
-             <br>
-             Bon amusement !
-        </span>
-        <br>
-        <span id="cardContent"></span>
-        <div id="proprietyContent"></div>
-        <div id="answerContent"></div>
-        <br>
-        <div id="validAnswer"></div>
-        <span id="isAnswerCorrect"></span>
+    <div id="topLeftBox">
+        <div id="boxInfo">
+            <span id="boxType">Bienvenue sur la case départ !
+                <br>
+                Vous commencez la partie avec 1500 blés.
+                <br>
+                Bon amusement !
+            </span>
+            <br>    
+            <span id="cardContent"></span>
+            <div id="answerContent"></div>
+            <div id="validAnswer"></div>
+            <div id="proprietyContent" style="overflow-x:auto;"></div>
+        </div>
     </div>
     <div id="playerInfo">
         Panier Gratuit : <span id="taxesMoney">0</span>
@@ -43,29 +43,33 @@
         <br>
         Score Nutritionnel : <span id="playerHB">0</span>
     </div>
+    
     <!--Second Part-->
     <div id="dice">
         <span id="dice1"></span> <span id="dice2"></span>
         <br>Somme : <span id="diceSum">2</span>
         <br><button type="button" id="rollDice" class="btn btn-info">LANCER</button>
-        <br>
-        <br>
-        <button type="button" id="buy" class="btn btn-success">Acheter</button>
-        <button type="button" id="redeem" class="btn btn-success">Racheter</button>
-        <button type="button" id="upgrade" class="btn btn-success">Améliorer</button>        
-        <button type="button" id="nothing" class="btn btn-success">Rien</button>
-        <br>
-        <br>
-        <span id="selectUpgrade"></span>
-        <button type="button" id="upgradeChoice1" class="btn btn-warning">grocery</button>
-        <button type="button" id="upgradeChoice2" class="btn btn-warning">market</button>
-        <button type="button" id="upgradeChoice3" class="btn btn-warning">supermarket</button>
-        <button type="button" id="upgradeChoice4" class="btn btn-warning">organic shop</button>
+        <div id="actionButtons">
+            <br>
+            <br>
+            <button type="button" id="buy" class="btn btn-success">Acheter</button>
+            <button type="button" id="redeem" class="btn btn-success">Racheter</button>
+            <button type="button" id="upgrade" class="btn btn-success">Améliorer</button>
+            <button type="button" id="nothing" class="btn btn-success">Rien</button>
+        </div>
+        <div id="upgradeButtons">
+            <br>
+            <span id="selectUpgrade"></span>
+            <button type="button" id="upgradeChoice1" class="btn btn-warning">grocery</button>
+            <button type="button" id="upgradeChoice2" class="btn btn-warning">market</button>
+            <button type="button" id="upgradeChoice3" class="btn btn-warning">supermarket</button>
+            <button type="button" id="upgradeChoice4" class="btn btn-warning">organic shop</button>
+        </div>
         <br>
         <span id="jailStatus"></span>
     </div>
     <!--Game Board-->
-    <div id="game">
+    <div id="game" style="overflow-x:auto;">
         <table id="monopalimBoard">
             <!--First Line-->
             <tr>
@@ -224,13 +228,13 @@
             </tr>
         </table>
     </div>
-    
+
     <!--Third Part-->
     <!--Propriety Tab & Game Info-->
     <div id="currentPlayer">
         C'est au tour de <span id="playerName"></span>
     </div>
-    <div id="myPropriety">
+    <div id="myPropriety" style="overflow-x:auto;">
         <table id="propriety" class="table table-hover table-bordered table-striped table-primary">
             <!--Titles-->
             <thead class="bg-danger">
@@ -245,54 +249,59 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>    
+                    <td></td>
                 </tr>
-            </tbody> 
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 

@@ -154,50 +154,33 @@ class view {
         }
     }
     actionButtons(request) {//Used to enable or disable buttons
-        let button1 = document.getElementById('buy');
-        let button2 = document.getElementById('redeem');
-        let button3 = document.getElementById('upgrade');
-        let button4 = document.getElementById('nothing');
+        let buttonGroup = document.getElementById('actionButtons');
 
-        //Enable buttons
-        if (request === "enable") {
-            button1.disabled = false;
-            button2.disabled = false;
-            button3.disabled = false;
-            button4.disabled = false;
-            return true;
+        if (request === "enable"){
+            buttonGroup.style.display = "block";
+        }
+        else{
+            buttonGroup.style.display = "none";
         }
 
-        //Disable buttons
-        button1.disabled = true;
-        button2.disabled = true;
-        button3.disabled = true;
-        button4.disabled = true;
         return true;
     }
+
     upgradeButtons(request) {
         this.actionButtons("disable");
-        let button1 = document.getElementById('upgradeChoice1');
-        let button2 = document.getElementById('upgradeChoice2');
-        let button3 = document.getElementById('upgradeChoice3');
-        let button4 = document.getElementById('upgradeChoice4');
 
-        //Enable buttons
-        if (request === "enable") {
-            button1.disabled = false;
-            button2.disabled = false;
-            button3.disabled = false;
-            button4.disabled = false;
-            return true;
+        let buttonGroup = document.getElementById('upgradeButtons');
+
+        if (request === "enable"){
+            buttonGroup.style.display = "block";
+        }
+        else{
+            buttonGroup.style.display = "none";
         }
 
-        //Disable buttons
-        button1.disabled = true;
-        button2.disabled = true;
-        button3.disabled = true;
-        button4.disabled = true;
         return true;
     }
+
     displayJailStatus() {
         let jailText = document.getElementById('jailStatus');
         if (this.game.playerOrder[this.game.orderIndex].isJailed) {
@@ -207,6 +190,7 @@ class view {
         jailText.innerText = "";
         return true;
     }
+
     displayBoxInfos(box, order) {
         //Before displaying, we clear every span & div
         let boxType = document.getElementById('boxType');
@@ -214,32 +198,34 @@ class view {
         let info = document.getElementById('proprietyContent');
         let answersDiv = document.getElementById('answerContent');
         let validDiv = document.getElementById('validAnswer');
-        let answerSpan = document.getElementById('isAnswerCorrect');
 
         //Removing old text
         boxType.innerText = "";
         boxInfo.innerText = "";
-        answerSpan.innerText ="";
+
         //Removing table
         if (typeof info.children[0] !== 'undefined'){
             info.removeChild(info.children[0]);
         }
+
         //Using an iteration loop to remove every button
         if (typeof answersDiv.children[0] !== 'undefined'){
-            for (let i = 0; i < answersDiv.children.length; i++){
-                answersDiv.removeChild(answersDiv.children[i]);
+            let iLength = answersDiv.children.length;
+            for (let i = 0; i < iLength; i++){
+                answersDiv.removeChild(answersDiv.children[0]);
             }
-
         }
+
         //Same goes for the valid button
         if (typeof validDiv.children[0] !== 'undefined'){
             validDiv.removeChild(validDiv.children[0]);
         }
 
+        let type = "null";
+
         //We display for an Action box
         if (typeof box.money !== 'undefined') {
             let content = "null";
-            let type = "null";
             switch (box.type) {
                 case "community":
                     content = this.game.board.ccTab[this.game.ccIndex].string;
@@ -249,10 +235,8 @@ class view {
                     type = "Case Question";
                     if (order === "yes"){
                         content = this.game.board.qTab[this.game.qIndex].question;
-                        //Creating a group of buttons for player's answers
-                        console.log(this.game.board.qTab[this.game.qIndex]);
-
-                        let answerTab = [];
+                        //Creating a group of buttons for player's answers;
+                        let answerTab = [];//Tab that will help to gather every answer
                         for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
                             let button = document.createElement("button");
                             button.innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
@@ -265,13 +249,15 @@ class view {
                                 }
                             });
                             answersDiv.appendChild(button);
-                            //We stock the button into a tab
+                            //We store the button into a tab
                             answerTab.push(button);
                         }
+
+                        //Creating the "validation" button
                         let validBtn = document.createElement("button");
-                        validBtn.innerHTML = "Valider";
+                        validBtn.innerHTML = "Valider";//Value
                         validBtn.addEventListener("click", () => {
-                            this.questionEvent(answerTab);
+                            this.questionEvent(answerTab);//Will transfer the tab of buttons above
                         });
                         validDiv.appendChild(validBtn);
                     }
@@ -286,13 +272,14 @@ class view {
                     type = "Case Spéciale";
                     break;
             }
-            boxType.innerHTML = "Vous êtes sur une " + type + " !";
             if (order === "yes"){
                 boxInfo.innerHTML = "La carte dit : " + content;
             }
         }
         //We display for a Propriety box
         else {
+            type = "Case Propriété";
+            
             // creates a <table> element and a <tbody> element
             let tbl = document.createElement("table");
             let tblThead = document.createElement('thead');
@@ -336,8 +323,8 @@ class view {
 
             //Displaying infos
             tbl.rows[0].cells[0].innerText = "Nom";
-            tbl.rows[0].cells[1].innerText = "Rachat";
-            tbl.rows[0].cells[2].innerText = "Propriétaire";
+            tbl.rows[0].cells[1].innerText = "Achat";
+            tbl.rows[0].cells[2].innerText = "Appartenance";
             tbl.rows[0].cells[3].innerText = "Loyer";
             tbl.rows[1].cells[0].innerText = box.name;
             tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
@@ -351,8 +338,10 @@ class view {
 
             //Style
             tbl.setAttribute("border", "2");
-            tbl.style.width ="100%";
         }
+
+        boxType.innerHTML = "Vous êtes sur une " + type;
+        
     }
 
     updateInfos() {
@@ -381,11 +370,14 @@ class view {
             this.game.executeMove();
             this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
+            
             //Update
             this.displayMap();
             this.displayMoney();
             this.displayHealthyBar();
-            if (this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
+
+            //If it's not an action
+            if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== 'question'){
                 this.actionButtons("enable");
             }
         }
@@ -399,34 +391,40 @@ class view {
     }
 
     questionEvent(everyPossibleAnswer){
+        //Security
+        if (everyPossibleAnswer.length < 1) return false;
+
+        //Sorting answers and the others
         for (let i = 0; i < everyPossibleAnswer.length; i++){
             if (everyPossibleAnswer[i].style.backgroundColor === "green"){
                 this.game.currentAnswer.push(everyPossibleAnswer[i].textContent);
-                console.log(this.game.currentAnswer);
             }
         }
-        let answerSpan = document.getElementById('isAnswerCorrect');
-        //We make the interaction with the game with his answers
-        if (this.game.answerInteraction(this.game.playerOrder[this.game.orderIndex], this.game.board.qTab[this.game.qIndex])){
-            answerSpan.innerText = "Bonne réponse !!";
-            this.actionButtons("enable");
-            return true;
+
+        //We make the interaction with the game with his answers & Telling the player if he succeeded
+        if (this.game.answerInteraction(this.game.playerOrder[this.game.orderIndex], this.game.board.qTab[this.game.qIndex])){//Correct answer
+            alert("Bonne réponse !!");
         }
-        answerSpan.innerText = "Aïe, mauvaise réponse :(";
-        this.actionButtons("enable");
-        return true;
+        else{
+            alert("Aïe, mauvaise réponse :(");
+        }
+        
+        return this.actionEvent("nothing");
+    }
+
+    commAndChanEvent(){
+
     }
 
     actionEvent(action) {//Used for the action in game
-        if (this.game.hasMoved === false) {
-            return false;
-        }
-        this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "no");
-        //If we don't know what do we upgrade
+        if (!this.game.hasMoved) return false;        
+        
+        //Asking player for the upgrade
         if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
             this.actionButtons("disable");
             return this.upgradeButtons("enable");
         }
+
         this.game.executeAction(action);
 
         //End turn
