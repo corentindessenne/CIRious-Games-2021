@@ -2,7 +2,7 @@ class questionCard extends card{
     constructor(id, question, answer, correctAnswerId){
         super(id, "question", 0);//Parent constructor
         this.question = question;//The question which will be asked
-        this.answer = new Array(4);//Answer possibilities Tab
+        this.answer = new Array(answer.length);//Answer possibilities Tab
         for(let i = 0; i < this.answer.length; i++){
             this.answer[i] = answer[i];//Implement it
         }

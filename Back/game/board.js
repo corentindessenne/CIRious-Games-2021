@@ -21,7 +21,7 @@ class board{
         this.ccTab[8] = new communityCard(8, "get", 200, "bank", "Le personnel du magasin bio n’a pas bien calculé le montant de vos courses. Recevez 200 blés.");
         /* GIVE CARDS */ 
         this.ccTab[9] = new communityCard (9, "give", 50, "bank", "Payez la note du médecin de 50 blés.");
-        this.ccTab[10] = new communityCard (10, "give", "drawCh", "bank", "Payez une amende de 50 blés ou tirez une carte chance.");//Exception à gérer
+        this.ccTab[10] = new communityCard (10, "give", 50, "bank", "Payez une amende de 50 blés.");
         this.ccTab[11] = new communityCard (11, "give", 100, "bank", "Vous faites les courses du mois de votre famille. Payez 100 blés.");
         this.ccTab[12] = new communityCard (12, "give", 50, "bank", "Frais de scolarité. Payez 50 Blés.");
         this.ccTab[13] = new communityCard (13, "give", "75*", "bank", "Rénovez vos marchés, magasin bio, grande surface et épiceries. Payez 75 blés pour chaque.");//Exception à gérer

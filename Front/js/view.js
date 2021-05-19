@@ -208,17 +208,34 @@ class view {
         return true;
     }
     displayBoxInfos(box, order) {
-        //Before diplaying, we clear every span & div
+        //Before displaying, we clear every span & div
         let boxType = document.getElementById('boxType');
         let boxInfo = document.getElementById('cardContent');
         let info = document.getElementById('proprietyContent');
+        let answersDiv = document.getElementById('answerContent');
+        let validDiv = document.getElementById('validAnswer');
+        let answerSpan = document.getElementById('isAnswerCorrect');
 
+        //Removing old text
         boxType.innerText = "";
         boxInfo.innerText = "";
+        answerSpan.innerText ="";
+        //Removing table
         if (typeof info.children[0] !== 'undefined'){
             info.removeChild(info.children[0]);
         }
-        
+        //Using an iteration loop to remove every button
+        if (typeof answersDiv.children[0] !== 'undefined'){
+            for (let i = 0; i < answersDiv.children.length; i++){
+                answersDiv.removeChild(answersDiv.children[i]);
+            }
+
+        }
+        //Same goes for the valid button
+        if (typeof validDiv.children[0] !== 'undefined'){
+            validDiv.removeChild(validDiv.children[0]);
+        }
+
         //We display for an Action box
         if (typeof box.money !== 'undefined') {
             let content = "null";
@@ -229,8 +246,35 @@ class view {
                     type = "Case Caisse de Communauté";
                     break;
                 case"question":
-                    content = this.game.board.qTab[this.game.qIndex].question;
                     type = "Case Question";
+                    if (order === "yes"){
+                        content = this.game.board.qTab[this.game.qIndex].question;
+                        //Creating a group of buttons for player's answers
+                        console.log(this.game.board.qTab[this.game.qIndex]);
+
+                        let answerTab = [];
+                        for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
+                            let button = document.createElement("button");
+                            button.innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
+                            button.addEventListener("click", () => {
+                                if (button.style.backgroundColor !== "green"){
+                                    button.style.backgroundColor = "green";
+                                }
+                                else {
+                                    button.style.backgroundColor = "";
+                                }
+                            });
+                            answersDiv.appendChild(button);
+                            //We stock the button into a tab
+                            answerTab.push(button);
+                        }
+                        let validBtn = document.createElement("button");
+                        validBtn.innerHTML = "Valider";
+                        validBtn.addEventListener("click", () => {
+                            this.questionEvent(answerTab);
+                        });
+                        validDiv.appendChild(validBtn);
+                    }
                     break;
                 case"chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
@@ -341,8 +385,9 @@ class view {
             this.displayMap();
             this.displayMoney();
             this.displayHealthyBar();
-
-            this.actionButtons("enable");
+            if (this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
+                this.actionButtons("enable");
+            }
         }
 
         else {
@@ -353,10 +398,30 @@ class view {
         return true;//Worked well
     }
 
+    questionEvent(everyPossibleAnswer){
+        for (let i = 0; i < everyPossibleAnswer.length; i++){
+            if (everyPossibleAnswer[i].style.backgroundColor === "green"){
+                this.game.currentAnswer.push(everyPossibleAnswer[i].textContent);
+                console.log(this.game.currentAnswer);
+            }
+        }
+        let answerSpan = document.getElementById('isAnswerCorrect');
+        //We make the interaction with the game with his answers
+        if (this.game.answerInteraction(this.game.playerOrder[this.game.orderIndex], this.game.board.qTab[this.game.qIndex])){
+            answerSpan.innerText = "Bonne réponse !!";
+            this.actionButtons("enable");
+            return true;
+        }
+        answerSpan.innerText = "Aïe, mauvaise réponse :(";
+        this.actionButtons("enable");
+        return true;
+    }
+
     actionEvent(action) {//Used for the action in game
         if (this.game.hasMoved === false) {
             return false;
         }
+        this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "no");
         //If we don't know what do we upgrade
         if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
             this.actionButtons("disable");

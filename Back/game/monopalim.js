@@ -70,8 +70,11 @@ class monopalim{
 
     //Actions in the game
     castTheDice(){//Roll the dice !
-        this.dice1 = Math.floor(Math.random() * 6) + 1;
-        this.dice2 = Math.floor(Math.random() * 6) + 1;
+        //this.dice1 = Math.floor(Math.random() * 6) + 1;
+        //this.dice2 = Math.floor(Math.random() * 6) + 1;
+        /* Test Purpose*/
+        this.dice1 = 2;
+        this.dice2 = 2;
         this.castValue = this.dice1 + this.dice2;
         this.isCast = true;
     }
@@ -358,7 +361,7 @@ class monopalim{
     }
 
     //Finished and need tests
-    AnswerInteraction(player, question){
+    answerInteraction(player, question){
         if (typeof this.currentAnswer[0] === 'undefined'){
             console.log("No Answer");
             return false;
@@ -369,7 +372,13 @@ class monopalim{
         //Answers check
         for(let i = 0; i < question.correctAnswerId.length; i++){
             //If he doesn't find the right answer
-            if (typeof this.currentAnswer[i] === 'undefined' || question.correctAnswerId[i] !== this.currentAnswer[i]){
+            if (typeof this.currentAnswer[i] === 'undefined' || question.answer[question.correctAnswerId[i]] !== this.currentAnswer[i]){
+                this.qIndex = (this.qIndex + 1) % 30;
+                //Erasing current Answer Array
+                let jLength = this.currentAnswer.length;
+                for (let j = 0; j < jLength; j++){
+                    this.currentAnswer.pop();
+                }
                 return false;
             }
             //Every good answer make the pot grow
@@ -464,12 +473,8 @@ class monopalim{
                 break;
             //Player gives money
             case "give":
-                //Special interaction depending on player's choice
-                if (this.board.ccTab[this.ccIndex].effect === "drawCh"){
-                    return this.chanceInteraction(player);
-                }
                 //Special interaction depending on player's propriety
-                else if (this.board.ccTab[this.ccIndex].effect === "75*"){
+                if (this.board.ccTab[this.ccIndex].effect === "75*"){
                     let pot = 0;
                     for (let i = 0; i < player.myPropriety.length; i++){
                         //Player pays 60b for each propriety that has an upgrade
