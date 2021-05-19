@@ -8,11 +8,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
     <title>Monopalim</title>
 
     <!--My CSS-->
     <link rel="stylesheet" href="../css/connectionPage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 </head>
 <body>
@@ -29,12 +31,13 @@
             <div class="data">
                 <label for="password">Mot de passe</label>
                 <input name="password" class="form-control" type="password" id="password" required>
+                <p id="temp"></p>
             </div>
 
             <div class="forgot-pass">
                 <a href="#">Mot de passe oublié ?</a></div>
             <div class="btn">
-                <button class="btn-form" type="submit">Se connecter</button>
+                <button class="btn-form" id="submit" type="submit">Se connecter</button>
             </div>
 
             <div class="signup-link">
@@ -46,5 +49,6 @@
 <script>
     let socket = io();
 </script>
+<script src="../js/connection.js"></script>
 </body>
 </html>

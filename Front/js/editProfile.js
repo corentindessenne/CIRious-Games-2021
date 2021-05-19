@@ -2,7 +2,6 @@ let currentPseudo = document.getElementById('currentPseudo');
 let currentMail = document.getElementById('currentMail');
 let verifyPasswordForm = document.getElementById('verifyPasswordForm');
 let changePasswordForm = document.getElementById('changePasswordForm');
-let temp = document.getElementById('temp');
 let navPseudo = document.getElementById('nav-pseudo');
 let navPseudoTab = document.getElementById('nav-pseudo-tab');
 let navPassword = document.getElementById('nav-password');
@@ -49,6 +48,8 @@ for (let i = 0; i < 2; ++i) {
             let tdId = avatarsTable.rows[i].cells[j].id;
             let imgId = tdId.replace('td_','');
             document.getElementById(imgId).style.border = '5px solid #f8ca73';
+            document.getElementById('newPicture').value = imgId;
+            console.log( document.getElementById('newPicture').value);
 
             for (let k = 0; k < 2; ++k) {
                 for (let l = 0; l < 5; ++l) {

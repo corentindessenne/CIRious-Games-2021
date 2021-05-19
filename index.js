@@ -130,6 +130,8 @@ app.get('/multijoueur', (req, res) => {
     else res.redirect('/');
 });
 
+let errorType = '';
+
 //login with identifiers when the person already has an account
 app.post('/connect', (req, res) => {
     let username = req.body.username;
@@ -139,33 +141,29 @@ app.post('/connect', (req, res) => {
         con.query('SELECT * FROM accounts WHERE BINARY username = ? collate utf8_bin', [username], function(error, result){
             if (error) {
                 throw error;
-            }
-            else if (result.length > 0) {
+            } else if (result.length === 0) {
+                errorType = 'error2';
+                res.redirect('../connection');
+            } else {
                 let passwordHash = bcrypt.hashSync(password, result[0].salt);
-                if(passwordHash === result[0].password) {
+                if (passwordHash === result[0].password) {
                     req.session.loggedin = true;
                     req.session.username = username;
                     req.session.password = passwordHash;
                     req.session.hash = result[0].salt;
                     req.session.secuPassword = 0;
+                    req.session.error = '';
                     req.session.save();
                     playersConnected.push(req.session.username);
                     res.redirect('../menu');
                     console.log(playersConnected);
                 }
-            } else {
-                res.send('Pseudo et/ou mot de passe incorrect(s) !');
             }
-
-        });
-
-        con.query("SELECT PLayerIndex FROM accounts WHERE BINARY username = ? AND password = ?", [username, password], function (err, id) {
-            if (err) throw err;
-            req.session.id = id;
         });
     }
     else{
-        res.send('Vous êtes déjà connecté');
+        errorType = 'error1';
+        res.redirect('../connection');
     }
 
 });
@@ -182,10 +180,8 @@ app.post('/register', (req, res) => {
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
             console.log('test n°1');
-            con.query('INSERT INTO accounts (username, email, password, salt, picture) VALUES (?, ?, ?, ?)', [username, email, passwordHash, salt, 'random.png'], function(error, results) {
+            con.query('INSERT INTO accounts (username, email, password, salt, picture) VALUES (?, ?, ?, ?, ?)', [username, email, passwordHash, salt, 'random.png'], function(error, results) {
                 if(error) throw error;
-                console.log('Row inserted:' + results.affectedRows);
-                console.log('test n°2 ' + passwordHash);
                 res.redirect('../connection');
             });
         }
@@ -217,6 +213,16 @@ app.post('/changeMail', (req, res) => {
     });
 });
 
+app.post('/changePicture', (req, res) => {
+    let username = req.session.username;
+    let newPicture = req.body.newPicture;
+
+    con.query('UPDATE accounts SET picture = ? WHERE Username = ?', [newPicture + '.png', username], function(err){
+        if(err)throw err;
+        res.redirect('../editProfile');
+    });
+});
+
 app.post('/verifyPassword', (req, res) => {
     let password = req.session.password;
     let hash = req.session.hash;
@@ -225,7 +231,6 @@ app.post('/verifyPassword', (req, res) => {
 
     if(passwordHash === password){
         req.session.secuPassword = 1;
-        console.log('passwordHasBeenVerified');
     }
     res.redirect('../editProfile');
 });
@@ -248,6 +253,32 @@ app.post('/changePassword', (req, res) => {
     });
 
     res.redirect('../editProfile');
+});
+
+app.post('/deletion',(req, res) => {
+    let username = req.session.username;
+    let pseudo = req.body.pseudoDelete;
+
+    if(username === pseudo){
+        con.query('DELETE FROM accounts WHERE Username = ?', [username], function(err){
+            if(err)throw err;
+            let index = playersConnected.indexOf(req.session.username);
+            if (index > -1) {
+                playersConnected.splice(index, 1);
+            }
+            console.log(playersConnected);
+            req.session.loggedin = false;
+            req.session.username = undefined;
+            req.session.password = undefined;
+            req.session.hash = undefined;
+            req.session.secuPassword = 0;
+            req.session.save();
+            res.redirect('../')
+        });
+    }
+    else{
+        res.redirect('../profil')
+    }
 });
 
 /**** interaction with front ****/
@@ -317,18 +348,35 @@ io.on('connection', socket => {
         }
     });
 
+    socket.on('errors', () =>{
+        if(errorType === 'error1'){
+            socket.emit('error1');
+        }
+        else if(errorType === 'error2'){
+            socket.emit('error2');
+        }
+        errorType = '';
+    });
+
     socket.on('invitation', (user) => {
         socket.join(user);
         io.sockets.in(user).emit('invite',socket);
     });
 
     socket.on('logout', () => {
+        let index = playersConnected.indexOf(socket.handshake.session.username);
+        console.log(index);
+        if (index > -1) {
+            playersConnected.splice(index, 1);
+        }
+        console.log(playersConnected);
         socket.handshake.session.loggedin = false;
         socket.handshake.session.username = undefined;
-        socket.session.password = undefined;
-        socket.session.hash = undefined;
-        socket.session.secuPassword = 0;
+        socket.handshake.session.password = undefined;
+        socket.handshake.session.hash = undefined;
+        socket.handshake.session.secuPassword = 0;
         socket.handshake.session.save();
+        socket.emit('bye');
     });
 });
 
