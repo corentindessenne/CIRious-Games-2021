@@ -198,7 +198,8 @@ class view {
         let info = document.getElementById('proprietyContent');
         let answersDiv = document.getElementById('answerContent');
         let validDiv = document.getElementById('validAnswer');
-
+        let globalDiv = document.getElementById('topLeftBox');
+        console.log(globalDiv);
         //Removing old text
         boxType.innerText = "";
         boxInfo.innerText = "";
@@ -230,6 +231,7 @@ class view {
                 case "community":
                     content = this.game.board.ccTab[this.game.ccIndex].string;
                     type = "Case Caisse de Communauté";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
                     break;
                 case"question":
                     type = "Case Question";
@@ -261,15 +263,18 @@ class view {
                         });
                         validDiv.appendChild(validBtn);
                     }
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
                     break;
                 case"chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
                     type = "Case Chance";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
                     break;
             
                 default:
                     content = box.type;
                     type = "Case Spéciale";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
                     break;
             }
             if (order === "yes"){
@@ -279,7 +284,7 @@ class view {
         //We display for a Propriety box
         else {
             type = "Case Propriété";
-            
+
             // creates a <table> element and a <tbody> element
             let tbl = document.createElement("table");
             let tblThead = document.createElement('thead');
@@ -338,6 +343,8 @@ class view {
 
             //Style
             tbl.setAttribute("border", "2");
+
+            globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
         }
 
         boxType.innerHTML = "Vous êtes sur une " + type;

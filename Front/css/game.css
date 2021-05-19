@@ -69,6 +69,9 @@ body{
 /*Cards On left Top Side*/
 #topLeftBox{
     position: relative;
+    /*Images*/
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 #boxInfo{
     font-size: 18px;
@@ -99,14 +102,14 @@ body{
 /*Button "Answers"*/
 #answerContent button{
     transition-duration: 0.4s;
-    width: 95%;
-    height: 100%;
+    width: 90%;
+    height: 50%;
     border-radius: 4px;
     padding: 15px 32px;
     margin: 1px;
     text-align: center;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
     border: 2px solid #4CAF50;
 }
 #answerContent button:hover{
@@ -119,10 +122,10 @@ body{
     border-radius: 4px;
     background-color: #4CAF50;
     border: none;
-    font-size: 28px;
+    font-size: 15px;
     color: #FFFFFF;
     padding: 20px;
-    width: 200px;
+    width: 120px;
     text-align: center;
     transition-duration: 0.4s;
     text-decoration: none;
