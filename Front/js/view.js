@@ -263,12 +263,12 @@ class view {
                         });
                         validDiv.appendChild(validBtn);
                     }
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/question_front.png')";
                     break;
                 case"chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
                     type = "Case Chance";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/chance_front.png')";
                     break;
             
                 default:
