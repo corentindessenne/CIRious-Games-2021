@@ -1,3 +1,20 @@
+.avatarsTable{
+    border-collapse: separate;
+    align-self: center;
+    margin-top: -30px;
+}
+.avatarsTable tr td{
+    padding: 5px;
+}
+.avatarsTable tr td img{
+    width: 100px;
+    height: 100px;
+}
+
+.avatarsTable{
+    border-spacing: 15px;
+}
+
 img#profile_pic{
     border-radius: 50%;
     max-width: 70%;

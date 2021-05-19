@@ -7,6 +7,8 @@
 -- Version du serveur :  8.0.21
 -- Version de PHP : 7.3.21
 
+CREATE DATABASE `monopalim`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -45,13 +47,13 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 --
 
 INSERT INTO `accounts` (`playerIndex`, `username`, `email`, `password`, `salt`, `picture`) VALUES
-(1, 'Test', 'test@test.fr', '$2b$12$Rs5FAdNfCI5ndU22yhohuuvGGSrnQq887i.weBS93OB72odndEEe2', '$2b$12$Rs5FAdNfCI5ndU22yhohuu', ''),
-(2, 'Adel', 'adel@adel.fr', '$2b$12$Rs5FAdNfCI5ndU22yhohuu1fv0.RvDsoDpJqNXbSfEfzEjSvNCsFS', '$2b$12$Rs5FAdNfCI5ndU22yhohuu', ''),
-(3, 'Antoine', 'antoine@antoine.fr', '$2b$12$2xL993MsQWL6NeU8lsb3S.DIZ/267pyQCQ9/LYf3gbCyS7.07KYJ2', '$2b$12$2xL993MsQWL6NeU8lsb3S.', ''),
-(4, 'Armand', 'armand@armand.fr', '$2b$12$zmd3r2uUosN2ysr9i0lSk.B1panIdDLd.HARikJPHkUBh9buZjoz.', '$2b$12$zmd3r2uUosN2ysr9i0lSk.', ''),
-(5, 'Corentin', 'corentin@corentin.fr', '$2b$12$zDYqrSUxpIL6gJjPhu.dXuw5uZvHtG8QFpitfZxPgprvSIoLUy3ay', '$2b$12$zDYqrSUxpIL6gJjPhu.dXu', ''),
-(6, 'Marie', 'marie@marie.fr', '$2b$12$oKKqY1cJqY.PzYd8EpRLSuONJN7blreAr2TzNA95gTbBtEtlfO3Ai', '$2b$12$oKKqY1cJqY.PzYd8EpRLSu', ''),
-(7, 'Noé', 'noe@noe.fr', '$2b$12$pMJMyspESBehPvYdGfZXE.L4Y4YhR7Q3xz7XygE0Mx.9SWcK8jcPG', '$2b$12$pMJMyspESBehPvYdGfZXE.', '');
+(1, 'Test', 'test@test.fr', '$2b$12$Rs5FAdNfCI5ndU22yhohuuvGGSrnQq887i.weBS93OB72odndEEe2', '$2b$12$Rs5FAdNfCI5ndU22yhohuu', 'random.png'),
+(2, 'Adel', 'adel@adel.fr', '$2b$12$Rs5FAdNfCI5ndU22yhohuu1fv0.RvDsoDpJqNXbSfEfzEjSvNCsFS', '$2b$12$Rs5FAdNfCI5ndU22yhohuu', 'random.png'),
+(3, 'Antoine', 'antoine@antoine.fr', '$2b$12$2xL993MsQWL6NeU8lsb3S.DIZ/267pyQCQ9/LYf3gbCyS7.07KYJ2', '$2b$12$2xL993MsQWL6NeU8lsb3S.', 'random.png'),
+(4, 'Armand', 'armand@armand.fr', '$2b$12$zmd3r2uUosN2ysr9i0lSk.B1panIdDLd.HARikJPHkUBh9buZjoz.', '$2b$12$zmd3r2uUosN2ysr9i0lSk.', 'random.png'),
+(5, 'Corentin', 'corentin@corentin.fr', '$2b$12$zDYqrSUxpIL6gJjPhu.dXuw5uZvHtG8QFpitfZxPgprvSIoLUy3ay', '$2b$12$zDYqrSUxpIL6gJjPhu.dXu', 'random.png'),
+(6, 'Marie', 'marie@marie.fr', '$2b$12$oKKqY1cJqY.PzYd8EpRLSuONJN7blreAr2TzNA95gTbBtEtlfO3Ai', '$2b$12$oKKqY1cJqY.PzYd8EpRLSu', 'random.png'),
+(7, 'Noé', 'noe@noe.fr', '$2b$12$pMJMyspESBehPvYdGfZXE.L4Y4YhR7Q3xz7XygE0Mx.9SWcK8jcPG', '$2b$12$pMJMyspESBehPvYdGfZXE.', 'random.png');
 
 -- --------------------------------------------------------
 

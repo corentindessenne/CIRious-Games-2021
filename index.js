@@ -145,6 +145,9 @@ app.post('/connect', (req, res) => {
                 if(passwordHash === result[0].password) {
                     req.session.loggedin = true;
                     req.session.username = username;
+                    req.session.password = passwordHash;
+                    req.session.hash = result[0].salt;
+                    req.session.secuPassword = 0;
                     req.session.save();
                     playersConnected.push(req.session.username);
                     res.redirect('../menu');
@@ -179,7 +182,7 @@ app.post('/register', (req, res) => {
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
             console.log('test n°1');
-            con.query('INSERT INTO accounts (username, email, password, salt) VALUES (?, ?, ?, ?)', [username, email, passwordHash, salt], function(error, results) {
+            con.query('INSERT INTO accounts (username, email, password, salt, picture) VALUES (?, ?, ?, ?)', [username, email, passwordHash, salt, 'random.png'], function(error, results) {
                 if(error) throw error;
                 console.log('Row inserted:' + results.affectedRows);
                 console.log('test n°2 ' + passwordHash);
@@ -214,14 +217,37 @@ app.post('/changeMail', (req, res) => {
     });
 });
 
+app.post('/verifyPassword', (req, res) => {
+    let password = req.session.password;
+    let hash = req.session.hash;
+    let currentPassword = req.body.currentPassword;
+    let passwordHash = bcrypt.hashSync(currentPassword, hash);
+
+    if(passwordHash === password){
+        req.session.secuPassword = 1;
+        console.log('passwordHasBeenVerified');
+    }
+    res.redirect('../editProfile');
+});
+
+
 app.post('/changePassword', (req, res) => {
     let username = req.session.username;
     let newPassword = req.body.newPassword;
+    let passwordHash = bcrypt.hashSync(newPassword, salt);
 
-    con.query('UPDATE accounts SET Password = ? WHERE Username = ?', [newPassword, username], function(err){
+    console.log(newPassword);
+    console.log(passwordHash);
+
+    con.query('UPDATE accounts SET password = ? WHERE username = ?', [passwordHash, username], function(err){
         if(err)throw err;
-        res.redirect('../editProfile');
     });
+
+    con.query('UPDATE accounts SET salt = ? WHERE username = ?', [salt, username], function(err){
+        if(err)throw err;
+    });
+
+    res.redirect('../editProfile');
 });
 
 /**** interaction with front ****/
@@ -268,11 +294,27 @@ io.on('connection', socket => {
 
     socket.on('callMail', () => {
         let username = socket.handshake.session.username;
-        con.query('SELECT email FROM accounts WHERE Username = ?', [username], function(err,res){
+        con.query('SELECT email FROM accounts WHERE username = ?', [username], function(err,res){
             if(!err){
                 socket.emit('displayMail', res[0].email);
             }
         });
+    });
+
+    socket.on('callPicture', () => {
+        let username = socket.handshake.session.username;
+        con.query('SELECT picture FROM accounts WHERE username = ?', [username], function(err,res){
+            if(!err){
+                socket.emit('displayPicture', res[0].picture);
+            }
+        });
+    });
+
+    socket.on('temp', () =>{
+        if(socket.handshake.session.secuPassword === 1){
+            socket.emit('temp2');
+            socket.handshake.session.secuPassword = 0;
+        }
     });
 
     socket.on('invitation', (user) => {
@@ -283,7 +325,9 @@ io.on('connection', socket => {
     socket.on('logout', () => {
         socket.handshake.session.loggedin = false;
         socket.handshake.session.username = undefined;
-        socket.handshake.session.admin = false;
+        socket.session.password = undefined;
+        socket.session.hash = undefined;
+        socket.session.secuPassword = 0;
         socket.handshake.session.save();
     });
 });

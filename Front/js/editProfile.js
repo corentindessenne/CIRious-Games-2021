@@ -1,8 +1,20 @@
 let currentPseudo = document.getElementById('currentPseudo');
 let currentMail = document.getElementById('currentMail');
+let verifyPasswordForm = document.getElementById('verifyPasswordForm');
+let changePasswordForm = document.getElementById('changePasswordForm');
+let temp = document.getElementById('temp');
+let navPseudo = document.getElementById('nav-pseudo');
+let navPseudoTab = document.getElementById('nav-pseudo-tab');
+let navPassword = document.getElementById('nav-password');
+let navPasswordTab = document.getElementById('nav-password-tab');
+let profilePic = document.getElementById('profile_pic');
+let avatarsTable = document.getElementById('avatarsTable');
+
 
 socket.emit('callPseudo');
 socket.emit('callMail');
+socket.emit('callPicture');
+socket.emit('temp');
 
 socket.on('displayPseudo', (pseudoParam) => {
     currentPseudo.innerHTML = pseudoParam;
@@ -11,6 +23,47 @@ socket.on('displayPseudo', (pseudoParam) => {
 socket.on('displayMail', (mailParam) => {
     currentMail.innerHTML = mailParam;
 });
+
+socket.on('displayPicture', (pictureParam) =>{
+    profilePic.src = "../assets/img/avatars/" + pictureParam;
+    let pictureId = pictureParam.replace('.png', '');
+    document.getElementById(pictureId).style.border = '5px solid #f8ca73';
+});
+
+socket.on('temp2', ()=>{
+    verifyPasswordForm.style.display = 'none';
+    changePasswordForm.style.display = 'block';
+    navPseudo.className = "tab-pane fade";
+    navPseudoTab.className = "nav-link";
+    navPassword.className = "tab-pane fade show active";
+    navPasswordTab.className = "nav-link active";
+});
+
+//Add a listener for manual placement & for play function
+for (let i = 0; i < 2; ++i) {
+    for (let j = 0; j < 5; ++j) {
+        //When there is a click, function is called
+        avatarsTable.rows[i].cells[j].addEventListener('click', event => {
+            let cellI = i;
+            let cellJ = j;
+            let tdId = avatarsTable.rows[i].cells[j].id;
+            let imgId = tdId.replace('td_','');
+            document.getElementById(imgId).style.border = '5px solid #f8ca73';
+
+            for (let k = 0; k < 2; ++k) {
+                for (let l = 0; l < 5; ++l) {
+                    if(k !== cellI || l !== cellJ){
+                        let tdId = avatarsTable.rows[k].cells[l].id;
+                        let imgId = tdId.replace('td_','');
+                        document.getElementById(imgId).style.border = 'none';
+                    }
+                }
+            }
+        });
+    }
+}
+
+
 
 //Checks if both usernames typed are the same
 function checkUsername(){
