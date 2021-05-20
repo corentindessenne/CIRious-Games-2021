@@ -85,7 +85,8 @@ class view {
             //Will be changed to image after
         }
     }
-    displayDice() {//Displaying the dice
+    displayDice() {
+        //Displaying the dice
         //HTML Elements we will change
         let dice1Value = document.getElementById('dice1');
         let dice2Value = document.getElementById('dice2');

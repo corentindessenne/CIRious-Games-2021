@@ -14,7 +14,7 @@ body{
     grid-area: 4 / 1 / 5 / 2; /* row start / column start / row end / column end*/
 }
 
-#game{
+#center{
     grid-area: 1 / 2 / 5 / 5;
     border: solid 2px red;
 }
@@ -31,16 +31,38 @@ body{
 /*Visual*/
 
 /*Centered Board*/
+#center{
+    position: relative;
+}
+#game{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#game span{
+    position: absolute;
+    color: red;
+    font-size: 80px;
+    font-weight: bold;
+    text-decoration: underline;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
 #monopalimBoard{
     display: block;
+    width: 100%;
 }
 #monopalimBoard #gameBox{
     border: solid 1px black;
 	box-sizing: border-box;
 	vertical-align: middle;
 	text-align: center;
-    width: 90px;
-    height: 65px;
+    width: 120px;
+    height: 70px;
+}
+#monopalimBoard #centerBox{
+    background: #0f6980;
 }
 
 /*Cards On left Top Side*/
@@ -241,6 +263,9 @@ body{
 /*Actions in the top right corner*/
 #topRightBox{
 
+}
+#diceDiv img{
+    width: 23%;
 }
 /*Propriety Tab in the Bottom right corner*/
 #bottomRightBox{
