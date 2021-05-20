@@ -158,6 +158,10 @@ app.post('/connect', (req, res) => {
                     res.redirect('../menu');
                     console.log(playersConnected);
                 }
+                else{
+                    errorType = 'error2';
+                    res.redirect('../connection');
+                }
             }
         });
     }
@@ -285,11 +289,11 @@ app.post('/deletion',(req, res) => {
 
 io.on('connection', socket => {
     socket.on('multijoueur', ()=>{
-        house.setNbPlayers(6);
+        house.setNbPlayers(4);
         if (house.addWaiter(socket)) {
-            if (house.getWaiters().length >= 6) {
+            if (house.getWaiters().length >= 4) {
                 let waiters = house.popWaiters();
-                let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2], waiters[3], waiters[4], waiters[5]]);
+                let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2], waiters[3]]);
 
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
@@ -304,16 +308,12 @@ io.on('connection', socket => {
                 room.player2 = waiters[1];
                 room.player3 = waiters[2];
                 room.player4 = waiters[3];
-                room.player5 = waiters[4];
-                room.player6 = waiters[5];
 
 
                 room.player1.emit('play', room.player1.handshake.session.username);
                 room.player2.emit('play', room.player2.handshake.session.username);
                 room.player3.emit('play', room.player3.handshake.session.username);
                 room.player4.emit('play', room.player4.handshake.session.username);
-                room.player5.emit('play', room.player5.handshake.session.username);
-                room.player6.emit('play', room.player6.handshake.session.username);
 
             } else socket.emit('public');
         }

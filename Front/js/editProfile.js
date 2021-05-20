@@ -85,7 +85,6 @@ function checkUsername(){
     }
     else{
         userButton.setAttribute('disabled', 'disabled');
-        userMessage.innerHTML = 'Erreur. Les pseudos ne correspondent pas';
     }
 }
 
@@ -108,7 +107,6 @@ function checkMailAddress(){
     }
     else{
         emailButton.setAttribute('disabled', 'disabled');
-        emailMessage.innerHTML = 'Erreur. Les adresses ne correspondent pas';
     }
 }
 
@@ -131,7 +129,6 @@ function checkPassword(){
     }
     else{
         passwordButton.setAttribute('disabled', 'disabled');
-        passwordMessage.innerHTML = 'Erreur. Les mots de passe ne correspondent pas.';
     }
 }
 

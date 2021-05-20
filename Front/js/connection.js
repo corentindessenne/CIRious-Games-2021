@@ -2,15 +2,27 @@ let temp = document.getElementById('temp');
 socket.emit('errors');
 
 socket.on('error1', ()=>{
-    let notyf = new Notyf(duration = 10000);
+    let notyf = new Notyf({
+        duration: 2000,
+        types: [
+            {
+                type: 'error',
+                background: '#2484BF'
+            }]
+    });
 
-    // Display an error notification
     notyf.error('Vous êtes déjà connecté');
 });
 
 socket.on('error2', ()=>{
-    let notyf = new Notyf(duration = 10000);
+    let notyf = new Notyf({
+        duration: 2000,
+        types: [
+        {
+            type: 'error',
+            background: '#F2A413'
+        }]
+    });
 
-    // Display an error notification
-    notyf.error('Le pseudo n\'existe pas');
+    notyf.error('Pseudo ou mot de passe incorrect(s)');
 });
