@@ -36,38 +36,22 @@
             <div id="proprietyContent" style="overflow-x:auto;"></div>
         </div>
     </div>
-    <div id="playerInfo">
-        Panier Gratuit : <span id="taxesMoney">0</span>
-        <br>
-        Argent : <span id="playerMoney">0</span>
-        <br>
-        Score Nutritionnel : <span id="playerHB">0</span>
+    <div id="bottomLeftBox">
+        <div id="playerInfo">
+            <div id="moneyDiv">
+                <p id="moneyTxt">Vous avez <span id="playerMoney"></span>  <img src="../assets/img/money/monnaie.png" alt="new"/></p>
+            </div>   
+            <div id="hbDiv">
+                <span>Score Nutritionnel :</span>
+                <progress id="hb" max="100" value="0"></progress>
+            </div>
+            <div id="taxesDiv">
+                Valeur du panier de fruit : <span id="taxesMoney">0</span>
+            </div>
+        </div>
     </div>
     
     <!--Second Part-->
-    <div id="dice">
-        <span id="dice1"></span> <span id="dice2"></span>
-        <br>Somme : <span id="diceSum">2</span>
-        <br><button type="button" id="rollDice" class="btn btn-info">LANCER</button>
-        <div id="actionButtons">
-            <br>
-            <br>
-            <button type="button" id="buy" class="btn btn-success">Acheter</button>
-            <button type="button" id="redeem" class="btn btn-success">Racheter</button>
-            <button type="button" id="upgrade" class="btn btn-success">Améliorer</button>
-            <button type="button" id="nothing" class="btn btn-success">Rien</button>
-        </div>
-        <div id="upgradeButtons">
-            <br>
-            <span id="selectUpgrade"></span>
-            <button type="button" id="upgradeChoice1" class="btn btn-warning">grocery</button>
-            <button type="button" id="upgradeChoice2" class="btn btn-warning">market</button>
-            <button type="button" id="upgradeChoice3" class="btn btn-warning">supermarket</button>
-            <button type="button" id="upgradeChoice4" class="btn btn-warning">organic shop</button>
-        </div>
-        <br>
-        <span id="jailStatus"></span>
-    </div>
     <!--Game Board-->
     <div id="game" style="overflow-x:auto;">
         <table id="monopalimBoard">
@@ -231,8 +215,28 @@
 
     <!--Third Part-->
     <!--Propriety Tab & Game Info-->
-    <div id="currentPlayer">
+    <div id="dice">
         C'est au tour de <span id="playerName"></span>
+        <br>
+        <span id="dice1"></span> <span id="dice2"></span>
+        <br>Somme : <span id="diceSum">2</span>
+        <br><button type="button" id="rollDice" class="btn btn-info">LANCER</button>
+        <br>
+        <br>
+        <div id="actionButtons"> 
+            <button type="button" id="buy" class="btn btn-success">Acheter</button>
+            <button type="button" id="redeem" class="btn btn-success">Racheter</button>
+            <button type="button" id="upgrade" class="btn btn-success">Améliorer</button>
+            <button type="button" id="nothing" class="btn btn-success">Rien</button>
+        </div>
+        <div id="upgradeButtons">
+            <span id="selectUpgrade"></span>
+            <button type="button" id="upgradeChoice1" class="btn btn-warning">grocery</button>
+            <button type="button" id="upgradeChoice2" class="btn btn-warning">market</button>
+            <button type="button" id="upgradeChoice3" class="btn btn-warning">supermarket</button>
+            <button type="button" id="upgradeChoice4" class="btn btn-warning">organic shop</button>
+        </div>
+        <span id="jailStatus"></span>
     </div>
     <div id="myPropriety" style="overflow-x:auto;">
         <table id="propriety" class="table table-hover table-bordered table-striped table-primary">
@@ -246,31 +250,6 @@
             </thead>
             <!--Infos-->
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
                 <tr>
                     <td></td>
                     <td></td>

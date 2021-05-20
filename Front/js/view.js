@@ -118,8 +118,8 @@ class view {
         return true;
     }
     displayHealthyBar() {
-        let hb = document.getElementById('playerHB');
-        hb.innerText = this.game.playerOrder[this.game.orderIndex].healthyBar;
+        let hb = document.getElementById('hb');
+        hb.value = this.game.playerOrder[this.game.orderIndex].healthyBar;
         return true;
     }
     displayCurrentPlayer() {//Used to set up the turn
@@ -131,7 +131,7 @@ class view {
         let proprietyTab = document.getElementById('propriety');
         //Delete old infos
         let line = 1;
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i <= 6; i++) {
             proprietyTab.rows[i].cells[0].innerText = "";
             proprietyTab.rows[i].cells[1].innerText = "";
             proprietyTab.rows[i].cells[2].innerText = "";
@@ -203,6 +203,7 @@ class view {
         //Removing old text
         boxType.innerText = "";
         boxInfo.innerText = "";
+        globalDiv.style.backgroundImage = "none";
 
         //Removing table
         if (typeof info.children[0] !== 'undefined'){
@@ -270,11 +271,25 @@ class view {
                     type = "Case Chance";
                     globalDiv.style.backgroundImage = "url('../assets/img/cards/chance_front.png')";
                     break;
-            
-                default:
-                    content = box.type;
-                    type = "Case Spéciale";
+                case"start":
+                    type = "Case spéciale";
+                    content = "Passez par là pour obtenir 200 blés !";
+                    globalDiv.style.backgroundImage = "url('../assets/img/game/Case_depart.png')";
+                    break;
+                case"visitPrison":
+                    type = "Case spéciale";
+                    content = "Si vous n'êtes pas emprisonné, c'est cool !";
                     globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
+                    break;
+                case"getStockedBasket":
+                    type = "Case spéciale"; 
+                    content = "Vous gagnez le panier de fruit !";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/fruitbucket.png')";
+                    break;
+                default:
+                    type = "Case spéciale";
+                    content = "Allez en diète !"
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/jail.png')";
                     break;
             }
             if (order === "yes"){
@@ -328,8 +343,8 @@ class view {
 
             //Displaying infos
             tbl.rows[0].cells[0].innerText = "Nom";
-            tbl.rows[0].cells[1].innerText = "Achat";
-            tbl.rows[0].cells[2].innerText = "Appartenance";
+            tbl.rows[0].cells[1].innerText = "Prix";
+            tbl.rows[0].cells[2].innerText = "Bien";
             tbl.rows[0].cells[3].innerText = "Loyer";
             tbl.rows[1].cells[0].innerText = box.name;
             tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
@@ -344,7 +359,7 @@ class view {
             //Style
             tbl.setAttribute("border", "2");
 
-            globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
+            globalDiv.style.backgroundImage = "url('../assets/img/cards/property.png')";
         }
 
         boxType.innerHTML = "Vous êtes sur une " + type;

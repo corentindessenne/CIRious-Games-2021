@@ -9,29 +9,21 @@ body{
 /*Placement*/
 #topLeftBox{
     grid-area: 1 / 1 / 3 / 2;
-    margin:1px;
 }
-#playerInfo{
+#bottomLeftBox{
     grid-area: 3 / 1 / 5 / 2; /* row start / column start / row end / column end*/
-    margin: 1px;
 }
+
 
 #game{
-    grid-area: 2 / 2 / 5 / 5;
-    margin: 1px;
-}
-#dice{
-    grid-area: 1 / 2 / 2 / 5;
-    margin:1px;
+    grid-area: 1 / 2 / 5 / 5;
 }
 
-#currentPlayer{
+#dice{
     grid-area: 1 / 5 / 2 / 6;
-    margin: 1px;
 }
 #myPropriety{
-    grid-area: 2 / 5 / 5 / 6;
-    margin: 1px;
+    grid-area: 3 / 5 / 5 / 6;
 }
 
 /*Visual*/
@@ -70,8 +62,9 @@ body{
 #topLeftBox{
     position: relative;
     /*Images*/
-    background-size: 100%;
+    background-size: cover;
     background-repeat: no-repeat;
+    border: solid 2px white;
 }
 #boxInfo{
     font-size: 18px;
@@ -92,17 +85,17 @@ body{
 #cardContent{
     font-size: 20px;
     margin: 2px;
-    color: white;
+    color: black;
     font-weight: bold;
     text-decoration: underline;
     letter-spacing: 3px;  
-    text-shadow: 2px 2px 5px #007bff;
+    text-shadow: 2px 2px 5px red;
 }
 /*Css Question*/
 /*Button "Answers"*/
 #answerContent button{
     transition-duration: 0.4s;
-    width: 90%;
+    width: 60%;
     height: 50%;
     border-radius: 4px;
     padding: 15px 32px;
@@ -125,7 +118,7 @@ body{
     font-size: 15px;
     color: #FFFFFF;
     padding: 20px;
-    width: 120px;
+    width: 30%;
     text-align: center;
     transition-duration: 0.4s;
     text-decoration: none;
@@ -155,7 +148,8 @@ body{
 #proprietyContent table{
     border: 1px solid #dee2e6;
     border-collapse: collapse;
-    width:100%;
+    width: 90%;
+    transform: translateX(5%);
 }
 #proprietyContent table th{
     border: 1px solid #dee2e6;  
@@ -171,3 +165,94 @@ body{
 #proprietyContent table td:hover{
     background-color: #F2A413;
 }
+
+/*Infos on bottom left side*/
+#bottomLeftBox{
+    position: relative;
+    border: 2px solid blue;
+}
+#playerInfo{
+    font-size: 18px;
+    border: none;
+    width:100%;
+    font-weight: bold;
+    /*Vertical Align*/
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+/*Player's money*/
+#moneyDiv{
+    color: red;
+}
+#moneyTxt img{
+    width: 15%;
+    height: auto;
+}
+/*Player's HB*/
+#hbDiv{
+    color: green;
+}
+#hbDiv progress{
+    display: inline-block;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+    width: 75%;
+    height: auto;
+    padding: 3px 3px 2px 3px;
+    background: #333; 
+    background: -webkit-linear-gradient(#2d2d2d,#444);
+    background:    -moz-linear-gradient(#2d2d2d,#444);
+    background:      -o-linear-gradient(#2d2d2d,#444);
+    background:         linear-gradient(#2d2d2d,#444);
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 15px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.2); 
+}
+#hbDiv progress::-moz-progress-bar{
+    border-radius:10px;
+    background: #09c;
+    background: 
+      -moz-repeating-linear-gradient(
+        45deg, 
+        rgba(255,255,255,.2) 0,
+        rgba(255,255,255,.2) 10px, 
+        rgba(255,255,255,0) 10px,
+        rgba(255,255,255,0) 20px
+      ),
+      -moz-linear-gradient(
+        rgba(255,255,255,.1) 50%,
+        rgba(255,255,255,0) 60%
+      ),
+      #09c;
+    background: 
+      repeating-linear-gradient(
+        45deg, 
+        rgba(255,255,255,.2) 0,
+        rgba(255,255,255,.2) 10px, 
+        rgba(255,255,255,0) 10px,
+        rgba(255,255,255,0) 20px
+      ),
+      linear-gradient(
+        rgba(255,255,255,.1) 50%,
+        rgba(255,255,255,0) 60%
+      ),
+      #09c;
+    background-size: 300px 20px, auto, auto;
+    background-position: -300px 0, top, top;
+    background-position: top right, top, top;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 
+                0 -1px 0 rgba(0,0,0,.8) inset,
+                0 0 2px black;
+  
+}
+/*taxe's pot*/
+#taxesDiv{
+    color: blue;
+}
+
+/*Game in the middle*/
+
+/*Actions in the top fight corner*/
+
+/*Propriety Tab in the Bottom right corner*/
