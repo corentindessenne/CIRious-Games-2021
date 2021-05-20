@@ -2,28 +2,30 @@ body{
     background: #89D1D9;
     display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(4, 1fr);
+	grid-template-rows: repeat(4, 1fr);/* Creates 4 Rows, each of 1 frame*/
     text-align: center;
 }
 
 /*Placement*/
 #topLeftBox{
-    grid-area: 1 / 1 / 3 / 2;
+    grid-area: 1 / 1 / 4 / 2;
 }
 #bottomLeftBox{
-    grid-area: 3 / 1 / 5 / 2; /* row start / column start / row end / column end*/
+    grid-area: 4 / 1 / 5 / 2; /* row start / column start / row end / column end*/
 }
-
 
 #game{
     grid-area: 1 / 2 / 5 / 5;
+    border: solid 2px red;
 }
 
-#dice{
+#topRightBox{
     grid-area: 1 / 5 / 2 / 6;
+    border: solid 2px orange;
 }
-#myPropriety{
-    grid-area: 3 / 5 / 5 / 6;
+#bottomRightBox{
+    grid-area: 2 / 5 / 5 / 6;
+    border: solid 2px green;
 }
 
 /*Visual*/
@@ -40,23 +42,6 @@ body{
     width: 90px;
     height: 65px;
 }
-
-/*Propriety Tab*/
-/*#propriety{
-    display: block;
-    border: solid 1px black;
-    width: 100%;
-}*/
-#propriety td{
-    height: 60px;
-}
-/*
-#propriety td{
-    border: solid 1px black;
-	box-sizing: border-box;
-	vertical-align: middle;
-	text-align: center;
-}*/
 
 /*Cards On left Top Side*/
 #topLeftBox{
@@ -253,6 +238,18 @@ body{
 
 /*Game in the middle*/
 
-/*Actions in the top fight corner*/
+/*Actions in the top right corner*/
+#topRightBox{
 
+}
 /*Propriety Tab in the Bottom right corner*/
+#bottomRightBox{
+    font-weight: bold;
+    font-size: 18px;
+}
+#bottomRightBox table{
+    width: 100%;
+    height: 100%;
+}
+#bottomRightBox table th{
+}

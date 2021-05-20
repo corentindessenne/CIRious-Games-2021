@@ -89,7 +89,6 @@ class view {
         //HTML Elements we will change
         let dice1Value = document.getElementById('dice1');
         let dice2Value = document.getElementById('dice2');
-        let diceSum = document.getElementById('diceSum');
 
         //Remove old Img
         if (dice1Value.children[0] !== undefined) {
@@ -102,12 +101,11 @@ class view {
         //Img
         let img = document.createElement('img');
         let img2 = document.createElement('img');
-        img.src = "../assets/img/e" + (this.game.dice1) + ".png";
-        img2.src = "../assets/img/e" + (this.game.dice2) + ".png";
+        img.src = "../assets/img/dice/dice-six-faces-" + (this.game.dice1) + ".png";
+        img2.src = "../assets/img/dice/dice-six-faces-" + (this.game.dice2) + ".png";
         //Insert it
         dice1Value.appendChild(img);
         dice2Value.appendChild(img2);
-        diceSum.innerText = this.game.dice1 + this.game.dice2;
         return true;
     }
     displayMoney() {
@@ -131,10 +129,10 @@ class view {
         let proprietyTab = document.getElementById('propriety');
         //Delete old infos
         let line = 1;
-        for (let i = 1; i <= 6; i++) {
-            proprietyTab.rows[i].cells[0].innerText = "";
-            proprietyTab.rows[i].cells[1].innerText = "";
-            proprietyTab.rows[i].cells[2].innerText = "";
+        for (let i = 1; i <= 10; i++) {
+            proprietyTab.rows[i].cells[0].innerText = "Rien :(";
+            proprietyTab.rows[i].cells[1].innerText = "Rien :(";
+            proprietyTab.rows[i].cells[2].innerText = "Rien :(";
         }
 
         //Add new infos
@@ -143,7 +141,7 @@ class view {
                 if (line > 10) {
                     proprietyTab.insertRow(line);
                     for (let cpt = 0; cpt < 3; cpt++) {
-                        proprietyTab.rows[ligne].insertCell(cpt);
+                        proprietyTab.rows[line].insertCell(cpt);
                     }
                 }
                 proprietyTab.rows[line].cells[0].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].name;
@@ -165,7 +163,6 @@ class view {
 
         return true;
     }
-
     upgradeButtons(request) {
         this.actionButtons("disable");
 
@@ -180,7 +177,6 @@ class view {
 
         return true;
     }
-
     displayJailStatus() {
         let jailText = document.getElementById('jailStatus');
         if (this.game.playerOrder[this.game.orderIndex].isJailed) {
@@ -190,7 +186,6 @@ class view {
         jailText.innerText = "";
         return true;
     }
-
     displayBoxInfos(box, order) {
         //Before displaying, we clear every span & div
         let boxType = document.getElementById('boxType');
@@ -264,7 +259,7 @@ class view {
                         });
                         validDiv.appendChild(validBtn);
                     }
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/question_front.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/question_front_v2.png')";
                     break;
                 case"chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
@@ -274,11 +269,11 @@ class view {
                 case"start":
                     type = "Case spéciale";
                     content = "Passez par là pour obtenir 200 blés !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/game/Case_depart.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/game/start_temp.png')";
                     break;
                 case"visitPrison":
                     type = "Case spéciale";
-                    content = "Si vous n'êtes pas emprisonné, c'est cool !";
+                    content = "Si vous n'êtes pas emprisonné, vous pouvez narguez ceux qui le sont !";
                     globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
                     break;
                 case"getStockedBasket":
