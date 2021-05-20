@@ -72,6 +72,9 @@ let house = new House();
 let playersConnected = [];
 let playersPublic = [];
 
+
+/**** Redirection ****/
+
 //first page when you are connected to the server
 app.get('/', (req, res) => {
     if (req.session.loggedin) res.redirect('/menu');
@@ -95,13 +98,6 @@ app.get('/menu', (req, res) => {
     else res.redirect('/');
 });
 
-//redirection aboutUs page
-app.get('/aboutUs', (req, res) => {
-    if (req.session.loggedin)
-        res.sendFile(path.join(__dirname + '/Front/html/aboutUs.html'));
-    else res.redirect('/');
-});
-
 //redirection profile page
 app.get('/profile', (req, res) => {
     if (req.session.loggedin)
@@ -116,6 +112,27 @@ app.get('/editProfile', (req, res) => {
     else res.redirect('/');
 });
 
+//redirection game page
+app.get('/game', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/serverGame.html'));
+    else res.redirect('/');
+});
+
+//redirection local game page
+app.get('/localGame', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/game.html'));
+    else res.redirect('/');
+});
+
+//redirection score page
+app.get('/score', (req, res) => {
+    if (req.session.loggedin)
+        res.sendFile(path.join(__dirname + '/Front/html/score.html'));
+    else res.redirect('/');
+});
+
 //redirection tutorial page
 app.get('/tutorial', (req, res) => {
     if (req.session.loggedin)
@@ -123,14 +140,14 @@ app.get('/tutorial', (req, res) => {
     else res.redirect('/');
 });
 
-//redirection public game page
-app.get('/multijoueur', (req, res) => {
+//redirection aboutUs page
+app.get('/aboutUs', (req, res) => {
     if (req.session.loggedin)
-        res.sendFile(path.join(__dirname + '/Front/html/public.html'));
+        res.sendFile(path.join(__dirname + '/Front/html/aboutUs.html'));
     else res.redirect('/');
 });
 
-let errorType = '';
+/**** Interaction with database ****/
 
 //login with identifiers when the person already has an account
 app.post('/connect', (req, res) => {
@@ -142,7 +159,7 @@ app.post('/connect', (req, res) => {
             if (error) {
                 throw error;
             } else if (result.length === 0) {
-                errorType = 'error2';
+                req.session.error = 'error2';
                 res.redirect('../connection');
             } else {
                 let passwordHash = bcrypt.hashSync(password, result[0].salt);
@@ -153,20 +170,21 @@ app.post('/connect', (req, res) => {
                     req.session.hash = result[0].salt;
                     req.session.secuPassword = 0;
                     req.session.error = '';
+                    req.session.game = '';
                     req.session.save();
                     playersConnected.push(req.session.username);
                     res.redirect('../menu');
                     console.log(playersConnected);
                 }
                 else{
-                    errorType = 'error2';
+                    req.session.error = 'error2';
                     res.redirect('../connection');
                 }
             }
         });
     }
     else{
-        errorType = 'error1';
+        req.session.error = 'error1';
         res.redirect('../connection');
     }
 
@@ -245,17 +263,12 @@ app.post('/changePassword', (req, res) => {
     let newPassword = req.body.newPassword;
     let passwordHash = bcrypt.hashSync(newPassword, salt);
 
-    console.log(newPassword);
-    console.log(passwordHash);
-
     con.query('UPDATE accounts SET password = ? WHERE username = ?', [passwordHash, username], function(err){
         if(err)throw err;
     });
-
     con.query('UPDATE accounts SET salt = ? WHERE username = ?', [salt, username], function(err){
         if(err)throw err;
     });
-
     res.redirect('../editProfile');
 });
 
@@ -285,10 +298,30 @@ app.post('/deletion',(req, res) => {
     }
 });
 
-/**** interaction with front ****/
+/**** Interaction with front ****/
 
 io.on('connection', socket => {
-    socket.on('multijoueur', ()=>{
+
+    //take the type of game that the player choose
+    socket.on('typeGame', (typeGame) => {
+        socket.handshake.session.game = typeGame;
+    });
+
+    //return the game that the player choose
+    socket.on('goodGame', () => {
+        if(socket.handshake.session.game === 'multiplayer'){
+            socket.emit('multiplayerGame');
+        }
+        if(socket.handshake.session.game === '3players'){
+            socket.emit('3playersGame');
+        }
+        else{
+            socket.emit('players3', socket.handshake.session.game);
+        }
+    });
+
+    //create a multiplayer room
+    socket.on('multiplayer', ()=>{
         house.setNbPlayers(4);
         if (house.addWaiter(socket)) {
             if (house.getWaiters().length >= 4) {
@@ -317,6 +350,55 @@ io.on('connection', socket => {
 
             } else socket.emit('public');
         }
+    });
+
+    //create a private room
+    socket.on('createRoom', password => {
+        let room = house.addPrivateRoom(password, socket);
+        if (room) {
+
+            room.password = password;
+            room.player1 = socket;
+            room.nbPlayer = 1;
+            room.state = 0;
+
+            //chrono
+            room.timeDebut = 0;
+            room.timeFin = 0;
+            room.timeGame = 0;
+            console.log('roomCreated ' + password);
+            socket.emit('play', socket.handshake.session.username);
+        }
+    });
+
+    //search a room to join
+    socket.on('searchRoom', password => {
+        if (house.joinRoom(socket, password)) {
+            console.log(password);
+            socket.emit('findRoom', password);
+        }
+        else {
+            socket.emit('errorSearch');
+        }
+    });
+
+    let room;
+
+    socket.on('playerToJoin', (password)=> {
+        socket.emit('play', socket.handshake.session.username);
+    });
+
+    socket.on('update', ()=>{
+        room = house.joinRoom(socket);
+        if(room) {
+            console.log('please');
+            if (room.player1) room.player1.emit('updatePlease');
+            if (room.player2) room.player2.emit('updatePlease');
+        }
+        else{
+            console.log(room);
+        }
+
     });
 
     socket.on('callPseudo', () =>{
@@ -349,15 +431,16 @@ io.on('connection', socket => {
     });
 
     socket.on('errors', () =>{
-        if(errorType === 'error1'){
+        if(socket.handshake.session.error === 'error1'){
             socket.emit('error1');
         }
-        else if(errorType === 'error2'){
+        else if(socket.handshake.session.error === 'error2'){
             socket.emit('error2');
         }
         errorType = '';
     });
 
+    //bonus
     socket.on('invitation', (user) => {
         socket.join(user);
         io.sockets.in(user).emit('invite',socket);

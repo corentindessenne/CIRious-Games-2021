@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Monopalim</title>
+
+    <!-- SCRIPT -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- CSS links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!--My CSS-->
+    <link rel="stylesheet" href="../css/aboutUs.css">
+</head>
+
+<body style="background-color: #89D1D9">
+
+<header>
+    <div class="navbar navbar-dark" style="margin-bottom: 30px">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 15px">
+                <img id="home" src="../assets/img/menu/home.png" width="40" height="40">
+            </a>
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 10px">
+                <img src="../assets/img/banner/tutorialBanner.png" width="400" height="70">
+            </a>
+            <a href="#" class="navbar-brand d-flex align-items-center" >
+                <img id="profile" src="../assets/img/menu/profile.png" width="40" height="40">
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <div class="container my-5">
+        <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg firstBox">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center">Comment jouer ?</h2>
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif;">Comment gagner ?</h4>
+                <p style="font-family: sans-serif">
+                    Il y a 4 façons différentes de gagner : <br>
+                    • Posséder toute une ligne du plateau <br>
+                    • Si vous possédez les quatres saisons <br>
+                    • Si vous êtes le dernier joueur “en vie” ou “non en faillite”<br>
+                    • Si au bout de 20 tours de plateau par un joueur, vous possédez la meilleure moyenne HealthyBar & Blé.<br> <br>
+                </p>
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">A qui de jouer ?</h4>
+                <p style="font-family: sans-serif">
+                    Le nom du joueur à qui c'est le tour s'affiche en haut à gauche.<br> <br>
+                </p>
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">A votre tour !</h4>
+                <p style="font-family: sans-serif">
+                    C'est à vous de lancer les dés, ce qui fera avancer votre pion.
+                    <img src="../assets/img/game/Amogus%20.gif" height="50"/>
+                    <img src="../assets/img/game/animation.gif" height="60"/>
+                    <img src="../assets/img/game/Booman.gif" height="40"/>
+                    <img src="../assets/img/game/Doug.gif" height="40"/>
+                    <img src="../assets/img/game/Fermière%20run.gif" height="50"/>
+                    <img src="../assets/img/game/Girl.gif" height="40"/>
+                    <img src="../assets/img/game/Popo.gif" height="40"/>
+                    <img src="../assets/img/game/Robot%20run.gif" height="50"/>
+                    <img src="../assets/img/game/slime.gif" height="50"/>
+                    <img src="../assets/img/game/Spaceship%20open.gif" height="50"/><br>
+                    Vous avez le choix : <br>
+                    • Vous pouvez modifier vos propriétés (Augmentation de grade, changement de terrain, achat / échange / revente...) <br>
+                    • En fonction de la case sur laquelle vous vous arrêtez vous devrez, dans la plupart des cas effectuer une action. <br>
+                    • Si vous avez fait un double, vous rejouez. Si jamais vous effectuer 3 doubles à la suite vous allez directement à la case diète et ce pour une durée de 3 tours de jeu et votre tour s’arrête. <br>
+                    • Dès que votre tour est fini, la main passe au joueur suivant.
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5 firstBox rounded-3 border shadow-lg" style="margin-bottom: 50px">
+        <div class="row flex-lg-row align-items-center">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center; margin-bottom: 30px">Types de cases</h2>
+            </div>
+            <div class="col-lg-6" style="border-right: 1px solid black;">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Terrains</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            • Vous pouvez acheter la propriété sur laquelle vous vous arrêtez en payant le prix indiqué sur la case. Vous recevrez en échange, comme preuve de cette acquisition, une carte de propriété.<br><br>
+                            • Lorsque vous achetez des propriétés, vous devez penser à acheter, si possible, les autres propriétés de la même ligne, ou autrement dit de la même saison.
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/Property.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Saisons</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            • Posséder la saison augmente le montant du loyer de toutes les propriétés de la ligne. Posséder 3 maisons sur cette même ligne vous permet d’améliorer le terrain.<br><br>
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/Property.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+        </div>
+        <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+            <div class="col-lg-6" style="border-right: 1px solid black;">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Chance</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/chance_back.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Communauté</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                           Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/communaute_back.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+        </div>
+        <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+            <div class="col-lg-12">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Questions</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/question_back.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5 firstBox rounded-3 border shadow-lg" style="margin-bottom: 50px">
+        <div class="row flex-lg-row align-items-center">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center; margin-bottom: 30px">Cases spéciales</h2>
+            </div>
+    <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+        <div class="col-lg-6" style="border-right: 1px solid black;">
+            <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Case départ</h4>
+            <table>
+                <td>
+                    <p style="float:left; text-align: justify; padding-right: 20px">
+                        Dès que vous passez par cette case vous gagnez 200 B. Si vous vous arrêtez dessus, vous gagnez le double : 400 B.
+                    </p>
+                </td>
+                <td>
+                    <img src="../assets/img/cards/jail.jpg" width="170"/>
+                </td>
+            </table>
+        </div>
+        <div class="col-lg-6">
+            <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Panier garni</h4>
+            <table>
+                <td>
+                    <p style="float:left; text-align: justify; padding-right: 20px">
+                        Vous gagnez tout l’argent du milieu de plateau et diminuer votre pulsation cardiaque de 20 !
+                    </p>
+                </td>
+                <td>
+                    <img src="../assets/img/cards/fruitbucket.png" width="170"/>
+                </td>
+            </table>
+        </div>
+    </div>
+    <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+        <div class="col-lg-6" style="border-right: 1px solid black;">
+            <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Aller en diète</h4>
+            <table>
+                <td>
+                    <p style="float:left; text-align: justify; padding-right: 20px">
+                        Rendez-vous au “Centre diététique”, sans toucher votre salaire de 200 B. Pour sortir, vous devez répondre à une question ou disposez d'une carte CheatMeal.
+                    </p>
+                </td>
+                <td>
+                    <img src="../assets/img/cards/jail.jpg" width="170"/>
+                </td>
+            </table>
+        </div>
+        <div class="col-lg-6">
+            <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">Visite du centre / Centre diététique</h4>
+            <table>
+                <td>
+                    <p style="float:left; text-align: justify; padding-right: 20px">
+                        Si vous n’êtes pas en diète, vous passerez par la case visite du centre. Cette case n’a aucun impact sur votre vie de joueur, elle vous sert juste à observer ceux qui se sont laissés aller.
+                        <br>Si vous êtes en diète, vous serez dans la case juste à côté en centre diététique.
+                </td>
+                <td>
+                    <img src="../assets/img/cards/jail.jpg" width="170"/>
+                </td>
+            </table>
+        </div>
+    </div>
+        </div>
+    </div>
+   </main>
+</body>
+</html>

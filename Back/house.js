@@ -4,19 +4,16 @@ class Room {
         if(password === 0) password = undefined;
         this.public = password ? false : true;
         this.password = this.public ? undefined : password;
+        this.nbPrivatePlayers = 1;
         this.ready = false;
         this.time = 0;
     }
-
-    isFull() {
-        let i = 0;
-        while(i < this.diffSockets.length && this.diffSockets[i]){
-            i++;
-        }
-        if(i !== this.diffSockets.length) return false;
-        else return true;
+    setNbPrivatePlayers(nb){
+        this.nbPrivatePlayers = nb;
     }
-
+    getNbPrivatePlayers(){
+        return this.nbPrivatePlayers;
+    }
     isIn(socket) {
         let i = 0;
         while(i < this.diffSockets.length && this.diffSockets[i] && (this.diffSockets[i].handshake.session.username === socket.handshake.session.username)){
@@ -47,10 +44,14 @@ class Room {
     }
 
     join(socket) {
-        if (this.isFull()) return false;
+        this.setNbPrivatePlayers(this.nbPrivatePlayers + 1);
+        console.log('join ' + this.getNbPrivatePlayers());
+        if (this.nbPrivatePlayers === 5) {
+            return false;
+        }
         else {
             for(let i = 0; i < this.diffSockets.length; i++){
-                if(!this.diffSockets[i]) this.diffSockets[i] = socket
+                if(!this.diffSockets[i]) this.diffSockets[i] = socket;
             }
             return true;
         }
@@ -178,11 +179,13 @@ class House {
         if (password) {
             if (!this.isWaiter(socket) && !this.isFree(password)) {
                 let room = this.findRoomByPassword(password);
-                if (room.join(socket)) return true;
+                if (room.join(socket)) {
+                    return true;
+                }
             }
             return false;
         } else {
-            if (!this.isWaiter(socket) && this.isPlayer(socket)) {
+            if (!this.isWaiter(socket)){//} && this.isPlayer(socket)) {
                 let room =  this.findRoomBySocket(socket);
                 room.update(socket);
                 return room;
