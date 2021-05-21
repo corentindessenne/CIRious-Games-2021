@@ -78,8 +78,10 @@ class view {
         //We clear the board
         for (let a = 0; a < 11; a++) {
             for (let b = 0; b < 11; b++) {
-                gameBoard.rows[a].cells[b].innerText = '';
-                gameBoard.rows[a].cells[b].style.backgroundColor = '';
+                if (typeof gameBoard.rows[a].cells[b] !== 'undefined'){
+                    gameBoard.rows[a].cells[b].innerText = '';
+                    gameBoard.rows[a].cells[b].style.backgroundColor = '';
+                }
                 //We change the background color if we have this propriety
                 if (typeof this.game.board.grid[a][b] !== 'undefined' && this.game.board.grid[a][b].belonging === this.game.playerOrder[this.game.orderIndex].id) {
                     gameBoard.rows[a].cells[b].style.backgroundColor = 'red';
