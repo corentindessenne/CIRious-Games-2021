@@ -7,6 +7,7 @@ class view {
     initView() {
         this.initListener();
         this.displayCurrentPlayer();
+        this.initBoardVisual();
         this.displayMap();
         this.displayDice();
         this.displayMoney();
@@ -63,6 +64,12 @@ class view {
             this.game.upgradeRequest = button4.textContent;
             return this.actionEvent("upgrade")
         });
+    }
+
+    initBoardVisual(){
+        let gameBoard = document.getElementById('monopalimBoard');
+        //gameBoard.rows[10].cells[10].style.backgroundImage = "url('../assets/img/board/start.png')";
+        //gameBoard.rows[10].cells[10].style.backgroundImage.width = "20%";
     }
 
     //Typical View Function we will use for the game
