@@ -304,6 +304,9 @@ io.on('connection', socket => {
     //take the type of game that the player choose
     socket.on('typeGame', (typeGame) => {
         socket.handshake.session.game = typeGame;
+        if(typeGame === 'gameAlreadyCreated'){
+            socket.emit('redirectToGame');
+        }
     });
 
     //return the game that the player choose
@@ -312,7 +315,7 @@ io.on('connection', socket => {
             socket.emit('multiplayerGame');
         }
         else if(socket.handshake.session.game === 'gameAlreadyCreated'){
-            socket.emit('joinRoom')
+            socket.emit('joinRoom');
         }
         else {
             socket.emit('privateGame');
@@ -354,10 +357,8 @@ io.on('connection', socket => {
 
     //create a private room
     socket.on('createRoom', password => {
-        let playersPrivate = [password, socket.handshake.session.username];
+        let playersPrivate = [password, socket];
         privateRoom[privateRoom.length] = playersPrivate;
-        console.log(privateRoom);
-
     });
 
     //search a room to join
@@ -365,9 +366,8 @@ io.on('connection', socket => {
         for(let i = 0; i < privateRoom.length; i++){
             if(privateRoom[i][0] === password){
                 if(privateRoom[i].length < 7) {
-                    let temp = [socket.handshake.session.username];
-                    Array.prototype.push.apply(privateRoom[i], temp);
-                    console.log(privateRoom[i]);
+                    let temp = [socket];
+                    privateRoom[i][privateRoom.length + 1] = socket;
                     socket.emit('findRoom');
                 }
                 else{
@@ -380,7 +380,32 @@ io.on('connection', socket => {
         }
     });
 
-    
+    socket.on('privateRoom', () =>{
+        /*let index;
+        for(let i = 0; i < privateRoom.length; i++){
+            if(privateRoom[i][1] === socket){
+                index = i;
+            }
+        }
+        if(privateRoom[index].length === 3){
+
+
+            let room = house.addPublicRoom([privateRoom[index][1], privateRoom[index][2]]);
+            room.player1 = privateRoom[index][1];
+            room.player2 = privateRoom[index][2];
+
+            room.player1.emit('play', room.player1.handshake.session.username);
+            room.player2.emit('play', room.player2.handshake.session.username);
+        }*/
+
+        house.setNbPlayers(2);
+        let room = house.addPublicRoom([privateRoom[0][1], privateRoom[0][2]]);
+        room.player1 = privateRoom[0][1];
+        room.player2 = privateRoom[0][2];
+
+        room.player1.emit('play', room.player1.handshake.session.username);
+        room.player2.emit('play', room.player2.handshake.session.username);
+    });
 
     let room;
 

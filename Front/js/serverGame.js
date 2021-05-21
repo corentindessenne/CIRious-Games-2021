@@ -1,15 +1,23 @@
 let connection = document.getElementById('connection');
 let waiting = document.getElementById('waiting');
 let img = document.getElementById('img');
+let validate = document.getElementById('validate');
 
 img.addEventListener('click', event =>{
     socket.emit('update');
+});
+
+validate.addEventListener('click', event =>{
+    socket.emit('privateRoom');
 });
 
 socket.emit('goodGame');
 
 socket.on('multiplayerGame', () =>{
     socket.emit('multiplayer');
+});
+socket.on('test', () =>{
+    console.log('please');
 });
 
 socket.on('privateGame', ()=> {

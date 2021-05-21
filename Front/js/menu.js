@@ -27,8 +27,12 @@ validate.addEventListener('click', event =>{
 });
 socket.on('findRoom', () =>{
     socket.emit('typeGame','gameAlreadyCreated');
+});
+
+socket.on('redirectToGame', ()=>{
     window.location.href = '/game';
 });
+
 socket.on('errorSearch', ()=>{
     let notyf = new Notyf({
         duration: 2000,
