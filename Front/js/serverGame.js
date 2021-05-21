@@ -12,12 +12,12 @@ socket.on('multiplayerGame', () =>{
     socket.emit('multiplayer');
 });
 
-socket.on('3playersGame', ()=> {
+socket.on('privateGame', ()=> {
     socket.emit('createRoom', '1234');
 });
 
-socket.on('players3', (password)=> {
-    socket.emit('playerToJoin', password);
+socket.on('joinRoom', ()=> {
+    console.log('yo');
 });
 
 socket.on('play', (pseudo) =>{

@@ -3,7 +3,7 @@ let profil = document.getElementById('profile');
 let multijoueur = document.getElementById('multijoueur');
 let validate = document.getElementById('validate');
 let passwordRoom = document.getElementById("input");
-let create3 = document.getElementById('create3');
+let create = document.getElementById('create');
 let local = document.getElementById('local');
 let scor = document.getElementById('score');
 let tutoriel = document.getElementById('tutoriel');
@@ -25,8 +25,8 @@ validate.addEventListener('click', event =>{
         socket.emit('searchRoom', passwordRoom.value);
     }
 });
-socket.on('findRoom', (password) =>{
-    socket.emit('typeGame', password);
+socket.on('findRoom', () =>{
+    socket.emit('typeGame','gameAlreadyCreated');
     window.location.href = '/game';
 });
 socket.on('errorSearch', ()=>{
@@ -41,7 +41,20 @@ socket.on('errorSearch', ()=>{
 
     notyf.error('Partie inexistante');
 });
-create3.addEventListener('click', event =>{
+socket.on('noPlace', ()=>{
+    let notyf = new Notyf({
+        duration: 2000,
+        types: [
+            {
+                type: 'error',
+                background: '#F2A413'
+            }]
+    });
+
+    notyf.error('Cette partie est déjà complète');
+});
+
+create.addEventListener('click', event =>{
     socket.emit('typeGame', '3players');
     window.location.href = '/game';
 });

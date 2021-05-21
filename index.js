@@ -70,8 +70,7 @@ if (app.get('env') === 'production') {
 
 let house = new House();
 let playersConnected = [];
-let playersPublic = [];
-
+let privateRoom = [];
 
 /**** Redirection ****/
 
@@ -312,11 +311,11 @@ io.on('connection', socket => {
         if(socket.handshake.session.game === 'multiplayer'){
             socket.emit('multiplayerGame');
         }
-        if(socket.handshake.session.game === '3players'){
-            socket.emit('3playersGame');
+        else if(socket.handshake.session.game === 'gameAlreadyCreated'){
+            socket.emit('joinRoom')
         }
-        else{
-            socket.emit('players3', socket.handshake.session.game);
+        else {
+            socket.emit('privateGame');
         }
     });
 
@@ -331,6 +330,7 @@ io.on('connection', socket => {
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
                 room.state = 0;
+                room.password = 0;
 
                 //chrono
                 room.timeDebut = 0;
@@ -354,39 +354,35 @@ io.on('connection', socket => {
 
     //create a private room
     socket.on('createRoom', password => {
-        let room = house.addPrivateRoom(password, socket);
-        if (room) {
+        let playersPrivate = [password, socket.handshake.session.username];
+        privateRoom[privateRoom.length] = playersPrivate;
+        console.log(privateRoom);
 
-            room.password = password;
-            room.player1 = socket;
-            room.nbPlayer = 1;
-            room.state = 0;
-
-            //chrono
-            room.timeDebut = 0;
-            room.timeFin = 0;
-            room.timeGame = 0;
-            console.log('roomCreated ' + password);
-            socket.emit('play', socket.handshake.session.username);
-        }
     });
 
     //search a room to join
     socket.on('searchRoom', password => {
-        if (house.joinRoom(socket, password)) {
-            console.log(password);
-            socket.emit('findRoom', password);
-        }
-        else {
-            socket.emit('errorSearch');
+        for(let i = 0; i < privateRoom.length; i++){
+            if(privateRoom[i][0] === password){
+                if(privateRoom[i].length < 7) {
+                    let temp = [socket.handshake.session.username];
+                    Array.prototype.push.apply(privateRoom[i], temp);
+                    console.log(privateRoom[i]);
+                    socket.emit('findRoom');
+                }
+                else{
+                    socket.emit('noPlace');
+                }
+            }
+            else{
+                socket.emit('errorSearch');
+            }
         }
     });
+
+    
 
     let room;
-
-    socket.on('playerToJoin', (password)=> {
-        socket.emit('play', socket.handshake.session.username);
-    });
 
     socket.on('update', ()=>{
         room = house.joinRoom(socket);
