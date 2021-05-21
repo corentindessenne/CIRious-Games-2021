@@ -228,7 +228,7 @@ class view {
                 case "community":
                     content = this.game.board.ccTab[this.game.ccIndex].string;
                     type = "Case Caisse de Communauté";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
                     break;
                 case"question":
                     type = "Case Question";
@@ -260,27 +260,27 @@ class view {
                         });
                         validDiv.appendChild(validBtn);
                     }
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/question_front_v2.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/question.png')";
                     break;
                 case"chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
                     type = "Case Chance";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/chance_front.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/chance.png')";
                     break;
                 case"start":
                     type = "Case spéciale";
                     content = "Passez par là pour obtenir 200 blés !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/game/start_temp.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/game/start.png')";
                     break;
                 case"visitPrison":
                     type = "Case spéciale";
                     content = "Si vous n'êtes pas emprisonné, vous pouvez narguez ceux qui le sont !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute_front.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
                     break;
                 case"getStockedBasket":
                     type = "Case spéciale"; 
                     content = "Vous gagnez le panier de fruit !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/fruitbucket.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/fruitBucket.png')";
                     break;
                 default:
                     type = "Case spéciale";
