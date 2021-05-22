@@ -71,11 +71,11 @@ class monopalim{
     //Actions in the game
     castTheDice(){
         //Roll the dice !
-        //this.dice1 = Math.floor(Math.random() * 6) + 1;
-        //this.dice2 = Math.floor(Math.random() * 6) + 1;
+        this.dice1 = Math.floor(Math.random() * 6) + 1;
+        this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
-        this.dice1 = 2;
-        this.dice2 = 2;
+        //this.dice1 = 2;
+        //this.dice2 = 2;
         this.castValue = this.dice1 + this.dice2;
         this.isCast = true;
     }
@@ -307,10 +307,8 @@ class monopalim{
             console.log("Player not on the board");
             return false; //Didn't move
         }
-        console.log(player.position);
         if(player.position[0] === 10 && player.position[1] === 10){
             player.money += 200;
-            console.log("Passé par la case départ");
         }
         return true;
     }

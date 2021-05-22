@@ -369,7 +369,7 @@ class view {
         boxType.innerHTML = "Vous êtes sur une " + type;
         
     }
-    //Used to display every pawn & animations
+    //Used to display every pawn & animations when they move
     displayMovement(position, player){
         let gameTab = document.getElementById('monopalimBoard');
 
@@ -385,6 +385,14 @@ class view {
             gameTab.rows[position[0]].cells[position[1]].appendChild(element);
         }
     }
+    //Used to update pawn position & status, depending on the interaction they make
+    updatePawns(){
+        let gameTab = document.getElementById('monopalimBoard');
+        for (let i = 0; i < this.game.playerOrder.length; i++){
+            gameTab.rows[this.game.playerTab[i].position[0]].cells[this.game.playerTab[i].position[1]].appendChild(this.game.playerTab[i].character);
+        }
+    }
+    //Used update most of the information a player needs like his money, his HB, etc...
 
     updateInfos() {
         this.displayMap();
@@ -417,14 +425,16 @@ class view {
 
             this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
+            this.updatePawns();
+            this.updateStats();
             
             //Update
-            this.displayMap();
-            this.displayMoney();
-            this.displayHealthyBar();
+            this.displayMap();//Useless
+            this.displayMoney();//Need to be wrapped
+            this.displayHealthyBar();//Same
 
             //If it's not an action
-            if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== 'question'){
+            if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
                 this.actionButtons("enable");
             }
         }
