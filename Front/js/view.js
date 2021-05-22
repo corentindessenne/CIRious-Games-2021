@@ -76,7 +76,7 @@ class view {
     displayMap() {//Displaying the map and the stuff on it
         let gameBoard = document.getElementById('monopalimBoard');
         //We clear the board
-        for (let a = 0; a < 11; a++) {
+        /*for (let a = 0; a < 11; a++) {
             for (let b = 0; b < 11; b++) {
                 if (typeof gameBoard.rows[a].cells[b] !== 'undefined'){
                     gameBoard.rows[a].cells[b].innerText = '';
@@ -87,12 +87,12 @@ class view {
                     gameBoard.rows[a].cells[b].style.backgroundColor = 'red';
                 }
             }
-        }
-        //We show the new position
+        }*/
+        /*//We show the new position
         for (let i = 0; i < this.game.playerOrder.length; i++) {
             gameBoard.rows[this.game.playerOrder[i].position[0]].cells[this.game.playerOrder[i].position[1]].innerText = this.game.playerOrder[i].username;
             //Will be changed to image after
-        }
+        }*/
     }
     displayDice() {
         //Displaying the dice
@@ -204,7 +204,6 @@ class view {
         let answersDiv = document.getElementById('answerContent');
         let validDiv = document.getElementById('validAnswer');
         let globalDiv = document.getElementById('topLeftBox');
-        console.log(globalDiv);
         //Removing old text
         boxType.innerText = "";
         boxInfo.innerText = "";
@@ -370,6 +369,22 @@ class view {
         boxType.innerHTML = "Vous êtes sur une " + type;
         
     }
+    //Used to display every pawn & animations
+    displayMovement(position, player){
+        let gameTab = document.getElementById('monopalimBoard');
+
+        //We create the animated GIF
+        let element = player.character;
+        if (position[0] === 1 && position[1] === 10){
+            gameTab.rows[position[0]].cells[2].appendChild(element);
+        }
+        else if(position[1] === 10 && position[0] < 10){
+            gameTab.rows[position[0]].cells[1].appendChild(element);
+        }
+        else {
+            gameTab.rows[position[0]].cells[position[1]].appendChild(element);
+        }
+    }
 
     updateInfos() {
         this.displayMap();
@@ -394,7 +409,12 @@ class view {
         //Check Jail Status
         if (this.game.jailInteraction(this.game.playerOrder[this.game.orderIndex])) {
             //Play
-            this.game.executeMove();
+            //We make the move 1 by 1
+            for (let i = 1; i <= this.game.castValue; i++){
+                this.game.executeMove(this.game.playerOrder[this.game.orderIndex],  1);
+                this.displayMovement(this.game.playerOrder[this.game.orderIndex].position, this.game.playerOrder[this.game.orderIndex]);
+            }
+
             this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
             

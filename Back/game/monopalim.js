@@ -69,7 +69,8 @@ class monopalim{
     }
 
     //Actions in the game
-    castTheDice(){//Roll the dice !
+    castTheDice(){
+        //Roll the dice !
         //this.dice1 = Math.floor(Math.random() * 6) + 1;
         //this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
@@ -209,7 +210,7 @@ class monopalim{
 
     //TESTED AND FUNCTIONAL
     move(player, castValue){
-        if (player.isJailed){
+        if (player.isJailed || !player.state){
             return true;
         }
 
@@ -306,11 +307,11 @@ class monopalim{
             console.log("Player not on the board");
             return false; //Didn't move
         }
-        
-        //Special interaction for the start
-        //Player finds the start on his way
-
-        console.log(this.board.grid[player.position[0]][player.position[1]]);
+        console.log(player.position);
+        if(player.position[0] === 10 && player.position[1] === 10){
+            player.money += 200;
+            console.log("Passé par la case départ");
+        }
         return true;
     }
 
@@ -563,13 +564,13 @@ class monopalim{
     }
 
     //Main function
-    executeMove(){
+    executeMove(player, castValue){
         if (!this.isCast){
             return false;
         }
 
         //We make the Movement
-        this.move(this.playerOrder[this.orderIndex], this.castValue);
+        this.move(player, castValue);
         
         //We Make the interaction
         this.hasMoved = true;

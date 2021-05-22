@@ -1,5 +1,5 @@
 class player {
-    constructor(id, username, height, age){
+    constructor(id, username, height, age, character){
         this.id = id;//Player id
         this.username = username;//Player username
         this.height = height;//Player's height in centimeters
@@ -21,5 +21,6 @@ class player {
         this.state = true; //True = Alive, False = Dead
         this.isJailed = false; //Is the player in jail or not
         this.timeJailed = 0;//Nb of turn a player has been jailed
+        this.character = character;
     }
 }
