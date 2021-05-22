@@ -78,7 +78,18 @@ class monopalim{
         //this.dice1 = 2;
         //this.dice2 = 2;
         this.castValue = this.dice1 + this.dice2;
+        if (this.dice2 === this.dice1){
+            this.playerOrder[this.orderIndex].doubleNb++;
+            if (this.playerOrder[this.orderIndex].doubleNb === 3){
+                this.playerOrder[this.orderIndex].position = [10, 0];
+                this.playerOrder[this.orderIndex].isJailed = true;
+                this.isCast = false;
+                this.orderIndex = (this.orderIndex + 1) %5;
+                return true;
+            }
+        }
         this.isCast = true;
+        return true;
     }
 
     selectCase(x, y){
@@ -196,6 +207,7 @@ class monopalim{
         }
         player.isJailed = false;
         player.timeJailed = 0;
+        player.doubleNb = 0;
         return true;//Player can play
     }
 
@@ -207,6 +219,7 @@ class monopalim{
         return true;
     }
 
+    //Functional
     updateTurnNb(){
         let maxTurn = 21;
         //Checking with every player
@@ -218,6 +231,37 @@ class monopalim{
         }
         //After the loop we implement the "turn"
         this.turnNb = maxTurn;
+    }
+
+    //Major function that deals with the HB, functional
+    updatePlayersHb(){
+        //update on proprietyStats for every player
+        this.updateProprietyHb();
+
+        //Update on each player
+        for (let i = 0; i < this.playerTab.length; i++){
+            //Update on life stats
+            this.playerTab[i].ratio = (this.playerTab[i].fca / this.playerTab[i].pulsation) * 10;
+            this.playerTab[i].imc = this.playerTab[i].weight / ((this.playerTab[i].height / 100) * (this.playerTab[i].height / 100));
+            //Final addition
+            this.playerTab[i].healthyBar = this.playerTab[i].imc + this.playerTab[i].ratio + this.playerTab[i].proprietyHb;
+        }
+    }
+
+    //Functional
+    updateProprietyHb(){
+        let totalPropHb = 0;
+        //For every player
+        for (let i = 0; i < this.playerTab.length; i++){
+            totalPropHb = 0;
+            //For every propriety a player has
+            for (let j = 0; j < this.playerTab[i].myPropriety.length; j++){
+                if (typeof this.playerTab[i].myPropriety[j] !== 'undefined'){
+                    totalPropHb += 2 + 2 * this.playerTab[i].myPropriety[j].upgradeRate;
+                }
+            }
+            this.playerTab[i].proprietyHb = totalPropHb;
+        }
     }
 
     //Core functions
@@ -321,11 +365,19 @@ class monopalim{
             console.log("Player not on the board");
             return false; //Didn't move
         }
+
+        //Special Start interaction
         if(player.position[0] === 10 && player.position[1] === 10){
+            //Money
             player.money += 200;
+            //Turn stuff
             player.turnNb++;
             this.updateTurnNb();
+            //Hb stuff
+            player.weight -= 0.5;
+            player.pulsation += 2;
         }
+
         return true;
     }
 
@@ -344,7 +396,7 @@ class monopalim{
             return true;
         }
         if (!this.isCast){
-            this.castTheDice();
+            return false;
         }
 
         if (this.dice1 !== this.dice2){

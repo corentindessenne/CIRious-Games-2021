@@ -24,5 +24,7 @@ class player {
         this.isJailed = false; //Is the player in jail or not
         this.timeJailed = 0;//Nb of turn a player has been jailed
         this.turnNb = 0;//Nb of turn a player made
+        this.proprietyHb = 0;//Initiated at 0 because we start without any propriety
+        this.doubleNb = 0;
     }
 }

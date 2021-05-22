@@ -132,6 +132,8 @@ class view {
     displayHealthyBar() {
         let hb = document.getElementById('hb');
         hb.value = this.game.playerOrder[this.game.orderIndex].healthyBar;
+        let hbDiv = document.getElementById('hbDiv2');
+        hbDiv.innerText = this.game.playerOrder[this.game.orderIndex].healthyBar;
         return true;
     }
     displayCurrentPlayer() {//Used to set up the turn
@@ -416,7 +418,6 @@ class view {
         else{
             turn.innerText = 20 - this.game.turnNb + " tour !";
         }
-
     }
     updateInfos() {
         this.displayMap();
@@ -439,7 +440,7 @@ class view {
         this.displayDice();
 
         //Check Jail Status
-        if (this.game.jailInteraction(this.game.playerOrder[this.game.orderIndex])) {
+        if (this.game.jailInteraction(this.game.playerOrder[this.game.orderIndex]) === true) {
             //Play
             //We make the move 1 by 1
             for (let i = 1; i <= this.game.castValue; i++){
@@ -450,8 +451,7 @@ class view {
             this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
             this.updatePawns();
-            this.updatePawns();
-            
+
             //Update
             this.displayMoney();//Need to be wrapped
             this.displayHealthyBar();//Same
@@ -463,6 +463,8 @@ class view {
         }
 
         else {
+            this.updatePawns();
+            this.actionButtons("disable");
             //If the player is still in Jail it's the end of it's turn
             return this.endTurnEvent();
         }
@@ -512,6 +514,8 @@ class view {
     }
 
     endTurnEvent() {
+        //Game
+        this.game.updatePlayersHb();
         //Interface
         this.displayCurrentPlayer();
         this.displayMoney();
