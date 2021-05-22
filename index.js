@@ -173,7 +173,6 @@ app.post('/connect', (req, res) => {
                     req.session.save();
                     playersConnected.push(req.session.username);
                     res.redirect('../menu');
-                    console.log(playersConnected);
                 }
                 else{
                     req.session.error = 'error2';
@@ -200,7 +199,6 @@ app.post('/register', (req, res) => {
         if (error) throw error;
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
-            console.log('test n°1');
             con.query('INSERT INTO accounts (username, email, password, salt, picture) VALUES (?, ?, ?, ?, ?)', [username, email, passwordHash, salt, 'random.png'], function(error, results) {
                 if(error) throw error;
                 res.redirect('../connection');
@@ -282,7 +280,6 @@ app.post('/deletion',(req, res) => {
             if (index > -1) {
                 playersConnected.splice(index, 1);
             }
-            console.log(playersConnected);
             req.session.loggedin = false;
             req.session.username = undefined;
             req.session.password = undefined;
@@ -301,7 +298,49 @@ app.post('/deletion',(req, res) => {
 
 io.on('connection', socket => {
 
-    //take the type of game that the player choose
+    /** Interaction with registration and connection **/
+
+    socket.on('temp', () =>{
+        if(socket.handshake.session.secuPassword === 1){
+            socket.emit('temp2');
+            socket.handshake.session.secuPassword = 0;
+        }
+    });
+
+    //handle errors and send a notification
+    socket.on('errors', () =>{
+        if(socket.handshake.session.error === 'error1'){
+            socket.emit('error1');
+        }
+        else if(socket.handshake.session.error === 'error2'){
+            socket.emit('error2');
+        }
+        socket.handshake.session.error = '';
+    });
+
+    /** Interaction with profile and profile edition **/
+
+    socket.on('callPseudo', () =>{
+        socket.emit('displayPseudo', socket.handshake.session.username);
+    });
+    socket.on('callMail', () => {
+        let username = socket.handshake.session.username;
+        con.query('SELECT email FROM accounts WHERE username = ?', [username], function(err,res){
+            if(!err){
+                socket.emit('displayMail', res[0].email);
+            }
+        });
+    });
+    socket.on('callPicture', () => {
+        let username = socket.handshake.session.username;
+        con.query('SELECT picture FROM accounts WHERE username = ?', [username], function(err,res){
+            if(!err){
+                socket.emit('displayPicture', res[0].picture);
+            }
+        });
+    });
+
+    /** Create a game **/
     socket.on('typeGame', (typeGame) => {
         socket.handshake.session.game = typeGame;
         if(typeGame === 'gameAlreadyCreated'){
@@ -314,10 +353,7 @@ io.on('connection', socket => {
         if(socket.handshake.session.game === 'multiplayer'){
             socket.emit('multiplayerGame');
         }
-        else if(socket.handshake.session.game === 'gameAlreadyCreated'){
-            socket.emit('joinRoom');
-        }
-        else {
+        else if(socket.handshake.session.game !== 'gameAlreadyCreated'){
             socket.emit('privateGame');
         }
     });
@@ -328,8 +364,7 @@ io.on('connection', socket => {
         if (house.addWaiter(socket)) {
             if (house.getWaiters().length >= 4) {
                 let waiters = house.popWaiters();
-                console.log(waiters);
-                let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2], waiters[3]]);
+                let room = house.addRoom(0, [waiters[0], waiters[1], waiters[2], waiters[3]]);
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
                 room.state = 0;
@@ -359,6 +394,7 @@ io.on('connection', socket => {
     socket.on('createRoom', password => {
         let playersPrivate = [password, socket];
         privateRoom[privateRoom.length] = playersPrivate;
+        socket.emit('admin');
     });
 
     //search a room to join
@@ -368,42 +404,35 @@ io.on('connection', socket => {
                 if(privateRoom[i].length < 7) {
                     privateRoom[i].push(socket);
                     socket.emit('findRoom');
-                }
-                else{
-                    socket.emit('noPlace');
-                }
-            }
-            else{
-                socket.emit('errorSearch');
-            }
+                } else { socket.emit('noPlace'); }
+            } else { socket.emit('errorSearch'); }
         }
     });
 
+    //there was  redirection, we have to update the sockets in order to have the possibility to update the page
     socket.on('updatePrivateSocket', ()=>{
         if(socket.handshake.session.game !== 'multiplayer'){
-            console.log('updatePrivateSocket');
             for(let i = 0; i < privateRoom.length; i++) {
                 for (let j = 1; j < privateRoom[i].length; j++) {
                     if (privateRoom[i][j].handshake.sessionID === socket.handshake.sessionID) {
                         privateRoom[i][j] = socket;
-                        console.log('hasBeenUpdated');
                     }
                 }
             }
         }
     });
 
-    socket.on('privateRoom', () =>{
+    //when the admin validate the room
+    socket.on('privateRoom', (passwordRoom) =>{
         let index;
         for(let i = 0; i < privateRoom.length; i++){
             if(privateRoom[i][1] === socket){
                 index = i;
             }
         }
-
+        //privateRoom[index].length = all players of this room + 1 (password)
         if(privateRoom[index].length === 4){
-
-            let room = house.addPublicRoom([privateRoom[index][1], privateRoom[index][2], privateRoom[index][3]]);
+            let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3]]);
             room.player1 = privateRoom[index][1];
             room.player2 = privateRoom[index][2];
             room.player3 = privateRoom[index][3];
@@ -412,21 +441,51 @@ io.on('connection', socket => {
             room.player2.emit('play', room.player2.handshake.session.username);
             room.player3.emit('play', room.player3.handshake.session.username);
         }
+        else if(privateRoom[index].length === 5){
+            let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4]]);
+            room.player1 = privateRoom[index][1];
+            room.player2 = privateRoom[index][2];
+            room.player3 = privateRoom[index][3];
+            room.player4 = privateRoom[index][4];
 
-/*
-        house.setNbPlayers(3);
-        let room = house.addPublicRoom([privateRoom[0][1], privateRoom[0][2], privateRoom[0][3]]);
-        console.log(room);
+            room.player1.emit('play', room.player1.handshake.session.username);
+            room.player2.emit('play', room.player2.handshake.session.username);
+            room.player3.emit('play', room.player3.handshake.session.username);
+            room.player4.emit('play', room.player4.handshake.session.username);
+        }
+        else if(privateRoom[index].length === 6){
+            let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5]]);
+            room.player1 = privateRoom[index][1];
+            room.player2 = privateRoom[index][2];
+            room.player3 = privateRoom[index][3];
+            room.player4 = privateRoom[index][4];
+            room.player5 = privateRoom[index][5];
 
-        console.log(privateRoom[0][2].handshake.session.username)
-        /*
-        room.player1 = privateRoom[0][1];
-        room.player2 = privateRoom[0][2];
-        room.player3 = privateRoom[0][3];
+            room.player1.emit('play', room.player1.handshake.session.username);
+            room.player2.emit('play', room.player2.handshake.session.username);
+            room.player3.emit('play', room.player3.handshake.session.username);
+            room.player4.emit('play', room.player4.handshake.session.username);
+            room.player5.emit('play', room.player5.handshake.session.username);
+        }
+        else if(privateRoom[index].length === 6){
+            let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5], privateRoom[index][6]]);
+            room.player1 = privateRoom[index][1];
+            room.player2 = privateRoom[index][2];
+            room.player3 = privateRoom[index][3];
+            room.player4 = privateRoom[index][4];
+            room.player5 = privateRoom[index][5];
+            room.player6 = privateRoom[index][6];
 
-        room.player1.emit('play', room.player1.handshake.session.username);
-        room.player2.emit('play', room.player2.handshake.session.username);
-        room.player3.emit('play', room.player3.handshake.session.username);*/
+            room.player1.emit('play', room.player1.handshake.session.username);
+            room.player2.emit('play', room.player2.handshake.session.username);
+            room.player3.emit('play', room.player3.handshake.session.username);
+            room.player4.emit('play', room.player4.handshake.session.username);
+            room.player5.emit('play', room.player5.handshake.session.username);
+            room.player6.emit('play', room.player6.handshake.session.username);
+        }
+        else{
+            socket.emit('notEnoughPlayers');
+        }
     });
 
     let room;
@@ -434,72 +493,33 @@ io.on('connection', socket => {
     socket.on('update', ()=>{
         room = house.joinRoom(socket);
         if(room) {
-            console.log('please');
-            if (room.player1) room.player1.emit('updatePlease');
-            if (room.player2) room.player2.emit('updatePlease');
+            if (room.player1) room.player1.emit('');
+            if (room.player2) room.player2.emit('');
         }
-        else{
-            console.log(room);
-        }
-
-    });
-
-    socket.on('callPseudo', () =>{
-        socket.emit('displayPseudo', socket.handshake.session.username);
-    });
-
-    socket.on('callMail', () => {
-        let username = socket.handshake.session.username;
-        con.query('SELECT email FROM accounts WHERE username = ?', [username], function(err,res){
-            if(!err){
-                socket.emit('displayMail', res[0].email);
-            }
-        });
-    });
-
-    socket.on('callPicture', () => {
-        let username = socket.handshake.session.username;
-        con.query('SELECT picture FROM accounts WHERE username = ?', [username], function(err,res){
-            if(!err){
-                socket.emit('displayPicture', res[0].picture);
-            }
-        });
-    });
-
-    socket.on('temp', () =>{
-        if(socket.handshake.session.secuPassword === 1){
-            socket.emit('temp2');
-            socket.handshake.session.secuPassword = 0;
-        }
-    });
-
-    socket.on('errors', () =>{
-        if(socket.handshake.session.error === 'error1'){
-            socket.emit('error1');
-        }
-        else if(socket.handshake.session.error === 'error2'){
-            socket.emit('error2');
-        }
-        errorType = '';
-    });
-
-    //bonus
-    socket.on('invitation', (user) => {
-        socket.join(user);
-        io.sockets.in(user).emit('invite',socket);
     });
 
     socket.on('deconnect', ()=>{
-
+        if (house.isWaiter(socket)) house.deleteWaiter(socket);
+        else if (room) {
+            if (room.watch) {
+                room.game.lock();
+                let players = house.popRoom(socket);
+                players.forEach(player => player.emit('backHome', 'L\'adversaire a quitté la partie'));
+            } else {
+                room.reportDisappearance(socket, () => {
+                    room.game.lock();
+                    let players = house.popRoom(socket);
+                    players.forEach(player => player.emit('backHome', 'L\'adversaire a quitté la partie'));
+                }, 60000);
+            }
+        }
     });
 
     socket.on('logout', () => {
         let index = playersConnected.indexOf(socket.handshake.session.username);
-        console.log(index);
         if (index > -1) {
             playersConnected.splice(index, 1);
         }
-        console.log(playersConnected);
         socket.handshake.session.loggedin = false;
         socket.handshake.session.username = undefined;
         socket.handshake.session.password = undefined;

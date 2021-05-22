@@ -21,7 +21,6 @@ multijoueur.addEventListener('click', event =>{
 });
 validate.addEventListener('click', event =>{
     if(passwordRoom.value){
-        console.log(passwordRoom.value);
         socket.emit('searchRoom', passwordRoom.value);
     }
 });
@@ -45,6 +44,7 @@ socket.on('errorSearch', ()=>{
 
     notyf.error('Partie inexistante');
 });
+
 socket.on('noPlace', ()=>{
     let notyf = new Notyf({
         duration: 2000,

@@ -4,23 +4,8 @@ class Room {
         if(password === 0) password = undefined;
         this.public = password ? false : true;
         this.password = this.public ? undefined : password;
-        this.nbPrivatePlayers = 1;
         this.ready = false;
         this.time = 0;
-    }
-    setNbPrivatePlayers(nb){
-        this.nbPrivatePlayers = nb;
-    }
-    getNbPrivatePlayers(){
-        return this.nbPrivatePlayers;
-    }
-    isIn(socket) {
-        let i = 0;
-        while(i < this.diffSockets.length && this.diffSockets[i] && (this.diffSockets[i].handshake.session.username === socket.handshake.session.username)){
-            i++;
-        }
-        if(i !== 0) return true;
-        else return false;
     }
 
     update(socket) {
@@ -40,20 +25,6 @@ class Room {
                     setInterval(() => this.time++, 1000);
                 }
             }
-        }
-    }
-
-    join(socket) {
-        this.setNbPrivatePlayers(this.nbPrivatePlayers + 1);
-        console.log('join ' + this.getNbPrivatePlayers());
-        if (this.nbPrivatePlayers === 5) {
-            return false;
-        }
-        else {
-            for(let i = 0; i < this.diffSockets.length; i++){
-                if(!this.diffSockets[i]) this.diffSockets[i] = socket;
-            }
-            return true;
         }
     }
 
@@ -84,9 +55,6 @@ class House {
     setNbPlayers(nb){
         this.nbPlayers = nb;
     }
-    getRooms(){
-        return this.rooms;
-    }
     getWaiters(){
         return this.waiters;
     }
@@ -94,32 +62,6 @@ class House {
         let count = 0;
         for(let i = 0; i < this.nbPlayers; i++){
             if(this.rooms.some(room => (room.diffSockets[i] && room.diffSockets[i].handshake === socket.handshake))){
-                count++;
-            }
-        }
-        if(count !== 0) return true;
-        else return false;
-    }
-
-    isPlayerByUsername(username) {
-        let count = 0;
-        for(let i = 0; i < this.nbPlayers; i++){
-            if(this.rooms.some(room => (room.diffSockets[i] && room.diffSockets.handshake.session.username === username))){
-                count++;
-            }
-        }
-        if(count !== 0) return true;
-        else return false;
-    }
-
-    isFree(password) {
-        return !this.rooms.some(room => !room.public && room.password == password);
-    }
-
-    findRoomByUsername(username) {
-        let count = 0;
-        for(let i = 0; i < this.nbPlayers; i++){
-            if(this.rooms.find(room => (room.diffSockets[i] && room.diffSockets.handshake.session.username === username))){
                 count++;
             }
         }
@@ -138,11 +80,7 @@ class House {
         else return false;
     }
 
-    findRoomByPassword(password) {
-        return this.rooms.find(room => !room.public && room.password == password);
-    }
-
-    addPublicRoom(diffSockets) {
+    addRoom(password, diffSockets) {
         let count1 = 0;
         let count2 = 0;
         for (let i = 0; i < diffSockets.length; i++) {
@@ -153,7 +91,7 @@ class House {
                         if (!this.isPlayer(diffSockets[j])) {
                             count2++;
                             if (count2 === diffSockets.length) {
-                                this.rooms.push(new Room(0, diffSockets.join()));
+                                this.rooms.push(new Room(password, diffSockets.join()));
                                 return this.rooms[this.rooms.length - 1];
                             }
                         }
@@ -164,33 +102,13 @@ class House {
         return undefined;
     }
 
-    addPrivateRoom(socket, password) {
-        if (!this.isWaiter(socket)) {
-            if (!this.isPlayer(socket) && this.isFree(password)) {
-                this.rooms.push(new Room(password, socket));
-                return this.rooms[this.rooms.length - 1];
-            }
-        }
-        return undefined;
-    }
-
-    joinRoom(socket, password) {
-        if (password) {
-            if (!this.isWaiter(socket) && !this.isFree(password)) {
-                let room = this.findRoomByPassword(password);
-                if (room.join(socket)) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            if (!this.isWaiter(socket)){//} && this.isPlayer(socket)) {
+    joinRoom(socket) {
+        if (!this.isWaiter(socket)){//} && this.isPlayer(socket)) {
                 let room =  this.findRoomBySocket(socket);
                 room.update(socket);
                 return room;
             }
-            return undefined;
-        }
+        return undefined;
     }
 
     popRoom(socket) {
