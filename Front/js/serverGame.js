@@ -12,6 +12,7 @@ validate.addEventListener('click', event =>{
 });
 
 socket.emit('goodGame');
+socket.emit('updatePrivateSocket');
 
 socket.on('multiplayerGame', () =>{
     socket.emit('multiplayer');

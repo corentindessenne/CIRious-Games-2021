@@ -328,8 +328,8 @@ io.on('connection', socket => {
         if (house.addWaiter(socket)) {
             if (house.getWaiters().length >= 4) {
                 let waiters = house.popWaiters();
+                console.log(waiters);
                 let room = house.addPublicRoom([waiters[0], waiters[1], waiters[2], waiters[3]]);
-
                 //room.game = new stratego();
                 //room.board = room.game.getBoardGame();
                 room.state = 0;
@@ -366,8 +366,7 @@ io.on('connection', socket => {
         for(let i = 0; i < privateRoom.length; i++){
             if(privateRoom[i][0] === password){
                 if(privateRoom[i].length < 7) {
-                    let temp = [socket];
-                    privateRoom[i][privateRoom.length + 1] = socket;
+                    privateRoom[i].push(socket);
                     socket.emit('findRoom');
                 }
                 else{
@@ -380,31 +379,54 @@ io.on('connection', socket => {
         }
     });
 
+    socket.on('updatePrivateSocket', ()=>{
+        if(socket.handshake.session.game !== 'multiplayer'){
+            console.log('updatePrivateSocket');
+            for(let i = 0; i < privateRoom.length; i++) {
+                for (let j = 1; j < privateRoom[i].length; j++) {
+                    if (privateRoom[i][j].handshake.sessionID === socket.handshake.sessionID) {
+                        privateRoom[i][j] = socket;
+                        console.log('hasBeenUpdated');
+                    }
+                }
+            }
+        }
+    });
+
     socket.on('privateRoom', () =>{
-        /*let index;
+        let index;
         for(let i = 0; i < privateRoom.length; i++){
             if(privateRoom[i][1] === socket){
                 index = i;
             }
         }
-        if(privateRoom[index].length === 3){
 
+        if(privateRoom[index].length === 4){
 
-            let room = house.addPublicRoom([privateRoom[index][1], privateRoom[index][2]]);
+            let room = house.addPublicRoom([privateRoom[index][1], privateRoom[index][2], privateRoom[index][3]]);
             room.player1 = privateRoom[index][1];
             room.player2 = privateRoom[index][2];
+            room.player3 = privateRoom[index][3];
 
             room.player1.emit('play', room.player1.handshake.session.username);
             room.player2.emit('play', room.player2.handshake.session.username);
-        }*/
+            room.player3.emit('play', room.player3.handshake.session.username);
+        }
 
-        house.setNbPlayers(2);
-        let room = house.addPublicRoom([privateRoom[0][1], privateRoom[0][2]]);
+/*
+        house.setNbPlayers(3);
+        let room = house.addPublicRoom([privateRoom[0][1], privateRoom[0][2], privateRoom[0][3]]);
+        console.log(room);
+
+        console.log(privateRoom[0][2].handshake.session.username)
+        /*
         room.player1 = privateRoom[0][1];
         room.player2 = privateRoom[0][2];
+        room.player3 = privateRoom[0][3];
 
         room.player1.emit('play', room.player1.handshake.session.username);
         room.player2.emit('play', room.player2.handshake.session.username);
+        room.player3.emit('play', room.player3.handshake.session.username);*/
     });
 
     let room;
@@ -465,6 +487,10 @@ io.on('connection', socket => {
     socket.on('invitation', (user) => {
         socket.join(user);
         io.sockets.in(user).emit('invite',socket);
+    });
+
+    socket.on('deconnect', ()=>{
+
     });
 
     socket.on('logout', () => {

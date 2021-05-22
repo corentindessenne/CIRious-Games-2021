@@ -159,7 +159,6 @@ class House {
                         }
                     }
                 }
-
             }
         }
         return undefined;
