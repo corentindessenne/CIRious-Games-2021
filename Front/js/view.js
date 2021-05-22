@@ -6,9 +6,11 @@ class view {
 
     initView() {
         this.initListener();
+        this.updatePawns();
         this.displayCurrentPlayer();
         this.initBoardVisual();
-        this.displayMap();
+        this.displayGameInfos();
+        //this.displayMap();
         this.displayDice();
         this.displayMoney();
         this.displayHealthyBar();
@@ -73,10 +75,10 @@ class view {
     }
 
     //Typical View Function we will use for the game
-    displayMap() {//Displaying the map and the stuff on it
+    updateMap() {//Displaying the map and the stuff on it
         let gameBoard = document.getElementById('monopalimBoard');
         //We clear the board
-        /*for (let a = 0; a < 11; a++) {
+        for (let a = 0; a < 11; a++) {
             for (let b = 0; b < 11; b++) {
                 if (typeof gameBoard.rows[a].cells[b] !== 'undefined'){
                     gameBoard.rows[a].cells[b].innerText = '';
@@ -87,12 +89,14 @@ class view {
                     gameBoard.rows[a].cells[b].style.backgroundColor = 'red';
                 }
             }
-        }*/
-        /*//We show the new position
-        for (let i = 0; i < this.game.playerOrder.length; i++) {
+        }
+        //Do it with every player
+        for (let i = 0; i < this.game.playerTab.length; i++) {
+            for(let pNbr = 0; pNbr < this.game.playerTab[i].myPropriety.length; pNbr++){
+            }
             gameBoard.rows[this.game.playerOrder[i].position[0]].cells[this.game.playerOrder[i].position[1]].innerText = this.game.playerOrder[i].username;
             //Will be changed to image after
-        }*/
+        }
     }
     displayDice() {
         //Displaying the dice
@@ -389,11 +393,31 @@ class view {
     updatePawns(){
         let gameTab = document.getElementById('monopalimBoard');
         for (let i = 0; i < this.game.playerOrder.length; i++){
-            gameTab.rows[this.game.playerTab[i].position[0]].cells[this.game.playerTab[i].position[1]].appendChild(this.game.playerTab[i].character);
+            //Special bug with colspan
+            if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] === 1){
+                gameTab.rows[this.game.playerTab[i].position[0]].cells[2].appendChild(this.game.playerTab[i].character);
+            }
+            else if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] < 10){
+                gameTab.rows[this.game.playerTab[i].position[0]].cells[1].appendChild(this.game.playerTab[i].character);
+            }
+            else {
+                gameTab.rows[this.game.playerTab[i].position[0]].cells[this.game.playerTab[i].position[1]].appendChild(this.game.playerTab[i].character);
+            }
         }
     }
     //Used update most of the information a player needs like his money, his HB, etc...
+    displayGameInfos(){
+        let turn = document.getElementById('gameTurn');
 
+        //Grammar Stuff lul
+        if(this.game.turnNb < 19){
+            turn.innerText = 20 - this.game.turnNb + " tours !";
+        }
+        else{
+            turn.innerText = 20 - this.game.turnNb + " tour !";
+        }
+
+    }
     updateInfos() {
         this.displayMap();
         this.displayCurrentPlayer();
@@ -426,10 +450,9 @@ class view {
             this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
             this.updatePawns();
-            this.updateStats();
+            this.updatePawns();
             
             //Update
-            this.displayMap();//Useless
             this.displayMoney();//Need to be wrapped
             this.displayHealthyBar();//Same
 
@@ -494,10 +517,9 @@ class view {
         this.displayMoney();
         this.displayHealthyBar();
         this.displayProprietyTab();
-        this.displayMap();
         this.displayJailStatus();
         this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "no");
-
+        this.displayGameInfos();
         //Buttons
         this.actionButtons("disable");
         this.upgradeButtons("disable");

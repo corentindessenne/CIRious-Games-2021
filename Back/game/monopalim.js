@@ -31,6 +31,7 @@ class monopalim{
         this.selectedCase = undefined;
         this.hasMoved = false;
         this.taxesMoney = 0;
+        this.turnNb = 0;//We start at turn 0
 
         //Initiate the cards index
         this.qIndex = Math.floor(Math.random() * 29);
@@ -206,6 +207,19 @@ class monopalim{
         return true;
     }
 
+    updateTurnNb(){
+        let maxTurn = 21;
+        //Checking with every player
+        for (let i = 0; i < this.playerTab.length; i++){
+            //If we find a lower nb of turn
+            if (this.playerTab[i].turnNb < maxTurn){
+                maxTurn = this.playerTab[i].turnNb;
+            }
+        }
+        //After the loop we implement the "turn"
+        this.turnNb = maxTurn;
+    }
+
     //Core functions
 
     //TESTED AND FUNCTIONAL
@@ -309,6 +323,8 @@ class monopalim{
         }
         if(player.position[0] === 10 && player.position[1] === 10){
             player.money += 200;
+            player.turnNb++;
+            this.updateTurnNb();
         }
         return true;
     }
