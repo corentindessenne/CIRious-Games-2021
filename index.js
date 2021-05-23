@@ -135,7 +135,7 @@ app.get('/score', (req, res) => {
 //redirection tutorial page
 app.get('/tutorial', (req, res) => {
     if (req.session.loggedin)
-        res.sendFile(path.join(__dirname + '/Front/html/tutorialTest.html'));
+        res.sendFile(path.join(__dirname + '/Front/html/tutorial.html'));
     else res.redirect('/');
 });
 
@@ -173,15 +173,13 @@ app.post('/connect', (req, res) => {
                     req.session.save();
                     playersConnected.push(req.session.username);
                     res.redirect('../menu');
-                }
-                else{
+                } else {
                     req.session.error = 'error2';
                     res.redirect('../connection');
                 }
             }
         });
-    }
-    else{
+    } else {
         req.session.error = 'error1';
         res.redirect('../connection');
     }
@@ -341,6 +339,7 @@ io.on('connection', socket => {
     });
 
     /** Create a game **/
+
     socket.on('typeGame', (typeGame) => {
         socket.handshake.session.game = typeGame;
         if(typeGame === 'gameAlreadyCreated'){
@@ -488,6 +487,8 @@ io.on('connection', socket => {
         }
     });
 
+    /** Update game **/
+
     let room;
 
     socket.on('update', ()=>{
@@ -498,7 +499,7 @@ io.on('connection', socket => {
         }
     });
 
-    socket.on('deconnect', ()=>{
+    socket.on('disconnect', ()=>{
         if (house.isWaiter(socket)) house.deleteWaiter(socket);
         else if (room) {
             if (room.watch) {
