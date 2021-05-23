@@ -20,9 +20,11 @@ body{
 
 #topRightBox{
     grid-area: 1 / 5 / 2 / 6;
+    border: solid 2px orange;
 }
 #bottomRightBox{
     grid-area: 2 / 5 / 5 / 6;
+    border: solid 2px green;
 }
 
 /*Visual*/
@@ -80,8 +82,9 @@ body{
 #topLeftBox{
     position: relative;
     /*Images*/
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
+    border: solid 2px white;
 }
 #boxInfo{
     font-size: 18px;
@@ -91,7 +94,6 @@ body{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    
 }
 /*Css for box type */
 #boxType{
@@ -186,6 +188,7 @@ body{
 /*Infos on bottom left side*/
 #bottomLeftBox{
     position: relative;
+    border: 2px solid blue;
 }
 #playerInfo{
     font-size: 18px;
