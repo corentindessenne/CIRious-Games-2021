@@ -1,14 +1,14 @@
 class view {
     constructor(monopalimInstance) {
         this.game = monopalimInstance;
-        this.initView();
     }
+}
 
-    initView() {
+/*initView() {
         this.initListener();
         this.updatePawns();
         this.displayCurrentPlayer();
-        this.initBoardVisual();
+        //this.initBoardVisual();
         this.displayGameInfos();
         //this.displayMap();
         this.displayDice();
@@ -66,12 +66,6 @@ class view {
             this.game.upgradeRequest = button4.textContent;
             return this.actionEvent("upgrade")
         });
-    }
-
-    initBoardVisual(){
-        let gameBoard = document.getElementById('monopalimBoard');
-        //gameBoard.rows[10].cells[10].style.backgroundImage = "url('../assets/img/board/start.png')";
-        //gameBoard.rows[10].cells[10].style.backgroundImage.width = "20%";
     }
 
     //Typical View Function we will use for the game
@@ -284,7 +278,7 @@ class view {
                 case"start":
                     type = "Case spéciale";
                     content = "Passez par là pour obtenir 200 blés !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/game/start.png')";
+                    globalDiv.style.backgroundImage = "url('../assets/img/cards/start.png')";
                     break;
                 case"visitPrison":
                     type = "Case spéciale";
@@ -456,6 +450,17 @@ class view {
             this.displayMoney();//Need to be wrapped
             this.displayHealthyBar();//Same
 
+            //Check if it's over
+            if (this.game.checkState(this.game.playerOrder[this.game.orderIndex])){
+                this.updatePawns();
+                this.playerLostEvent();
+                if(this.game.checkEnd()){
+                    this.endOfTheGameEvent();
+                }
+                return this.endTurnEvent();
+            }
+            
+
             //If it's not an action
             if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
                 this.actionButtons("enable");
@@ -529,5 +534,4 @@ class view {
         this.upgradeButtons("disable");
 
         return true;
-    }
-}
+    }*/

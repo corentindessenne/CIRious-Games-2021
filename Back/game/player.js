@@ -26,5 +26,8 @@ class player {
         this.turnNb = 0;//Nb of turn a player made
         this.proprietyHb = 0;//Initiated at 0 because we start without any propriety
         this.doubleNb = 0;
+
+        //Used for end Game
+        this.rankPoints = 0;
     }
 }

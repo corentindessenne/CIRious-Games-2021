@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../CSS/game.css" />
+    
     <script type="text/javascript" src="../../Back/game/card.js"></script>
     <script type="text/javascript" src="../../Back/game/chanceCard.js"></script>
     <script type="text/javascript" src="../../Back/game/communityCard.js"></script>
@@ -16,14 +17,23 @@
     <script type="text/javascript" src="../../Back/game/player.js"></script>
     <script type="text/javascript" src="../../Back/game/monopalim.js"></script>
     <script type="text/javascript" src="../js/view.js"></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="../assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="../assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
     <!--First Part-->
     <!--Player State info (Money, HB, money at the center)-->
     <div id="topLeftBox">
-        <div id="boxInfo">
-            <span id="boxType">Bienvenue sur la case départ !
+        <div id="boxInfo" style="background-image: url('../assets/img/cards/start.png');">
+            <span id="boxType" style="color: red;">Bienvenue sur la case départ !
                 <br>
                 Vous commencez la partie avec 1500 blés.
                 <br>
@@ -39,11 +49,13 @@
     <div id="bottomLeftBox">
         <div id="playerInfo">
             <div id="moneyDiv">
-                <p id="moneyTxt">Vous avez <span id="playerMoney"></span>  <img src="../assets/img/money/monnaie.png" alt="new"/></p>
+                <p id="moneyTxt">Vous avez <span id="playerMoney">1500</span>  <img src="../assets/img/money/monnaie.png" alt="new"/></p>
             </div>   
+            <span id="hbValue">Score Nutritionnel :</span>
             <div id="hbDiv">
-                <span id="hbDiv2">Score Nutritionnel :</span>
-                <progress id="hb" max="100" value="0"></progress>
+                <div class="progress">
+                    <span class="progress-bar" style="width: 50%"></span>
+                </div>
             </div>
             <div id="taxesDiv">
                 Valeur du panier de fruit : <span id="taxesMoney">0</span>
@@ -68,7 +80,7 @@
                     <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
                     <td id="gameBoxH" background="../assets/img/board/question.png" style="transform: rotate(180deg);"></td>
                     <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                    <td id="gameBoxS"></td>
+                    <td id="gameBoxS" background="../assets/img/board/gotojail.png"></td>
                 </tr>
 
                 <tr>
@@ -142,27 +154,30 @@
     <div id="topRightBox">
         <div id="dice">
             <div id="totalTurnDiv">
-                Il reste <span id="gameTurn"></span>
+                Il reste <span id="gameTurn">20 tours !</span>
             </div>
             <div id="turnDiv">
-                C'est au tour de <span id="playerName"></span>
+                C'est au tour de <span id="playerName">Joueur 1</span>
             </div>
             <div id="diceDiv">
-                <span id="dice1"></span> <span id="dice2"></span>
-                <br><button type="button" id="rollDice" class="btn btn-info">LANCER</button>
+                <img src="../assets/img/dice/dice-six-faces-1.png" id="dice1">
+                <img src="../assets/img/dice/dice-six-faces-1.png" id="dice2">
+                <br>
+                <button class="btn effect04" target="_blank" data-sm-link-text="CLICK"><span>LANCER</span></button>
             </div>
+            <br>
             <div id="actionButtons">
-                <button type="button" id="buy" class="btn btn-success">Acheter</button>
-                <button type="button" id="redeem" class="btn btn-success">Racheter</button>
-                <button type="button" id="upgrade" class="btn btn-success">Améliorer</button>
-                <button type="button" id="nothing" class="btn btn-success">Rien</button>
+                <button type="button" id="buy">Acheter</button>
+                <button type="button" id="redeem">Racheter</button>
+                <button type="button" id="upgrade">Améliorer</button>
+                <button type="button" id="nothing">Rien</button>
             </div>
+            <br>
             <div id="upgradeButtons">
-                <span id="selectUpgrade"></span>
-                <button type="button" id="upgradeChoice1" class="btn btn-warning">grocery</button>
-                <button type="button" id="upgradeChoice2" class="btn btn-warning">market</button>
-                <button type="button" id="upgradeChoice3" class="btn btn-warning">supermarket</button>
-                <button type="button" id="upgradeChoice4" class="btn btn-warning">organic shop</button>
+                <button type="button" id="upgradeChoice1">Epicerie</button>
+                <button type="button" id="upgradeChoice2">Marché</button>
+                <button type="button" id="upgradeChoice3">Supermarché</button>
+                <button type="button" id="upgradeChoice4">Magasin Bio</button>
             </div>
             <span id="jailStatus"></span>
         </div>
@@ -182,54 +197,54 @@
                 <!--Infos-->
                 <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
+                    <td>Rien :(</td>
                 </tr>
                 </tbody>
             </table>

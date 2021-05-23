@@ -12,6 +12,8 @@ class monopalim{
         if (typeof player6 != 'undefined'){
             this.playerTab.push(player6);
         }
+        
+        this.playerRanking = [];
 
         //Initiate players order
         this.initPlayerOrder(this.playerTab);
@@ -38,6 +40,8 @@ class monopalim{
         this.ccIndex = Math.floor(Math.random() * 18);
         this.chIndex = Math.floor(Math.random() * 19);
         this.currentAnswer = [];
+
+        this.isFinished = false; //Game just started
     }
     
     //Initialisation Function
@@ -69,6 +73,52 @@ class monopalim{
         return !(typeof box.color === 'undefined' || box.upgradeRate === 2 || box.upgradeRate === 4 || box.type === "season");
     }
 
+    checkState(player){
+        //Full check
+        if ((player.healthyBar <= 0 || player.money <= 0) && player.state){
+            player.state = false;//Update player state
+            this.playerRanking[i].push(player);//Push him into the ranking tab
+            this.playerTab.splice(player.id, 1);//Delete him from the player tab
+            //Checking in the order tab
+            for (let j = 0; j < this.playerOrder.length; j++){
+                //If we find the right player
+                if (this.playerOrder[j].id === player.id){
+                    this.playerOrder.splice(j, 1);//Deleting him
+                }
+            }
+
+            //Changing turn
+            this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
+
+            return true;//Something changed
+        }
+        return false;//nothing changed
+    }
+
+    checkEnd(){
+        this.playerTab.forEach(element => this.checkState(element));
+
+        if (this.playerTab.length <= 1 || this.turnNb >= 20){
+            this.isFinished = true;
+            this.makeRanking();
+            return true;
+        }
+        return false;
+    }
+
+    makeRanking(){
+        let tempTab = [];
+        for (let i = 0; i < this.playerTab.length; i++){
+            this.playerTab[i].rankPoints = this.playerTab[i].healthyBar * 20 + this.playerTab[i].money
+            tempTab.push(this.playerTab[i]);
+        }
+        //Sort elements
+        tempTab.sort((a, b) => a.rankPoints - b.rankPoints);
+        //Elements implemented
+        tempTab.forEach(element => this.playerRanking.push(element));
+        return true;
+    }
+
     //Actions in the game
     castTheDice(){
         //Roll the dice !
@@ -78,8 +128,11 @@ class monopalim{
         //this.dice1 = 2;
         //this.dice2 = 2;
         this.castValue = this.dice1 + this.dice2;
+
+        //Jail speciality
         if (this.dice2 === this.dice1){
             this.playerOrder[this.orderIndex].doubleNb++;
+            //Going to jail
             if (this.playerOrder[this.orderIndex].doubleNb === 3){
                 this.playerOrder[this.orderIndex].position = [10, 0];
                 this.playerOrder[this.orderIndex].isJailed = true;
@@ -88,7 +141,9 @@ class monopalim{
                 return true;
             }
         }
+
         this.isCast = true;
+
         return true;
     }
 
@@ -653,6 +708,7 @@ class monopalim{
         else{
             this.proprietyInteraction(this.board.grid[player.position[0]][player.position[1]]);
         }
+        this.checkEnd();
         return true;
     }
 
@@ -668,6 +724,8 @@ class monopalim{
             this.proprietyAction(this.board.grid[this.playerOrder[this.orderIndex].position[0]][this.playerOrder[this.orderIndex].position[1]], this.playerOrder[this.orderIndex], whatToDo);
         }
         
+        this.checkEnd();
+
         //Check if player finished his turn
         if (this.dice1 !== this.dice2){
             this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
@@ -679,4 +737,6 @@ class monopalim{
 
         return true;
     }
+
+
 }

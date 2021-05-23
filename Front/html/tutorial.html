@@ -1,37 +1,44 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Monopalim Team">
-
+    <meta charset="UTF-8">
     <title>Monopalim</title>
 
     <!-- SCRIPT -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <!-- CSS links -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
-    <!-- Custom styles for this template -->
-    <link href="../css/menu.css" rel="stylesheet">
+    <!--My CSS-->
+    <link rel="stylesheet" href="../css/aboutUs.css">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="../assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="../assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body style="background-color: #89D1D9">
 
 <header>
-    <div class="navbar navbar-dark">
+    <div class="navbar navbar-dark" style="margin-bottom: 30px">
         <div class="container d-flex justify-content-between">
             <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 15px">
                 <img id="home" src="../assets/img/menu/home.png" width="40" height="40">
             </a>
             <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 10px">
-                <img src="../assets/img/banner/profileBanner.png" width="400" height="70">
+                <img src="../assets/img/banner/tutorialBanner.png" width="400" height="70">
             </a>
             <a href="#" class="navbar-brand d-flex align-items-center" >
                 <img id="profile" src="../assets/img/menu/profile.png" width="40" height="40">
@@ -40,106 +47,200 @@
     </div>
 </header>
 
-<main role="main">
-    <h2 align="center">Tutoriel / Règles</h2>
+<main>
+
+    <div class="container my-5">
+        <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg firstBox">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center">Comment jouer ?</h2>
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif;">Comment gagner ?</h4>
+                <p style="font-family: sans-serif">
+                    Il y a 4 façons différentes de gagner : <br>
+                    • Posséder toute une ligne du plateau <br>
+                    • Si vous possédez les quatres saisons <br>
+                    • Si vous êtes le dernier joueur “en vie” ou “non en faillite”<br>
+                    • Si au bout de 20 tours de plateau par un joueur, vous possédez la meilleure moyenne HealthyBar & Blé.<br> <br>
+                </p>
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">A qui de jouer ?</h4>
+                <p style="font-family: sans-serif">
+                    Le nom du joueur à qui c'est le tour s'affiche en haut à gauche.<br> <br>
+                </p>
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px">A votre tour !</h4>
+                <p style="font-family: sans-serif">
+                    Vous pouvez désormais modifier vos propriétés (cf. Modifications de propriété) <br>
+                    C'est à vous de lancer les dés, ce qui fera avancer votre pion.
+                    <img src="../assets/img/pawn/amongUs.gif" height="50"/>
+                    <img src="../assets/img/pawn/MrMonopalim.gif" height="60"/>
+                    <img src="../assets/img/pawn/booman.gif" height="40"/>
+                    <img src="../assets/img/pawn/dog.gif" height="40"/>
+                    <img src="../assets/img/pawn/ladyFarmerRun.gif" height="50"/>
+                    <img src="../assets/img/pawn/girl.gif" height="40"/>
+                    <img src="../assets/img/pawn/popo.gif" height="40"/>
+                    <img src="../assets/img/pawn/robotRun.gif" height="50"/>
+                    <img src="../assets/img/pawn/slimeRun40x40.gif" height="50"/>
+                    <img src="../assets/img/pawn/spaceshipFly.gif" height="50"/><br>
+                    Si vous avez fait un double, vous rejouez. Si jamais vous effectuez 3 doubles à la suite vous allez directement à la case diète et ce pour une durée de 3 tours de jeu et votre tour s’arrête. <br><br>
+                    En fonction de la case sur laquelle vous vous arrêtez, vous devrez, dans la plupart des cas, effectuer une action (cf. Types de cases et cases spéciales). <br><br>
+                    Dès que votre tour est fini, la main passe au joueur suivant.
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5 firstBox rounded-3 border shadow-lg" style="margin-bottom: 50px">
+        <div class="row flex-lg-row align-items-center">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center; margin-bottom: 30px">Types de cases</h2>
+            </div>
+            <div class="col-lg-6" style="border-right: 1px solid black;">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Terrains</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Vous pouvez acheter la propriété sur laquelle vous vous arrêtez en payant le prix indiqué sur la case. Vous recevrez en échange, comme preuve de cette acquisition, une carte de propriété.<br><br>
+                            Lorsque vous achetez des propriétés, vous devez penser à acheter, si possible, les autres propriétés de la même ligne, ou autrement dit de la même saison.
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/property.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Saisons</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Posséder la saison augmente le montant du loyer de toutes les propriétés de la ligne. Posséder 3 maisons sur cette même ligne vous permet d’améliorer le terrain.<br><br>
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/cards/property.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+        </div>
+        <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+            <div class="col-lg-6" style="border-right: 1px solid black;">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Chance</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Piocher une carte de type chance vous fera faire une action au hasard sur le jeu, allant
+                            du bonus de type financier à l'obtention de la carte CheatMeal... Mystère, mystère !
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/board/luck.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Communauté</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Piocher une carte de type chance vous fera faire une action au hasard sur le jeu, allant
+                            du bonus de type financier mais aussi au malus en tout genres jusqu'à l'obtention de la carte CheatMeal... Mystère, mystère !
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/board/community.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+        </div>
+        <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+            <div class="col-lg-12">
+                <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Questions</h4>
+                <table>
+                    <td>
+                        <p style="float:left; text-align: justify; padding-right: 20px">
+                            Cette nouvelle cases du jeu vous permettra d'en apprendre beaucoup plus concernant les bonnes habitudes alimentaires à avoir.
+                            De plus, chaque bonne réponse pourra vous rapporter des bonus ! 
+                        </p>
+                    </td>
+                    <td>
+                        <img src="../assets/img/board/question.png" width="170"/>
+                    </td>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5 firstBox rounded-3 border shadow-lg" style="margin-bottom: 50px">
+        <div class="row flex-lg-row align-items-center">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center; margin-bottom: 30px">Cases spéciales</h2>
+            </div>
+            <div class="row flex-lg-row align-items-center">
+                <div class="col-lg-6" style="border-right: 1px solid black;">
+                    <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Case départ</h4>
+                    <table>
+                        <td>
+                            <p style="float:left; text-align: justify; padding-right: 20px">
+                                Dès que vous passez par cette case vous gagnez 200 B. Si vous vous arrêtez dessus, vous gagnez le double : 400 B.
+                            </p>
+                        </td>
+                        <td>
+                            <img src="../assets/img/board/start.png" width="170"/>
+                        </td>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Panier garni</h4>
+                    <table>
+                        <td>
+                            <p style="float:left; text-align: justify; padding-right: 20px">
+                                Vous gagnez tout l’argent du milieu de plateau et diminuer votre pulsation cardiaque de 20 !
+                            </p>
+                        </td>
+                        <td>
+                            <img src="../assets/img/board/fruitBucket.png" width="170"/>
+                        </td>
+                    </table>
+                </div>
+            </div>
+            <div class="row flex-lg-row align-items-center" style="margin-top: 50px">
+                <div class="col-lg-6" style="border-right: 1px solid black;">
+                    <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Aller en diète</h4>
+                    <table>
+                        <td>
+                            <p style="float:left; text-align: justify; padding-right: 20px">
+                                Rendez-vous au “Centre diététique”, sans toucher votre salaire de 200 B. Pour sortir, vous devez répondre à une question ou disposez d'une carte CheatMeal.
+                            </p>
+                        </td>
+                        <td>
+                            <img src="../assets/img/board/gotojail.png" width="170"/>
+                        </td>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <h4 class="fw-bold lh-1" style="font-family: sans-serif; margin-top: 20px" align="center">Visite du centre / Centre diététique</h4>
+                    <table>
+                        <td>
+                            <p style="float:left; text-align: justify; padding-right: 20px">
+                                Si vous n’êtes pas en diète, vous passerez par la case visite du centre. Cette case n’a aucun impact sur votre vie de joueur, elle vous sert juste à observer ceux qui se sont laissés aller.
+                                <br>Si vous êtes en diète, vous serez dans la case juste à côté en centre diététique.
+                        </td>
+                        <td>
+                            <img src="../assets/img/board/jail.png" width="170"/>
+                        </td>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5 firstBox rounded-3 border shadow-lg" style="margin-bottom: 50px">
+        <div class="row flex-lg-row align-items-center">
+            <div class="col-lg-12 p-1 p-lg-1 pt-lg-1">
+                <h2 class="fw-bold lh-1" style="font-family: sans-serif; font-weight: bold; text-align: center; margin-bottom: 30px">Améliorations des propriétés</h2>
+                <img src="../assets/img/tutorial.png" style="margin: 0 22%" width="600">
+
+            </div>
+        </div>
+    </div>
 </main>
-<body>
-
-    <div id="importantrules">
-    <h2><u>Principales règles de jeu :</u></h2>
-    <p> <u>Comment gagner ? </u><br>
-     
-       Dans le Monopalim, il y a 4 façons différentes de gagner : - Posséder toute une ligne du plateau c’est gagné. <br> 
-                               - Si vous possédez les quatres saisons, c’est gagné. <br> 
-                                          - Si vous êtes le dernier joueur “en vie” ou “non en faillite”, c’est gagné. <br> 
-                               - Si au bout de 20 tours de plateau par un joueur, vous possédez la meilleure moyenne HealthyBar & Blé.<br> <br>  
-        
-      <u> Comment gagner de la HealthyBar ?</u> <br> 
-        
-       La HealthyBar est une moyenne de vos statistiques physiques parmi : l’IMC , rapport entre fréquence cardiaque aérobique et pulsation par minute soit FCA / PULS et enfin le nutriscore moyen des propriétés.  <br> 
-       La HealthyBar est initialisée à 50.<br> <br> 
-        
-       <u>Comment gagner du Blé ? </u><br> 
-        
-       Chaque tour de plateau vous octroie 400 B, le double si vous tombez sur la case départ. Les cartes Chance, Caisse de communauté et Questions peuvent également vous en faire gagner. Si un autre joueur que vous tombe sur l’une de vos propriétés, il devra vous verser un montant dépendant du type de propriété et de son grade.  <br> <br>
-        
-       <u>Qui joue en premier ? </u><br> 
-        
-       L’ordre sera déterminé au hasard avec le jeu. <br> <br> 
-        
-       Quand c’est votre tour :  <br> <br>
-       
-       - Vous pouvez modifier vos propriétés (Augmentation de grade, changement de terrain, achat / échange / revente...) <br> 
-       - Une fois complétée vous pouvez lancer les dés. <br> 
-       - En fonction de la case sur laquelle vous vous arrêtez vous devrez, dans la plupart des cas effectuer une action. <br> 
-       - Si vous avez fait un double, vous rejouez. Si jamais vous effectuer 3 doubles à la suite vous allez directement à la case diète et ce pour une durée de 3 tours de jeu et votre tour s’arrête. <br> 
-       - Dès que votre tour est fini, la main passe au joueur suivant.  </p>
-    </div>
-    
-    <div id="identity">
-    <h2><u>Identité :</u></h2>
-    <p> <u> Nom du jeu : </u>  MONOPALIM<br><br>  
-       <u> Monnaie du jeu :</u> le Blé (B)<br><br> 
-       Chaque joueur possède une barre de vie appelée HealthyBar <br><br> 
-       Les gares sont remplacées par les Saisons.</p>
-       Quand vous arrivez sur une case Chance, Caisse de communauté ou Question, la première carte sur le paquet est sélectionnée.<br><br>
-    </div>
-    
-    <div id="gamemodes">
-    <h2> <u>Modes de jeu :</u></h2>
-    <p> 
-       - Mode local <br><br> 
-       - Mode multijoueur <br><br> 
-       - Créer une partie en multijoueur sur un serveur privé <br><br> 
-       - Une page de score pour chaque joueur <br><br> 
-       - Page des magnifiques créateurs du jeu ! <br><br> 
-       </p>
-    </div>
-    
-    <div id="propertyactions">
-    <h2><u>Les actions de biens :</u></h2>
-    <p><u> Il existe 2 types de propriétés : </u><br><br>  
-    
-       <u>Terrain</u><br><br> 
-             - Vous pouvez acheter la propriété sur laquelle vous vous arrêtez en payant le prix indiqué sur la case. Vous recevrez en échange, comme preuve de cette acquisition, une carte de propriété.<br><br> 
-             - Lorsque vous achetez des propriétés, vous devez penser à acheter, si possible, les autres propriétés de la même ligne, ou autrement dit de la même saison.<br><br> 
-       <u>Saison</u><br><br>
-
-        
-       <u>Propriétés d'un autre joueur :</u>
-       Si vous vous arrêtez sur une propriété qui appartient à un autre joueur, vous devez payer un loyer. Le montant du loyer est indiqué sur le titre de propriété et varie selon le grade du terrain.  
-       Attention, il est également possible de racheter le terrain de l’adversaire, au double de sa valeur !<br><br> </p>
-    </div>
-    
-    <div id="specialcases">
-       <h2><u>Cases spéciales :</u></h2>
-       <p>
-          <u>Aller en Diète : </u>Rendez-vous au “Centre diététique”, sans toucher votre salaire de 200 B. Pour sortir, vous devez répondre à une question ou disposez d'une carte CheatMeal<br> <br>
-         <u> Visite du centre / Centre diététique :</u> Si vous n’êtes pas en diète, vous passerez par la case visite du centre. Cette case n’a aucun impact sur votre vie de joueur, elle vous sert juste à observer ceux qui se sont laissés aller. Si vous êtes en diète, vous serez dans la case juste à côté en centre diététique. <br><br> 
-          <u> Panier Garni : </u> Vous gagnez tout l’argent du milieu de plateau et diminuer votre pulsation cardiaque de 20 ! <br><br> 
-         <u> Case départ : </u>Dès que vous passez par cette case vous gagnez 200 B. Si vous vous arrêtez dessus, vous gagnez le double : 400 B.    
-       </p>
-    </div>
-    
-    <div id="details">
-       <h2><u>Spécificités : </u></h2>
-       <p>
-          S’il ne vous reste plus d’argent et que vous devez payer un joueur / une dette, vous devez vendre une propriété. <br><br>
-    
-          Vous ne pouvez construire que lors de votre tour de jeu.  <br><br>
-    
-          Les terrains peuvent être rétrogradés et / ou vendus pour la moitié de leur valeur.  <br><br>
-    
-          Lors des améliorations, il est impossible de passer de la colonne marché à la case épicerie, marché à grande surface etc.... . Dès qu’une branche est choisie elle doit être poursuivie jusqu’à la fin ou la rétrogradation du terrain. 
-      </p>
-    </div>
-    
-    <div id ="houseimprovement">
-       <h2><u>Les différentes améliorations :</u></h2>
-       <p>
-         <img src= "../assets/img/hypermarket.png" alt ="image" height="1000" width="1500">
-       </p>
-    </div>
 <script>
     let socket = io();
 </script>

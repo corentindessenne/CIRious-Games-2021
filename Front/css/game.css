@@ -2,27 +2,37 @@ body{
     background: #89D1D9;
     display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(4, 1fr);/* Creates 4 Rows, each of 1 frame*/
+	grid-template-rows: repeat(3, 1fr);/* Creates 3 Rows, each of 1 frame*/
+    grid-template-areas: 
+    "a b b b c"
+    "a b b b d"
+    "e b b b d";
     text-align: center;
 }
 
 /*Placement*/
 #topLeftBox{
-    grid-area: 1 / 1 / 4 / 2;
+    grid-area: a;
+    border: solid 2px black;
 }
 #bottomLeftBox{
-    grid-area: 4 / 1 / 5 / 2; /* row start / column start / row end / column end*/
+    grid-area: e; /* row start / column start / row end / column end*/
+    border: solid 2px blue;
 }
 
 #center{
-    grid-area: 1 / 2 / 5 / 5;
+    grid-area: b;
+    border: solid 2px red;
+    margin: auto;
 }
 
 #topRightBox{
-    grid-area: 1 / 5 / 2 / 6;
+    grid-area: c;
+    border: solid 2px orange;
 }
 #bottomRightBox{
-    grid-area: 2 / 5 / 5 / 6;
+    grid-area: d;
+    border: solid 2px green;
 }
 
 /*Visual*/
@@ -30,13 +40,10 @@ body{
 /*Centered Board*/
 #center{
     justify-self: center;
-    margin: auto;
 }
 #monopalimBoard{
-    
     display: block;
     width: 100%;
-   
 }
 /*Every Box*/
 #monopalimBoard #gameBoxS{
@@ -76,27 +83,33 @@ body{
     background-repeat: no-repeat;
     background-size: 97%;
 }
+
 /*Cards On left Top Side*/
 #topLeftBox{
     position: relative;
     /*Images*/
-    background-size: cover;
     background-repeat: no-repeat;
 }
 #boxInfo{
     font-size: 18px;
-    border: none;
-    width:100%;
-    /*Vertical Align*/
+    background-size: 100%;
+    background-repeat: no-repeat;
+    /*Vertical align for text inside*/
+    height: 476px;
+    line-height: 476px;
+    /*Vertical Align for image*/
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    
 }
 /*Css for box type */
 #boxType{
-    color: black;
+    color: red;
     font-weight: bold;
+    /*Vertical Align*/
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
 }
 /*Css Community & Chance cards*/
 #cardContent{
@@ -206,61 +219,45 @@ body{
     height: auto;
 }
 /*Player's HB*/
-#hbDiv{
+#hbValue{
     color: green;
 }
-#hbDiv progress{
-    display: inline-block;
-    -moz-box-sizing: border-box;
-         box-sizing: border-box;
-    width: 75%;
-    height: auto;
-    padding: 3px 3px 2px 3px;
-    background: #333; 
-    background: -webkit-linear-gradient(#2d2d2d,#444);
-    background:    -moz-linear-gradient(#2d2d2d,#444);
-    background:      -o-linear-gradient(#2d2d2d,#444);
-    background:         linear-gradient(#2d2d2d,#444);
-    border: 1px solid rgba(0,0,0,.5);
-    border-radius: 15px;
-    box-shadow: 0 1px 0 rgba(255,255,255,.2); 
+#hbDiv{
+    align-items: center;
+    justify-content: center;
+    display:flex;
 }
-#hbDiv progress::-moz-progress-bar{
-    border-radius:10px;
-    background: #09c;
-    background: 
-      -moz-repeating-linear-gradient(
-        45deg, 
-        rgba(255,255,255,.2) 0,
-        rgba(255,255,255,.2) 10px, 
-        rgba(255,255,255,0) 10px,
-        rgba(255,255,255,0) 20px
-      ),
-      -moz-linear-gradient(
-        rgba(255,255,255,.1) 50%,
-        rgba(255,255,255,0) 60%
-      ),
-      #09c;
-    background: 
-      repeating-linear-gradient(
-        45deg, 
-        rgba(255,255,255,.2) 0,
-        rgba(255,255,255,.2) 10px, 
-        rgba(255,255,255,0) 10px,
-        rgba(255,255,255,0) 20px
-      ),
-      linear-gradient(
-        rgba(255,255,255,.1) 50%,
-        rgba(255,255,255,0) 60%
-      ),
-      #09c;
-    background-size: 300px 20px, auto, auto;
-    background-position: -300px 0, top, top;
-    background-position: top right, top, top;
-    box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 
-                0 -1px 0 rgba(0,0,0,.8) inset,
-                0 0 2px black;
+.progress{
+  width: 100%;
+  max-width: 260px;
+  height: 6px;
+  background: #e1e4e8;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar{
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg,#ffd33d,#ea4aaa 17%,#b34bff 34%,#01feff 51%,#ffd33d 68%,#ea4aaa 85%,#b34bff);
+    background-size: 300% 100%;
+    animation: progress-animation 2s linear infinite;
+}  
+@-webkit-keyframes progress-animation {
+    0% {
+      background-position: 100%;
+    }
+    100% {
+      background-position: 0;
+    }
+  }
   
+@keyframes progress-animation {
+    0% {
+      background-position: 100%;
+    }
+    100% {
+      background-position: 0;
+    }
 }
 /*taxe's pot*/
 #taxesDiv{
@@ -270,14 +267,156 @@ body{
 /*Game in the middle*/
 
 /*Actions in the top right corner*/
+#totalTurnDiv{
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+#turnDiv{
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+}
+#playerName{
+    text-decoration: underline;
+    color: red;
+}
 #diceDiv img{
     width: 23%;
+}
+/*Button "lancer"*/
+/* Credit : https://twitter.com/masuwa1018*/
+.btn {
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 45px;
+    max-width: 160px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    size: 50%;
+  }
+  .btn:hover {
+    text-decoration: none;
+  }
+  
+  /*btn_background*/
+  .effect04 {
+    --uismLinkDisplay: var(--smLinkDisplay, inline-flex);
+    display: var(--uismLinkDisplay);
+    color: #2484BF;
+    outline: solid  2px #2484BF;
+    position: relative;
+    transition-duration: 0.4s;
+    overflow: hidden;
+    font-weight: bold;
+  }
+  
+  .effect04::before,
+  .effect04 span{
+      margin: 0 auto;
+      transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+      transition-duration: 0.4s;
+  }
+
+  .effect04:hover{
+  
+    background-color: #89D1D9;
+  }
+  
+  /* HOVER */
+  .effect04:hover span{
+    -webkit-transform: translateY(-400%) scale(-0.1,20);
+            transform: translateY(-400%) scale(-0.1,20);
+  }
+  
+  .effect04::before{
+    content: attr(data-sm-link-text);
+      color: red;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-weight: bold;
+    -webkit-transform: translateY(500%) scale(-0.1,20);
+            transform: translateY(500%) scale(-0.1,20);
+  }
+  
+  /* HOVER */
+  .effect04:hover::before{
+    letter-spacing: 0.05em;
+    -webkit-transform: translateY(0) scale(1,1);
+            transform: translateY(0) scale(1,1);
+}
+
+/*Action buttons*/
+#actionButtons{
+    filter: drop-shadow(3px 10px 15px rgba(0, 0, 0, 0.45));
+}
+#actionButtons button{
+    height: 37px;
+    width: 75px;
+    background: linear-gradient(to bottom, #C5E0B4, #548235);
+    font-weight: bold;
+    color: white;
+    font-size: 13px;
+    border: none;
+    margin: -5px; 
+    padding: 0;
+    stroke: black;
+    outline: none;
+}
+#actionButtons :nth-child(1){
+    border-radius: 20px 0 0 20px;
+}
+#actionButtons :nth-child(4){
+    border-radius: 0 20px 20px 0;
+}
+#actionButtons button:hover{
+    cursor: pointer;
+    filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+}
+#actionButtons button:active{
+    filter: none;
+    transform: scale(.95);
+}
+
+#upgradeButtons{
+    filter: drop-shadow(3px 10px 15px rgba(0, 0, 0, 0.45));
+}
+#upgradeButtons button{
+    height: 37px;
+    width:79px;
+    background: linear-gradient(to bottom, #F2A413, #F8D088);
+    font-weight: bold;
+    color: white;
+    font-size: 11px;
+    border: none;
+    margin: -5px; 
+    padding: 0;
+    stroke: black;
+    outline: none;
+}
+#upgradeButtons :nth-child(1){
+    border-radius: 20px 0 0 20px;
+}
+#upgradeButtons :nth-child(4){
+    border-radius: 0 20px 20px 0;
+}
+#upgradeButtons button:hover{
+    cursor: pointer;
+    filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+}
+#upgradeButtons button:active{
+    filter: none;
+    transform: scale(.95);
 }
 /*Propriety Tab in the Bottom right corner*/
 #bottomRightBox{
     font-weight: bold;
     font-size: 18px;
-    margin: auto;
 }
 #bottomRightBox table{
     width: 100%;

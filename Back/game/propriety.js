@@ -30,7 +30,7 @@ class propriety {
             this.price[1] = value * 2;
             this.price[2] = value * 4;
             this.price[3] = value * 1.5;
-            this.price[4] = value * 3.5;
+            this.price[4] = value * 3;
         }
         else{
             this.income = [income];//Income never change
