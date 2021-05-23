@@ -135,7 +135,7 @@ app.get('/score', (req, res) => {
 //redirection tutorial page
 app.get('/tutorial', (req, res) => {
     if (req.session.loggedin)
-        res.sendFile(path.join(__dirname + '/Front/html/tutorial.html'));
+        res.sendFile(path.join(__dirname + '/Front/html/tutorialTest.html'));
     else res.redirect('/');
 });
 

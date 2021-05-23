@@ -60,16 +60,16 @@
                 <p style="font-family: sans-serif">
                     Vous pouvez désormais modifier vos propriétés (cf. Modifications de propriété) <br>
                     C'est à vous de lancer les dés, ce qui fera avancer votre pion.
-                    <img src="../assets/img/game/Amogus%20.gif" height="50"/>
-                    <img src="../assets/img/pawn/animation.gif" height="60"/>
+                    <img src="../assets/img/pawn/amongUs.gif" height="50"/>
+                    <img src="../assets/img/pawn/MrMonopalim.gif" height="60"/>
                     <img src="../assets/img/pawn/booman.gif" height="40"/>
                     <img src="../assets/img/pawn/dog.gif" height="40"/>
-                    <img src="../assets/img/game/Fermière%20run.gif" height="50"/>
+                    <img src="../assets/img/pawn/ladyFarmerRun.gif" height="50"/>
                     <img src="../assets/img/pawn/girl.gif" height="40"/>
                     <img src="../assets/img/pawn/popo.gif" height="40"/>
-                    <img src="../assets/img/game/Robot%20run.gif" height="50"/>
-                    <img src="../assets/img/game/slime.gif" height="50"/>
-                    <img src="../assets/img/game/Spaceship%20open.gif" height="50"/><br>
+                    <img src="../assets/img/pawn/robotRun.gif" height="50"/>
+                    <img src="../assets/img/pawn/slimeRun40x40.gif" height="50"/>
+                    <img src="../assets/img/pawn/spaceshipFly.gif" height="50"/><br>
                     Si vous avez fait un double, vous rejouez. Si jamais vous effectuez 3 doubles à la suite vous allez directement à la case diète et ce pour une durée de 3 tours de jeu et votre tour s’arrête. <br><br>
                     En fonction de la case sur laquelle vous vous arrêtez, vous devrez, dans la plupart des cas, effectuer une action (cf. Types de cases et cases spéciales). <br><br>
                     Dès que votre tour est fini, la main passe au joueur suivant.
@@ -118,11 +118,12 @@
                 <table>
                     <td>
                         <p style="float:left; text-align: justify; padding-right: 20px">
-                            Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.
+                            • Piocher une carte de type chance vous fera faire une action au hasard sur le jeu, allant 
+                            du bonus de type financier à l'obtention de la carte CheatMeal... Mystère, mystère !
                         </p>
                     </td>
                     <td>
-                        <img src="../assets/img/board/chance.png" width="170"/>
+                        <img src="../assets/img/board/luck.png" width="170"/>
                     </td>
                 </table>
             </div>
@@ -131,11 +132,12 @@
                 <table>
                     <td>
                         <p style="float:left; text-align: justify; padding-right: 20px">
-                            Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.
+                            • Piocher une carte de type chance vous fera faire une action au hasard sur le jeu, allant 
+                            du bonus de type financier mais aussi au malus en tout genres jusqu'à l'obtention de la carte CheatMeal... Mystère, mystère !
                         </p>
                     </td>
                     <td>
-                        <img src="../assets/img/board/communaute.png" width="170"/>
+                        <img src="../assets/img/board/community.png" width="170"/>
                     </td>
                 </table>
             </div>
@@ -146,7 +148,8 @@
                 <table>
                     <td>
                         <p style="float:left; text-align: justify; padding-right: 20px">
-                            Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.Il faut compléter ici please, avec détails de ce que ça fait et tout et tout.
+                            • Cette nouvelle cases du jeu vous permettra d'en apprendre beaucoup plus concernant les bonnes habitudes alimentaires à avoir.
+                            De plus, chaque bonne réponse pourra vous rapporter des bonus ! 
                         </p>
                     </td>
                     <td>
@@ -199,7 +202,7 @@
                             </p>
                         </td>
                         <td>
-                            <img src="../assets/img/board/jail.png" width="170"/>
+                            <img src="../assets/img/board/gotojail.png" width="170"/>
                         </td>
                     </table>
                 </div>
@@ -220,5 +223,9 @@
         </div>
     </div>
 </main>
+<script>
+    let socket = io();
+</script>
+<script src="../js/header.js"></script>
 </body>
 </html>
