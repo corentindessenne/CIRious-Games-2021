@@ -29,6 +29,7 @@ socket.emit('updatePrivateSocket');
 socket.on('multiplayerGame', () =>{
     socket.emit('multiplayer');
 });
+
 socket.on('admin', () =>{
     validate.style.display = 'block';
     validateText.style.display = 'block';
@@ -47,6 +48,10 @@ socket.on('notEnoughPlayers', ()=>{
     notyf.error('Vous n\êtes pas assez pour jouer');
 });
 
+socket.on('backHome', ()=>{
+   window.location.href = '/menu';
+});
+
 
 socket.on('privateGame', ()=> {
     socket.emit('createRoom', passwordRoom);
@@ -56,5 +61,11 @@ socket.on('privateGame', ()=> {
 socket.on('play', (pseudo) =>{
     validate.style.display = 'none';
     validateText.style.display = 'none';
-    waiting.innerText = "bonjour " + pseudo;
+    waiting.innerText = "Pour une meilleure visibilité, appuyez sur les touches fn + f11";
+});
+
+socket.on('test', () =>{
+    validate.style.display = 'none';
+    validateText.style.display = 'none';
+    waiting.innerText = "ehoh";
 });

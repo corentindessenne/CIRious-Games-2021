@@ -70,14 +70,7 @@ class House {
     }
 
     findRoomBySocket(socket) {
-        let count = 0;
-        for(let i = 0; i < this.nbPlayers; i++){
-            if(this.rooms.find(room => (room.diffSockets[i] && room.diffSockets.handshake.session.username === socket.handshake.session.username))){
-                count++;
-            }
-        }
-        if(count !== 0) return true;
-        else return false;
+        return this.rooms.find(room => (room.player1 && room.player1.handshake.sessionID === socket.handshake.sessionID) || (room.player2 && room.player2.handshake.sessionID === socket.handshake.sessionID) || (room.player3 && room.player3.handshake.sessionID === socket.handshake.sessionID) || (room.player4 && room.player4.handshake.sessionID === socket.handshake.sessionID) || (room.player5 && room.player5.handshake.sessionID === socket.handshake.sessionID) || (room.player6 && room.player6.handshake.sessionID === socket.handshake.sessionID));
     }
 
     addRoom(password, diffSockets) {
@@ -105,7 +98,6 @@ class House {
     joinRoom(socket) {
         if (!this.isWaiter(socket)){//} && this.isPlayer(socket)) {
                 let room =  this.findRoomBySocket(socket);
-                room.update(socket);
                 return room;
             }
         return undefined;
@@ -113,14 +105,13 @@ class House {
 
     popRoom(socket) {
         let array = new Array();
-        if (this.isPlayer(socket)) {
-            let room = this.findRoomBySocket(socket);
-            room.destroyReports();
-            for(let i = 0; i < room.diffSockets.length; i++){
-                if(room.diffSockets[i]) array.push(room.diffSockets[i]);
-            }
-            this.rooms.splice(this.rooms.indexOf(room), 1);
+        let room = this.findRoomBySocket(socket);
+        room.destroyReports();
+        for(let i = 0; i < room.diffSockets.length; i++){
+            if(room.diffSockets[i]) array.push(room.diffSockets[i]);
         }
+        this.rooms.splice(this.rooms.indexOf(room), 1);
+
         return array;
     }
 

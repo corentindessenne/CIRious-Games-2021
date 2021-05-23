@@ -71,6 +71,7 @@ if (app.get('env') === 'production') {
 let house = new House();
 let playersConnected = [];
 let privateRoom = [];
+let privateRoomDeconnected = [];
 
 /**** Redirection ****/
 
@@ -316,6 +317,19 @@ io.on('connection', socket => {
         socket.handshake.session.error = '';
     });
 
+    socket.on('errors2', () =>{
+        for(let i = 0; i < privateRoomDeconnected.length; i++) {
+            if (privateRoomDeconnected[i].handshake.sessionID === socket.handshake.sessionID) {
+                socket.handshake.session.error = privateRoomDeconnected[i].handshake.session.error;
+            }
+        }
+        if(socket.handshake.session.error === 'deconnection'){
+            socket.emit('errorDeconnection');
+        }
+        socket.handshake.session.error = '';
+    });
+
+
     /** Interaction with profile and profile edition **/
 
     socket.on('callPseudo', () =>{
@@ -492,27 +506,49 @@ io.on('connection', socket => {
     let room;
 
     socket.on('update', ()=>{
+        house.setNbPlayers(4);
         room = house.joinRoom(socket);
         if(room) {
-            if (room.player1) room.player1.emit('');
-            if (room.player2) room.player2.emit('');
+            if (room.player1) room.player1.emit('test');
+            if (room.player2) room.player2.emit('test');
+            if (room.player3) room.player3.emit('test');
         }
     });
 
     socket.on('disconnect', ()=>{
         if (house.isWaiter(socket)) house.deleteWaiter(socket);
         else if (room) {
-            if (room.watch) {
-                room.game.lock();
-                let players = house.popRoom(socket);
-                players.forEach(player => player.emit('backHome', 'L\'adversaire a quitté la partie'));
-            } else {
-                room.reportDisappearance(socket, () => {
-                    room.game.lock();
-                    let players = house.popRoom(socket);
-                    players.forEach(player => player.emit('backHome', 'L\'adversaire a quitté la partie'));
-                }, 60000);
+            if (room.player1 && socket.handshake.sessionID !== room.player1.handshake.sessionID) {
+                room.player1.emit('backHome');
+                room.player1.handshake.session.error = 'deconnection';
+                privateRoomDeconnected.push(room.player1);
             }
+            if (room.player2 && socket.handshake.sessionID !== room.player2.handshake.sessionID){
+                room.player2.emit('backHome');
+                room.player2.handshake.session.error = 'deconnection';
+                privateRoomDeconnected.push(room.player2);
+            }
+            if (room.player3 && socket.handshake.sessionID !== room.player3.handshake.sessionID) {
+                room.player3.emit('backHome');
+                room.player3.handshake.session.error = 'deconnection';
+                privateRoomDeconnected.push(room.player3);
+            }
+            if (room.player4 && socket.handshake.sessionID !== room.player4.handshake.sessionID) {
+                room.player4.emit('backHome');
+                room.player4.handshake.session.error = 'deconnection';
+                privateRoomDeconnected.push(room.player4);
+            }
+            if (room.player5 && socket.handshake.sessionID !== room.player5.handshake.sessionID) {
+                room.player5.emit('backHome');
+                room.player5.handshake.session.error = 'deconnection';
+                privateRoomDeconnected.push(room.player5);
+            }
+            if (room.player6 && socket.handshake.sessionID !== room.player6.handshake.sessionID) {
+                room.player6.emit('backHome');
+                room.player6.handshake.session.error = 'deconnection';
+                privateRoomDeconnected.push(room.player6);
+            }
+
         }
     });
 

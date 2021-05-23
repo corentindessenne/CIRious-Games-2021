@@ -24,6 +24,21 @@ validate.addEventListener('click', event =>{
         socket.emit('searchRoom', passwordRoom.value);
     }
 });
+
+socket.emit('errors2');
+
+socket.on('errorDeconnection', ()=>{
+    let notyf = new Notyf({
+        duration: 2000,
+        types: [
+            {
+                type: 'error',
+                background: '#F2A413'
+            }]
+    });
+    notyf.error('Un de vos adversaires s\'est déconnecté');
+});
+
 socket.on('findRoom', () =>{
     socket.emit('typeGame','gameAlreadyCreated');
 });
