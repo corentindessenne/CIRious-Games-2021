@@ -1,10 +1,10 @@
 class view {
     constructor(monopalimInstance) {
         this.game = monopalimInstance;
-        this.initView();
     }
+}
 
-    initView() {
+/*initView() {
         this.initListener();
         this.updatePawns();
         this.displayCurrentPlayer();
@@ -534,5 +534,4 @@ class view {
         this.upgradeButtons("disable");
 
         return true;
-    }
-}
+    }*/
