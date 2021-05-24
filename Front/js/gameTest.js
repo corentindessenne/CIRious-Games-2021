@@ -24,11 +24,10 @@
     player1.myPropriety[gameInstance.board.grid[10][4].id] = gameInstance.board.grid[10][4];
     player1.myPropriety[gameInstance.board.grid[10][2].id] = gameInstance.board.grid[10][2];
     player1.myPropriety[gameInstance.board.grid[10][1].id] = gameInstance.board.grid[10][1];
-    player1.isJailed = true;
-    player1.position = [10, 0];
+    player1.position = [10, 6];
     //let gameView = new view(gameInstance);
     gameInstance.castTheDice();
     player1.healthyBar = 79;
     gameInstance.taxesMoney = 100;
-    let view = new viewServer(player1, gameInstance, false, false);
+    let view = new viewServer(player1, gameInstance, false, false, true);
 })();

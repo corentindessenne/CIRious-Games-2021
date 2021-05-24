@@ -1,9 +1,10 @@
 class viewServer{
-    constructor(player, game, showActions, showUpgrades){
+    constructor(player, game, showActions, showUpgrades, showQuestion){
         this.player = player;
         this.game = game;
         this.actionsShow = showActions;
         this.upgradesShow = showUpgrades;
+        this.questionShow = showQuestion;
         //Start
         this.displayView();
     }
@@ -139,34 +140,14 @@ class viewServer{
         let validDiv = document.getElementById('validAnswer');//Will display a valid button
         let info = document.getElementById('proprietyContent');//Will display a tab with the propriety infos if it's a propriety
 
-        //Removing basic text
-        globalDiv.style.backgroundImage = "none";
-
-        //Removing table
-        if (typeof info.children[0] !== 'undefined'){
-            info.removeChild(info.children[0]);
-        }
-
-        //Using an iteration loop to remove every button
-        if (typeof answersDiv.children[0] !== 'undefined'){
-            let iLength = answersDiv.children.length;
-            for (let i = 0; i < iLength; i++){
-                answersDiv.removeChild(answersDiv.children[0]);
-            }
-        }
-
-        //Same goes for the valid button
-        if (typeof validDiv.children[0] !== 'undefined'){
-            validDiv.removeChild(validDiv.children[0]);
-        }
-
-        let type = "null";
         //Variable for the box the player is
         let box = this.game.board.grid[player.position[0]][player.position[1]];
+        let type = "";
 
         //We display for an Action box
         if (typeof box.money !== 'undefined') {
-            let content = "null";
+            let content = "";//Will be used in the cardContent span (cardInfos)
+            //Find the right type
             switch (box.type) {
                 case "community":
                     content = this.game.board.ccTab[this.game.ccIndex].string;
@@ -175,34 +156,21 @@ class viewServer{
                     break;
                 case"question":
                     type = "Case Question";
-                    if (order === "yes"){
+                    if (this.questionShow){
+                        //Question that we will ask
                         content = this.game.board.qTab[this.game.qIndex].question;
-                        //Creating a group of buttons for player's answers;
-                        let answerTab = [];//Tab that will help to gather every answer
+
+                        //Showing the right number of the button depending on possibilities
                         for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
-                            let button = document.createElement("button");
-                            button.innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
-                            button.addEventListener("click", () => {
-                                if (button.style.backgroundColor !== "green"){
-                                    button.style.backgroundColor = "green";
-                                }
-                                else {
-                                    button.style.backgroundColor = "";
-                                }
-                            });
-                            answersDiv.appendChild(button);
-                            //We store the button into a tab
-                            answerTab.push(button);
+                            console.log(answersDiv.children[i]);
+                            answersDiv.children[i].style.display = "block";
+                            answersDiv.children[i].innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
                         }
 
-                        //Creating the "validation" button
-                        let validBtn = document.createElement("button");
-                        validBtn.innerHTML = "Valider";//Value
-                        validBtn.addEventListener("click", () => {
-                            this.questionEvent(answerTab);//Will transfer the tab of buttons above
-                        });
-                        validDiv.appendChild(validBtn);
+                        //Showing the validation button
+                        validDiv.style.display = "block";
                     }
+                    //Set img
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/question.png')";
                     break;
                 case"chance":
@@ -231,6 +199,7 @@ class viewServer{
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/jail.png')";
                     break;
             }
+
             cardInfos.innerHTML = "La carte dit : " + content;
         }
         //We display for a Propriety box
