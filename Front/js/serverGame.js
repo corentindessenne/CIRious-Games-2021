@@ -2,6 +2,11 @@ let waiting = document.getElementById('waiting');
 let img = document.getElementById('img');
 let validate = document.getElementById('validate');
 let validateText = document.getElementById('validateText');
+let topLeftBox = document.getElementById('topLeftBox');
+let bottomLeftBox = document.getElementById('bottomLeftBox');
+let centerBox = document.getElementById('center');
+let topRightBox = document.getElementById('topRightBox');
+let bottomRightBox = document.getElementById('bottomRightBox');
 
 function makeId(length) {
     let result = '';
@@ -57,6 +62,18 @@ socket.on('privateGame', ()=> {
     socket.emit('createRoom', passwordRoom);
 });
 
+socket.on('init', (roomGame) =>{
+    validate.style.display = 'none';
+    validateText.style.display = 'none';
+    waiting.innerText = "Pour une meilleure visibilité, appuyez sur les touches fn + f11";
+    topLeftBox.style.display = 'block';
+    bottomLeftBox.style.display = 'block';
+    centerBox.style.display = 'block';
+    topRightBox.style.display = 'block';
+    bottomRightBox.style.display = 'block';
+    let interface = new View(roomGame);
+    interface.initView();
+});
 
 socket.on('play', (pseudo) =>{
     validate.style.display = 'none';

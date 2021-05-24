@@ -21,6 +21,7 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/menu.css" rel="stylesheet">
+    <link href="../css/serverGame.css" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/favicon/apple-touch-icon.png">
@@ -35,7 +36,7 @@
 
 <body style="background-color: #89D1D9">
 
-<header>
+<header id="header">
     <div class="navbar navbar-dark">
         <div class="container d-flex justify-content-between">
             <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 15px">
@@ -51,16 +52,241 @@
     </div>
 </header>
 
-<main role="main">
+<main role="main" id="main">
     <h3 id="waiting" align="center" style="margin-top: 50px; display: block">En attente de vos futurs adversaires...</h3>
     <p id="validateText" style="display: none" align="center">Valider quand tout ceux qui veulent jouer avec vous sont connectés dans cette partie</p>
     <button type="submit" class="btn" style="background-color: white; display: none;  margin: auto" id="validate" >Valider</button>
 </main>
+
+<!--First Part-->
+<!--Player State info (Money, HB, money at the center)-->
+<div id="topLeftBox" style="display: none">
+    <div id="boxInfo" style="background-image: url('../assets/img/cards/start.png');">
+            <span id="boxType" style="color: red;">Bienvenue sur la case départ !
+                <br>
+                Vous commencez la partie avec 1500 blés.
+                <br>
+                Bon amusement !
+            </span>
+        <br>
+        <span id="cardContent"></span>
+        <div id="answerContent"></div>
+        <div id="validAnswer"></div>
+        <div id="proprietyContent" style="overflow-x:auto;"></div>
+    </div>
+</div>
+<div id="bottomLeftBox" style="display: none">
+    <div id="playerInfo">
+        <div id="moneyDiv">
+            <p id="moneyTxt">Vous avez <span id="playerMoney">1500</span>  <img src="../assets/img/money/monnaie.png" alt="new"/></p>
+        </div>
+        <span id="hbValue">Score Nutritionnel :</span>
+        <div id="hbDiv">
+            <div class="progress">
+                <span id="hb" class="progress-bar" style="width: 50%"></span>
+            </div>
+        </div>
+        <div id="taxesDiv">
+            Valeur du panier de fruit : <span id="taxesMoney">0</span>
+        </div>
+    </div>
+</div>
+
+<!--Second Part-->
+<!--Game Board-->
+<div id="center" style="display: none">
+    <div id="game" style="overflow-x:auto;">
+        <table id="monopalimBoard">
+            <!--First Line-->
+            <tr>
+                <td id="gameBoxS" background="../assets/img/board/fruitBucket.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/luck.png" style="transform: rotate(180deg);"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/springSeason.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/question.png" style="transform: rotate(180deg);"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxS" background="../assets/img/board/gotojail.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="centerBox" colspan="9" rowspan="9"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/communityRotate.png" style="transform: rotate(180deg);"></td>
+
+                <td id="gameBoxV" background="../assets/img/board/communityRotate.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winterSeason.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summerSeason.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/luckRotate.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/questionRotate.png" style="transform: rotate(180deg);"></td>
+                <td id="gameBoxV" background="../assets/img/board/questionRotate.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <!--Last Line-->
+            <tr>
+                <td id="gameBoxS" background="../assets/img/board/jail.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/luck.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automnSeason.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/question.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/community.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxS" background="../assets/img/board/start.png"></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<!--Third Part-->
+<!--Propriety Tab & Game Info-->
+<div id="topRightBox" style="display: none">
+    <div id="dice">
+        <div id="totalTurnDiv">
+            Il reste <span id="gameTurn">20 tours !</span>
+        </div>
+        <div id="turnDiv">
+            C'est au tour de <span id="playerName">Joueur 1</span>
+        </div>
+        <div id="diceDiv">
+            <img src="../assets/img/dice/dice-six-faces-1.png" id="dice1">
+            <img src="../assets/img/dice/dice-six-faces-1.png" id="dice2">
+            <br>
+            <button id="rollDice" class="btn effect04" target="_blank" data-sm-link-text="CLICK"><span>LANCER</span></button>
+        </div>
+        <br>
+        <div id="actionButtons">
+            <button type="button" id="buy">Acheter</button>
+            <button type="button" id="redeem">Racheter</button>
+            <button type="button" id="upgrade">Améliorer</button>
+            <button type="button" id="nothing">Rien</button>
+        </div>
+        <br>
+        <div id="upgradeButtons">
+            <button type="button" id="upgradeChoice1">Epicerie</button>
+            <button type="button" id="upgradeChoice2">Marché</button>
+            <button type="button" id="upgradeChoice3">Supermarché</button>
+            <button type="button" id="upgradeChoice4">Magasin Bio</button>
+        </div>
+        <span id="jailStatus"></span>
+    </div>
+</div>
+
+<div id="bottomRightBox" style="display: none">
+    <div id="myPropriety" style="overflow-x:auto;">
+        <table id="propriety" class="table table-hover table-bordered table-striped table-primary">
+            <!--Titles-->
+            <thead class="bg-danger">
+            <tr>
+                <th>Propriétés</th>
+                <th>Stade</th>
+                <th>Apports</th>
+            </tr>
+            </thead>
+            <!--Infos-->
+            <tbody>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            <tr>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+                <td>Rien :(</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 <script>
     let socket = io();
 </script>
+<script src="../../Back/serverGameBack.js"></script>
+<script src="../js/serverGameView.js"></script>
 <script src="../js/serverGame.js"></script>
 <script src="../js/header.js"></script>
-
 </body>
 </html>
