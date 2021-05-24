@@ -75,10 +75,8 @@ socket.on('init', (roomGame) =>{
     interface.initView();
 });
 
-socket.on('play', (pseudo) =>{
-    validate.style.display = 'none';
-    validateText.style.display = 'none';
-    waiting.innerText = "Pour une meilleure visibilité, appuyez sur les touches fn + f11";
+socket.on('action', (roomGame) =>{
+
 });
 
 socket.on('test', () =>{

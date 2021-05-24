@@ -378,7 +378,6 @@ io.on('connection', socket => {
                 let waiters = house.popWaiters();
                 let room = house.addRoom(0, [waiters[0], waiters[1], waiters[2], waiters[3]]);
 
-
                 let player1 = [0, waiters[0].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
                 let player2 = [1, waiters[1].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
                 let player3 = [2, waiters[2].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
@@ -452,11 +451,14 @@ io.on('connection', socket => {
         //privateRoom[index].length = all players of this room + 1 (password)
         if(privateRoom[index].length === 4){
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3]]);
-            room.game = new monopalim();
+            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+
+            room.game = new monopalim(player1, player2, player3);
             room.board = room.game.getBoard();
-            console.log(room.board.grid[10][10]);
             room.state = 0;
-            room.password = 0;
+            room.password = passwordRoom;
 
             //chrono
             room.timeDebut = 0;
@@ -467,17 +469,21 @@ io.on('connection', socket => {
             room.player2 = privateRoom[index][2];
             room.player3 = privateRoom[index][3];
 
-            room.player1.emit('play', room.player1.handshake.session.username);
-            room.player2.emit('play', room.player2.handshake.session.username);
-            room.player3.emit('play', room.player3.handshake.session.username);
+            room.player1.emit('init', room.game);
+            room.player2.emit('init', room.game);
+            room.player3.emit('init', room.game);
         }
         else if(privateRoom[index].length === 5){
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4]]);
-            room.game = new monopalim();
+            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player4 = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+
+            room.game = new monopalim(player1, player2, player3, player4);
             room.board = room.game.getBoard();
-            console.log(room.board.grid[10][10]);
             room.state = 0;
-            room.password = 0;
+            room.password = passwordRoom;
 
             //chrono
             room.timeDebut = 0;
@@ -489,18 +495,24 @@ io.on('connection', socket => {
             room.player3 = privateRoom[index][3];
             room.player4 = privateRoom[index][4];
 
-            room.player1.emit('play', room.player1.handshake.session.username);
-            room.player2.emit('play', room.player2.handshake.session.username);
-            room.player3.emit('play', room.player3.handshake.session.username);
-            room.player4.emit('play', room.player4.handshake.session.username);
+            room.player1.emit('init', room.game);
+            room.player2.emit('init', room.game);
+            room.player3.emit('init', room.game);
+            room.player4.emit('init', room.game);
         }
         else if(privateRoom[index].length === 6){
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5]]);
-            room.game = new monopalim();
+
+            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player4 = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+            let player5 = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
+
+            room.game = new monopalim(player1, player2, player3, player4, player5);
             room.board = room.game.getBoard();
-            console.log(room.board.grid[10][10]);
             room.state = 0;
-            room.password = 0;
+            room.password = passwordRoom;
 
             //chrono
             room.timeDebut = 0;
@@ -513,19 +525,26 @@ io.on('connection', socket => {
             room.player4 = privateRoom[index][4];
             room.player5 = privateRoom[index][5];
 
-            room.player1.emit('play', room.player1.handshake.session.username);
-            room.player2.emit('play', room.player2.handshake.session.username);
-            room.player3.emit('play', room.player3.handshake.session.username);
-            room.player4.emit('play', room.player4.handshake.session.username);
-            room.player5.emit('play', room.player5.handshake.session.username);
+            room.player1.emit('init', room.game);
+            room.player2.emit('init', room.game);
+            room.player3.emit('init', room.game);
+            room.player4.emit('init', room.game);
+            room.player5.emit('init', room.game);
         }
         else if(privateRoom[index].length === 7){
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5], privateRoom[index][6]]);
-            room.game = new monopalim();
+
+            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player4 = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+            let player5 = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
+            let player6 = [5, privateRoom[index][6].handshake.session.username, 177, 20, "../assets/img/pawn/slime40x40.gif", "black"];
+
+            room.game = new monopalim(player1, player2, player3, player4, player5, player6);
             room.board = room.game.getBoard();
-            console.log(room.board.grid[10][10]);
             room.state = 0;
-            room.password = 0;
+            room.password = passwordRoom;
 
             //chrono
             room.timeDebut = 0;
@@ -539,12 +558,12 @@ io.on('connection', socket => {
             room.player5 = privateRoom[index][5];
             room.player6 = privateRoom[index][6];
 
-            room.player1.emit('play', room.player1.handshake.session.username);
-            room.player2.emit('play', room.player2.handshake.session.username);
-            room.player3.emit('play', room.player3.handshake.session.username);
-            room.player4.emit('play', room.player4.handshake.session.username);
-            room.player5.emit('play', room.player5.handshake.session.username);
-            room.player6.emit('play', room.player6.handshake.session.username);
+            room.player1.emit('init', room.game);
+            room.player2.emit('init', room.game);
+            room.player3.emit('init', room.game);
+            room.player4.emit('init', room.game);
+            room.player5.emit('init', room.game);
+            room.player6.emit('init', room.game);
         }
         else{
             socket.emit('notEnoughPlayers');
@@ -558,6 +577,7 @@ io.on('connection', socket => {
     socket.on('update', ()=>{
         house.setNbPlayers(4);
         room = house.joinRoom(socket);
+        //checker username avant de jouer
         if(room) {
             if (room.player1) room.player1.emit('update');
             if (room.player2) room.player2.emit('test');
