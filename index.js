@@ -574,6 +574,12 @@ io.on('connection', socket => {
 
     let room;
 
+    socket.on('rollDice', ()=>{
+        house.setNbPlayers(4);
+        room = house.joinRoom(socket);
+        socket.emit('rollDiceView', room.game);
+    });
+
     socket.on('update', ()=>{
         house.setNbPlayers(4);
         room = house.joinRoom(socket);
@@ -584,6 +590,8 @@ io.on('connection', socket => {
             if (room.player3) room.player3.emit('test');
         }
     });
+
+
 
     socket.on('disconnect', ()=>{
         if (house.isWaiter(socket)) house.deleteWaiter(socket);

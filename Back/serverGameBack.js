@@ -354,6 +354,10 @@ class monopalim{
         this.isFinished = false; //Game just started
     }
 
+    getCast(){
+        return this.isCast;
+    }
+
     getPlayer(){
         return this.playerTab;
     }
