@@ -1,9 +1,13 @@
+/** HTML getters **/
+
 let button = document.getElementById('modify');
-let pseudo = document.getElementById('pseudo');
-let pseudo2 = document.getElementById('pseudo2');
+let username = document.getElementById('username');
+let username2 = document.getElementById('username2');
 let mail = document.getElementById('mail');
 let picture = document.getElementById('picture');
 let deconnection = document.getElementById('deconnection');
+
+/** HTML listeners **/
 
 button.addEventListener('click', event =>{
     window.location.href = '/editProfile';
@@ -13,13 +17,17 @@ deconnection.addEventListener('click', event =>{
     socket.emit('logout');
 });
 
-socket.emit('callPseudo');
+/** socket.emit **/
+
+socket.emit('callUsername');
 socket.emit('callMail');
 socket.emit('callPicture');
 
-socket.on('displayPseudo', (pseudoParam) => {
-    pseudo.innerHTML = pseudoParam;
-    pseudo2.innerHTML = pseudoParam;
+/** socket.on **/
+
+socket.on('displayUsername', (usernameParam) => {
+    username.innerHTML = usernameParam;
+    username2.innerHTML = usernameParam;
 });
 
 socket.on('displayMail', (mailParam) => {

@@ -4,7 +4,7 @@ class view {
         this.initPawns();
         this.displayPlayerTurn();
         this.initListener();
-        this.displayActionButtons("actions", "enable");
+        this.displayActionButtons("actions", "disable");
         this.displayActionButtons("upgrades", "disable");
     }
 
@@ -27,9 +27,6 @@ class view {
         let playerTurnSpan = document.getElementById('playerName');
         //Set Turn Player
         playerTurnSpan.innerText = this.game.playerOrder[this.game.orderIndex].username;
-    }
-    updatePawn(player){
-
     }
 
     //Create every listener for playing
@@ -72,11 +69,9 @@ class view {
         return true;
     }
     moveEvent(moveValue){
-        for(let i = 0; i < moveValue; i++){
-            this.game.move(this.game.playerOrder[this.game.orderIndex], 1);
-            this.updatePawn(this.game.playerOrder[this.game.orderIndex]);
-        }
-
+        this.updatePawns(this.game.playerOrder[this.game.orderIndex], "remove");
+        this.game.move(this.game.playerOrder[this.game.orderIndex], moveValue);
+        this.updatePawns(this.game.playerOrder[this.game.orderIndex], "add");
     }
     actionEvent(action){
         //Initialisation
@@ -184,6 +179,26 @@ class view {
                 return false;
         }
         return true;
+    }
+    updatePawns(){
+        //My centered board
+        let board = document.getElementById('monopalimBoard');
+
+        //Remove old images
+        for (let i = 0; i < 11; i++){
+            for (let j = 0; j < 11; j++){
+                if (typeof board.rows[i].cells[j].children[0] !== 'undefined'){
+                    board.rows[i].cells[j].removeChild(board.rows[i].cells[j].children[0]);
+                }
+            }
+        }
+
+        for(let i = 0; i < 11; i++){
+            for (let j = 0; j < 11; j++){
+
+            }
+        }
+
     }
 }
 

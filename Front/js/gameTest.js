@@ -12,7 +12,7 @@
     let player5 = new player(4, "Noé", 186, 19, img5, "violet");
     let player6 = new player(5, "Antoine", 177, 20, img6, "black");
     let gameInstance = new monopalim(player1, player2, player3, player4, player5, player6);
-    /*gameInstance.board.grid[10][9].belonging = 0;
+    gameInstance.board.grid[10][9].belonging = 0;
     gameInstance.board.grid[10][7].belonging = 0;
     gameInstance.board.grid[10][5].belonging = 0;
     gameInstance.board.grid[10][4].belonging = 0;
@@ -25,6 +25,10 @@
     player1.myPropriety[gameInstance.board.grid[10][2].id] = gameInstance.board.grid[10][2];
     player1.myPropriety[gameInstance.board.grid[10][1].id] = gameInstance.board.grid[10][1];
     player1.isJailed = true;
-    player1.position = [10, 0];*/
-    let gameView = new view(gameInstance); 
+    player1.position = [10, 0];
+    //let gameView = new view(gameInstance);
+    gameInstance.castTheDice();
+    player1.healthyBar = 79;
+    gameInstance.taxesMoney = 100;
+    let view = new viewServer(player1, gameInstance, false, false);
 })();

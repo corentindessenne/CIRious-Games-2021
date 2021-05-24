@@ -1,42 +1,17 @@
-let currentPseudo = document.getElementById('currentPseudo');
+/** HTML getters **/
+
+let currentUsername = document.getElementById('currentUsername');
 let currentMail = document.getElementById('currentMail');
 let verifyPasswordForm = document.getElementById('verifyPasswordForm');
 let changePasswordForm = document.getElementById('changePasswordForm');
-let navPseudo = document.getElementById('nav-pseudo');
-let navPseudoTab = document.getElementById('nav-pseudo-tab');
+let navUsername = document.getElementById('nav-username');
+let navUsernameTab = document.getElementById('nav-username-tab');
 let navPassword = document.getElementById('nav-password');
 let navPasswordTab = document.getElementById('nav-password-tab');
 let profilePic = document.getElementById('profile_pic');
 let avatarsTable = document.getElementById('avatarsTable');
 
-
-socket.emit('callPseudo');
-socket.emit('callMail');
-socket.emit('callPicture');
-socket.emit('temp');
-
-socket.on('displayPseudo', (pseudoParam) => {
-    currentPseudo.innerHTML = pseudoParam;
-});
-
-socket.on('displayMail', (mailParam) => {
-    currentMail.innerHTML = mailParam;
-});
-
-socket.on('displayPicture', (pictureParam) =>{
-    profilePic.src = "../assets/img/avatars/" + pictureParam;
-    let pictureId = pictureParam.replace('.png', '');
-    document.getElementById(pictureId).style.border = '5px solid #f8ca73';
-});
-
-socket.on('temp2', ()=>{
-    verifyPasswordForm.style.display = 'none';
-    changePasswordForm.style.display = 'block';
-    navPseudo.className = "tab-pane fade";
-    navPseudoTab.className = "nav-link";
-    navPassword.className = "tab-pane fade show active";
-    navPasswordTab.className = "nav-link active";
-});
+/** HTML listeners **/
 
 //Add a listener for manual placement & for play function
 for (let i = 0; i < 2; ++i) {
@@ -63,6 +38,36 @@ for (let i = 0; i < 2; ++i) {
         });
     }
 }
+
+socket.emit('callUsername');
+socket.emit('callMail');
+socket.emit('callPicture');
+socket.emit('chechLastPassword');
+
+socket.on('displayUsername', (usernameParam) => {
+    currentUsername.innerHTML = usernameParam;
+});
+
+socket.on('displayMail', (mailParam) => {
+    currentMail.innerHTML = mailParam;
+});
+
+socket.on('displayPicture', (pictureParam) =>{
+    profilePic.src = "../assets/img/avatars/" + pictureParam;
+    let pictureId = pictureParam.replace('.png', '');
+    document.getElementById(pictureId).style.border = '5px solid #f8ca73';
+});
+
+socket.on('lastPasswordIsChecked', ()=>{
+    verifyPasswordForm.style.display = 'none';
+    changePasswordForm.style.display = 'block';
+    navUsername.className = "tab-pane fade";
+    navUsernameTab.className = "nav-link";
+    navPassword.className = "tab-pane fade show active";
+    navPasswordTab.className = "nav-link active";
+});
+
+
 
 
 
