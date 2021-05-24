@@ -1,6 +1,189 @@
 class view {
     constructor(monopalimInstance) {
         this.game = monopalimInstance;
+        this.initPawns();
+        this.displayPlayerTurn();
+        this.initListener();
+        this.displayActionButtons("actions", "enable");
+        this.displayActionButtons("upgrades", "disable");
+    }
+
+    //First view function we call to set the pawns on board
+    initPawns(){
+        //My centered board
+        let board = document.getElementById('monopalimBoard');
+
+        //For every player
+        for (let i = 0; i < this.game.playerOrder.length; i++){
+            let imgPlayer = document.createElement('img');
+            imgPlayer.src = this.game.playerOrder[i].character;
+            board.rows[10].cells[10].appendChild(imgPlayer);//Put it on the start
+        }
+        return true;
+    }
+
+    displayPlayerTurn(){
+        //My span
+        let playerTurnSpan = document.getElementById('playerName');
+        //Set Turn Player
+        playerTurnSpan.innerText = this.game.playerOrder[this.game.orderIndex].username;
+    }
+    updatePawn(player){
+
+    }
+
+    //Create every listener for playing
+    initListener(){
+        //Roll the dice Button
+        let rollButton = document.getElementById('rollDice');
+        rollButton.addEventListener('click', () => {
+            this.rollEvent();
+        });
+
+        //Div that contains buttons
+        let actionDiv = document.getElementById('actionButtons');
+        //Access to the buttons & add an event Listener for each
+        for (let i = 0; i < actionDiv.children.length; i++){
+            actionDiv.children[i].addEventListener('click', () => {
+                this.actionEvent(actionDiv.children[i].textContent);//.textContent let us access to the "value" of the button
+            });
+        }
+
+        //Upgrade Buttons, SAME
+        let upgradeDiv = document.getElementById('upgradeButtons');
+        for (let i = 0; i < upgradeDiv.children.length; i++){
+            upgradeDiv.children[i].addEventListener('click', () => {
+                this.upgradeEvent(upgradeDiv.children[i].textContent);//.textContent let us access to the "value" of the button
+            });
+        }
+    }
+
+    //Events
+    rollEvent(){
+        //Cast in Console
+        this.game.castTheDice();
+        //Display it
+        this.updateDice(this.game.dice1, this.game.dice2);
+
+        alert("Vous avez fait " + (this.game.dice1 + this.game.dice2));
+
+        this.moveEvent(this.game.dice1 + this.game.dice2);
+
+        return true;
+    }
+    moveEvent(moveValue){
+        for(let i = 0; i < moveValue; i++){
+            this.game.move(this.game.playerOrder[this.game.orderIndex], 1);
+            this.updatePawn(this.game.playerOrder[this.game.orderIndex]);
+        }
+
+    }
+    actionEvent(action){
+        //Initialisation
+        let doWhat = ""
+
+        //Translating in Enligsh
+        switch (action){
+            case "Acheter":
+                doWhat = "buy";
+                break;
+            case "Racheter":
+                doWhat = "redeem";
+                break;
+            case"Améliorer":
+                doWhat = "upgrade";
+                //We show the buttons for upgrade choice
+                this.displayActionButtons("upgrades", "enable");
+                this.displayActionButtons("actions", "disable");
+                return;
+            case"Rien":
+                doWhat = "nothing";
+                break;
+            default:
+                console.log("Action undefined");
+                return false;
+        }
+
+        //Play in console
+        this.game.executeAction(doWhat);
+
+        return true;
+    }
+    upgradeEvent(upgrade){
+        //Initialisation
+        let upgradeRequest = ""
+
+        //Translating in Enligsh
+        switch (upgrade){
+            case "Epicerie":
+                upgradeRequest = "grocery";
+                break;
+            case "Marché":
+                upgradeRequest = "market";
+                break;
+            case"Supermarché":
+                upgradeRequest = "supermarket";
+                break;
+            case"Magasin Bio":
+                upgradeRequest = "organic shop";
+                break;
+            default:
+                console.log("Action undefined");
+                return false;
+        }
+
+        //Play in console
+        this.game.upgradeRequest = upgradeRequest;
+        this.game.executeAction("upgrade");
+
+        return true;
+    }
+
+    //Update Functions
+    updateDice(value1, value2){
+        //Get them into variables
+        let diceDiv = document.getElementById('diceDiv');
+
+        //Create new ones
+        let img1 = document.createElement('img');
+        let img2 = document.createElement('img');
+
+        //Source
+        img1.src = "../assets/img/dice/dice-six-faces-" + (value1) + ".png";
+        img2.src = "../assets/img/dice/dice-six-faces-" + (value2) + ".png";
+
+        //Insert it
+        diceDiv.replaceChild(img1, diceDiv.children[0]);
+        diceDiv.replaceChild(img2, diceDiv.children[1]);
+
+        return true;
+    }
+    displayActionButtons(which, request){
+        let buttonDiv = ""
+
+        if (which === "actions"){
+            buttonDiv = document.getElementById('actionButtons');
+        }
+        else if (which === "upgrades"){
+            buttonDiv = document.getElementById('upgradeButtons')
+        }
+        else{
+            console.log("Invalid buttons");
+            return false;
+        }
+
+        switch (request){
+            case "disable":
+                buttonDiv.style.display = "none";
+                break;
+            case"enable":
+                buttonDiv.style.display = "block";
+                break;
+            default:
+                console.log("Invalid Request");
+                return false;
+        }
+        return true;
     }
 }
 
