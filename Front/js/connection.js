@@ -1,5 +1,10 @@
 //send an error notification when there is one
+
+/** automatic socket.emit **/
+
 socket.emit('errors');
+
+/** socket.on **/
 
 socket.on('error1', ()=>{
     let notyf = new Notyf({

@@ -13,7 +13,7 @@ let avatarsTable = document.getElementById('avatarsTable');
 
 /** HTML listeners **/
 
-//Add a listener for manual placement & for play function
+//handles the selection of an avatar and the display of the frame when selected
 for (let i = 0; i < 2; ++i) {
     for (let j = 0; j < 5; ++j) {
         //When there is a click, function is called
@@ -39,10 +39,14 @@ for (let i = 0; i < 2; ++i) {
     }
 }
 
+/** automatic socket.emit **/
+
 socket.emit('callUsername');
 socket.emit('callMail');
 socket.emit('callPicture');
 socket.emit('chechLastPassword');
+
+/** socket.on **/
 
 socket.on('displayUsername', (usernameParam) => {
     currentUsername.innerHTML = usernameParam;
@@ -67,9 +71,7 @@ socket.on('lastPasswordIsChecked', ()=>{
     navPasswordTab.className = "nav-link active";
 });
 
-
-
-
+/** functions **/
 
 //Checks if both usernames typed are the same
 function checkUsername(){
@@ -82,13 +84,11 @@ function checkUsername(){
         if(confirmUsername.value.trim() === '' && newUsername.value.trim() === ''){
             userButton.setAttribute('disabled', 'disabled');
             userMessage.innerHTML = 'Erreur. Les pseudos ne contiennent pas de lettres.';
-        }
-        else{
+        } else {
             userButton.removeAttribute("disabled");
             userMessage.innerHTML = '';
         }
-    }
-    else{
+    } else {
         userButton.setAttribute('disabled', 'disabled');
     }
 }
@@ -104,13 +104,11 @@ function checkMailAddress(){
         if(!confirmEmail.value.includes('@') && !newEmail.value.includes('@')){
             emailButton.setAttribute('disabled', 'disabled');
             emailMessage.innerHTML = "Erreur. Adresse non valide.";
-        }
-        else{
+        } else {
             emailButton.removeAttribute("disabled");
             emailMessage.innerHTML = '';
         }
-    }
-    else{
+    } else {
         emailButton.setAttribute('disabled', 'disabled');
     }
 }
@@ -126,13 +124,11 @@ function checkPassword(){
         if(newPassword.value.trim() === '' && confirmPassword.value.trim() === ''){
             passwordButton.setAttribute('disabled', 'disabled');
             passwordMessage.innerHTML = 'Erreur. Les mots de passe sont vides.';
-        }
-        else{
+        } else {
             passwordButton.removeAttribute('disabled');
             passwordMessage.innerHTML = '';
         }
-    }
-    else{
+    } else {
         passwordButton.setAttribute('disabled', 'disabled');
     }
 }
@@ -142,8 +138,7 @@ function checkDeletion(){
     let deleteButton = document.getElementById('deleteAccount');
     if(confirmDeletion.value !== ''){
         deleteButton.removeAttribute('disabled');
-    }
-    else{
+    } else {
         deleteButton.setAttribute('disabled','disabled');
     }
 }

@@ -200,9 +200,8 @@ class view {
         }
 
     }
-}
 
-/*initView() {
+    initView() {
         this.initListener();
         this.updatePawns();
         this.displayCurrentPlayer();
@@ -484,7 +483,7 @@ class view {
                     globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
                     break;
                 case"getStockedBasket":
-                    type = "Case spéciale"; 
+                    type = "Case spéciale";
                     content = "Vous gagnez le panier de fruit !";
                     globalDiv.style.backgroundImage = "url('../assets/img/cards/fruitBucket.png')";
                     break;
@@ -509,7 +508,7 @@ class view {
 
             //Creating the thead
             let theadRow = document.createElement("tr");
-            
+
             for (let i = 0; i < 4; i++){
                 let cellText = document.createTextNode("Création en cours");
                 let cell = document.createElement('th');
@@ -534,14 +533,14 @@ class view {
             }
 
             // add the row to the end of the table body
-            tblBody.appendChild(row);    
+            tblBody.appendChild(row);
 
             // put the <tbody> in the <table>
             tbl.appendChild(tblThead);
             tbl.appendChild(tblBody);
             // appends <table> into <body>
             info.appendChild(tbl);
-            
+
 
             //Displaying infos
             tbl.rows[0].cells[0].innerText = "Nom";
@@ -565,7 +564,7 @@ class view {
         }
 
         boxType.innerHTML = "Vous êtes sur une " + type;
-        
+
     }
     //Used to display every pawn & animations when they move
     displayMovement(position, player){
@@ -657,7 +656,7 @@ class view {
                 }
                 return this.endTurnEvent();
             }
-            
+
 
             //If it's not an action
             if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
@@ -693,7 +692,7 @@ class view {
         else{
             alert("Aïe, mauvaise réponse :(");
         }
-        
+
         return this.actionEvent("nothing");
     }
 
@@ -702,8 +701,8 @@ class view {
     }
 
     actionEvent(action) {//Used for the action in game
-        if (!this.game.hasMoved) return false;        
-        
+        if (!this.game.hasMoved) return false;
+
         //Asking player for the upgrade
         if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
             this.actionButtons("disable");
@@ -732,4 +731,6 @@ class view {
         this.upgradeButtons("disable");
 
         return true;
-    }*/
+    }
+}
+

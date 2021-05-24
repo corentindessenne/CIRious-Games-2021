@@ -17,7 +17,7 @@ deconnection.addEventListener('click', event =>{
     socket.emit('logout');
 });
 
-/** socket.emit **/
+/** automatic socket.emit **/
 
 socket.emit('callUsername');
 socket.emit('callMail');
