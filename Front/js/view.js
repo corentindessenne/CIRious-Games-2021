@@ -201,6 +201,7 @@ class view {
 
     }
 
+    //Old VIEW
     initView() {
         this.initListener();
         this.updatePawns();
