@@ -167,6 +167,8 @@ app.post('/connect', (req, res) => {
                     req.session.username = username;
                     req.session.password = passwordHash;
                     req.session.hash = result[0].salt;
+                    req.session.height = result[0].height;
+                    req.session.age = result[0].age;
                     req.session.secuPassword = 0;
                     req.session.error = '';
                     req.session.game = '';
@@ -197,7 +199,7 @@ app.post('/register', (req, res) => {
         if (error) throw error;
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
         else {
-            con.query('INSERT INTO accounts (username, email, password, salt, picture) VALUES (?, ?, ?, ?, ?)', [username, email, passwordHash, salt, 'random.png'], function(error, results) {
+            con.query('INSERT INTO accounts (username, email, password, salt) VALUES (?, ?, ?, ?)', [username, email, passwordHash, salt], function(error, results) {
                 if(error) throw error;
                 res.redirect('../connection');
             });
@@ -233,8 +235,21 @@ app.post('/changeMail', (req, res) => {
 app.post('/changePicture', (req, res) => {
     let username = req.session.username;
     let newPicture = req.body.newPicture;
+    let height = req.session.height;
+    let age = req.session.age;
 
-    con.query('UPDATE accounts SET picture = ? WHERE Username = ?', [newPicture + '.png', username], function(err){
+    if(newPicture === 'random'){ height = 162; age = 18; }
+    else if (newPicture === 'random2'){ height = 164; age = 25; }
+    else if (newPicture === 'random3'){ height = 166; age = 40; }
+    else if (newPicture === 'random4'){ height = 168; age = 50; }
+    else if (newPicture === 'random5'){ height = 170; age = 60; }
+    else if (newPicture === 'random6'){ height = 174; age = 18; }
+    else if (newPicture === 'random7'){ height = 178; age = 25; }
+    else if (newPicture === 'random8'){ height = 182; age = 40; }
+    else if (newPicture === 'random7'){ height = 184; age = 50; }
+    else{ height = 188; age = 60; }
+
+    con.query('UPDATE accounts SET picture = ?, height = ?, age = ? WHERE Username = ?', [newPicture + '.png', height, age, username], function(err){
         if(err)throw err;
         res.redirect('../editProfile');
     });
