@@ -35,7 +35,6 @@ class viewServer{
 
     displayBoxInfo(player){
         //Before displaying, we clear every span & div
-        let globalDiv = document.getElementById('topLeftBox');//Global div that contains all the stuff below
         let imgDiv = document.getElementById('boxInfo');//Img fo the box will be displayed in the background
         let boxType = document.getElementById('boxType');//Text describing the box player is on
         let cardInfos = document.getElementById('cardContent');//Specific for community & chance cards
@@ -46,6 +45,13 @@ class viewServer{
         //Variable for the box the player is
         let box = this.game.board.grid[player.position[0]][player.position[1]];
         let type = "";
+
+        //Setting display off
+        for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
+            answersDiv.children[i].style.display = "none";
+        }
+        validDiv.style.display = "none"
+
 
         //We display for an Action box
         if (typeof box.money !== 'undefined') {
@@ -65,7 +71,6 @@ class viewServer{
 
                         //Showing the right number of the button depending on possibilities
                         for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
-                            console.log(answersDiv.children[i]);
                             answersDiv.children[i].style.display = "block";
                             answersDiv.children[i].innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
                         }
