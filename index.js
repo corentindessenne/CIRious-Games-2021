@@ -416,9 +416,9 @@ io.on('connection', socket => {
                 room.game = new monopalim(player1, player2,  player3,  player4);
                 room.board = room.game.getBoard();
                 room.state = 0;
-                room.password = 0;
+                room.winner = '';
                 //chrono
-                room.timeDebut = 0;
+                room.timeDebut = new Date;
                 room.timeFin = 0;
                 room.timeGame = 0;
 
@@ -486,9 +486,9 @@ io.on('connection', socket => {
             room.game = new monopalim(player1,  player2,  player3);
             room.board = room.game.getBoard();
             room.state = 0;
-            room.password = passwordRoom;
+            room.winner = '';
             //chrono
-            room.timeDebut = 0;
+            room.timeDebut = new Date;
             room.timeFin = 0;
             room.timeGame = 0;
 
@@ -510,9 +510,8 @@ io.on('connection', socket => {
             room.game = new monopalim( player1,  player2,  player3,  player4);
             room.board = room.game.getBoard();
             room.state = 0;
-            room.password = passwordRoom;
             //chrono
-            room.timeDebut = 0;
+            room.timeDebut = new Date;
             room.timeFin = 0;
             room.timeGame = 0;
 
@@ -537,9 +536,9 @@ io.on('connection', socket => {
             room.game = new monopalim( player1,  player2,  player3,  player4,  player5);
             room.board = room.game.getBoard();
             room.state = 0;
-            room.password = passwordRoom;
+            room.winner = '';
             //chrono
-            room.timeDebut = 0;
+            room.timeDebut = new Date;
             room.timeFin = 0;
             room.timeGame = 0;
 
@@ -567,9 +566,9 @@ io.on('connection', socket => {
             room.game = new monopalim(player1, player2, player3, player4, player5, player6);
             room.board = room.game.getBoard();
             room.state = 0;
-            room.password = passwordRoom;
+            room.winner = '';
             //chrono
-            room.timeDebut = 0;
+            room.timeDebut = new Date;
             room.timeFin = 0;
             room.timeGame = 0;
 
@@ -598,6 +597,47 @@ io.on('connection', socket => {
     socket.on('rollDice', ()=>{
         room = house.joinRoom(socket);
         socket.emit('rollDiceView', room.game);
+        /* vérifier si la game est fini
+
+        si oui :
+        room.timeFin = new Date;
+        room.timeGame = room.timeFin.getTime() - room.timeDebut.getTime();
+
+        let h,m,s;
+        h = Math.floor(room.timeGame/1000/60/60);
+        m = Math.floor((room.timeGame/1000/60/60 - h)*60);
+        s = Math.floor(((room.timeGame/1000/60/60 - h)*60 - m)*60);
+        if(s < 10) s = '0'+s;
+        if(m < 10) m = '0'+m;
+        if(h < 10) h = '0'+h;
+
+        let username1 = room.player1.handshake.session.username;
+        let username2 = room.player2.handshake.session.username;
+        let username3 = room.player3.handshake.session.username;
+        if(room.player4) {
+            let username4 = room.player4.handshake.session.username;
+            if(room.player5) {
+                let username5 = room.player5.handshake.session.username;
+                if(room.player6) {
+                    let username6 = room.player6.handshake.session.username;
+                } else { let username6 = ''; }
+            } else {
+                let username5 = '';
+                let username6 = '';
+            }
+        } else {
+            let username4 = '';
+            let username5 = '';
+            let username6 = '';
+        }
+
+
+        con.query('SELECT * FROM monopalimsave', (error, results) => {
+            if (!error) {
+                 con.query('INSERT INTO monopalimsave (player1, player2, player3, player4, player5, player6, time, gameState, nbTurns, winner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [username1, username2, username3, username4, username5, username6, h+':'+m+':'+s, room.state, room.game.getNbTurns(), room.winner]);
+            }
+        });
+         */
     });
 
     socket.on('update', ()=>{
@@ -645,9 +685,38 @@ io.on('connection', socket => {
                 room.player6.handshake.session.error = 'deconnection';
                 privateRoomDeconnected.push(room.player6);
             }
-
+            room.state = 'abandonment';
         }
     });
+
+    /** score **/
+
+    socket.on('displayScore', ()=>{
+        let player1, player2, player3, player4, player5, player6, time, nbTurns, gameState,  winner;
+
+        con.query('SELECT * FROM strategosave', function(error, results) {
+            if(!error) {
+                let x = 0;
+                if(results.length > 10) x = results.length - 10;
+                for(let i = 0 + x; i < results.length; i++){
+                    player1 = results[i].player1;
+                    player2 = results[i].player2;
+                    player3 = results[i].player3;
+                    player4 = results[i].player4;
+                    player5 = results[i].player5;
+                    player6 = results[i].player6;
+                    time = results[i].time;
+                    nbTurns = results[i].nbTurns;
+                    gameState = results[i].gameState;
+                    winner = results[i].winner;
+                    socket.emit('scoreDisplay', i, player1, player2, player3, player4, player5, player6, time, nbTurns, gameState, winner);
+                }
+            }
+
+        });
+    });
+
+    /** leave our wonderful game **/
 
     //log out a player and redirect him at the welcome page
     socket.on('logout', () => {

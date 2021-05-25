@@ -271,7 +271,7 @@ ViewServer.prototype.displayProprietyTab = function(player){
     let tab = document.getElementById('propriety');
     let line = 1;
     for (let i = 0; i < player.myPropriety.length; i++){
-        if (player.myPropriety[i] !== undefined || typeof player.myPropriety[i] !== "undefined" || player.myPropriety[i] !== null || typeof player.myPropriety[i] !== 'null' ){
+        if (player.myPropriety[i] != undefined || typeof player.myPropriety[i] != "undefined" || player.myPropriety[i] != null || typeof player.myPropriety[i] != 'null' ){
             //"Propriété" cell
             tab.rows[line].cells[0].innerText = player.myPropriety[i].name;
             //"Stade" cell
