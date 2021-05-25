@@ -55,8 +55,12 @@ body{
     display: block;
     width: 100%;
 }
+#monopalimBoard td{
+    padding-bottom: 5%;
+    padding-right: 5%;
+}
 /*Every Box*/
-#monopalimBoard #gameBoxS{
+#monopalimBoard .gameBoxS{
     border: solid 2px white;
     box-sizing: border-box;
     vertical-align: middle;
@@ -66,7 +70,7 @@ body{
     width: 80px;
     height: 80px;
 }
-#monopalimBoard #gameBoxH{
+#monopalimBoard .gameBoxH{
     border: solid 2px white;
     box-sizing: border-box;
     vertical-align: middle;

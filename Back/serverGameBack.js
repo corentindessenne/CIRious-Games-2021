@@ -350,32 +350,33 @@ class monopalim{
         this.ccIndex = Math.floor(Math.random() * 18);
         this.chIndex = Math.floor(Math.random() * 19);
         this.currentAnswer = [];
-
         this.isFinished = false; //Game just started
     }
 
-    getCast(){
-        return this.isCast;
-    }
+    getCast(){ return this.isCast; }
+    getCastValue(){ return this.castValue; }
+    getIsFinished(){ return this.isFinished; }
+    getPlayer(index){ return this.playerTab[index]; }
+    getPlayerUsername(index){ return this.playerTab[index].username; }
+    getOrderIndex() { return this.playerOrder[this.orderIndex]; }
+    getOrderIndexUsername() { return this.playerOrder[this.orderIndex].username; }
+    getBoard(){ return this.board; }
 
-    getPlayer(index){
-        return this.playerTab[index];
-    }
-
-    getBoard(){
-        return this.board;
-    }
+    setUpgrade(upgradeChoice){ this.upgradeRequest = upgradeChoice; }
 
     //Initialisation Function
     //Tested and functional
     initPlayerOrder(objectTab){
         let randomIndex = 0;
         //Generate every Index possibility
-        let possibleIndex = [0, 1, 2, 3];
-        if (objectTab.length > 4){
-            possibleIndex.push(4);
-            if(objectTab.length > 5){
-                possibleIndex.push(5);
+        let possibleIndex = [0, 1, 2];
+        if(objectTab.length > 3) {
+            possibleIndex.push(3);
+            if (objectTab.length > 4) {
+                possibleIndex.push(4);
+                if (objectTab.length > 5) {
+                    possibleIndex.push(5);
+                }
             }
         }
         //Generate the order tab
@@ -463,9 +464,7 @@ class monopalim{
                 return true;
             }
         }
-
         this.isCast = true;
-
         return true;
     }
 

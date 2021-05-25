@@ -69,10 +69,10 @@
         <br>
         <span id="cardContent"></span>
         <div id="answerContent" style="overflow-x:auto;">
-            <button style="display: none;">Réponse 1</button>
-            <button style="display: none;">Réponse 2</button>
-            <button style="display: none;">Réponse 3</button>
-            <button style="display: none;">Réponse 4</button>
+            <button id="answer1" style="display: none;">Réponse 1</button>
+            <button id="answer2" style="display: none;">Réponse 2</button>
+            <button id="answer3" style="display: none;">Réponse 3</button>
+            <button id="answer4" style="display: none;">Réponse 4</button>
         </div>
         <div id="validAnswer" style="display: none;">
             <button>Valider</button>
@@ -106,80 +106,78 @@
         <table id="monopalimBoard">
             <!--First Line-->
             <tr>
-                <td id="gameBoxS" background="../assets/img/board/fruitBucket.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/luck.png" style="transform: rotate(180deg);"></td>
-                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/springSeason.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/question.png" style="transform: rotate(180deg);"></td>
-                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
-                <td id="gameBoxS" background="../assets/img/board/gotojail.png"></td>
+                <td class="gameBoxS" background="../assets/img/board/fruitBucket.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/luck.png" style="transform: rotate(180deg);"></td>
+                <td class="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td class=gameBoxH" background="../assets/img/board/springSeason.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/question.png" style="transform: rotate(180deg);"></td>
+                <td class="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td class="gameBoxS" background="../assets/img/board/gotojail.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winter.png"></td>
                 <td id="centerBox" colspan="9" rowspan="9"></td>
-                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/summer.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
-                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/summer.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/communityRotate.png" style="transform: rotate(180deg);"></td>
-
-                <td id="gameBoxV" background="../assets/img/board/communityRotate.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/communityRotate.png" style="transform: rotate(180deg);"></td>
+                <td class="gameBoxV" background="../assets/img/board/communityRotate.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
-
-                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/summer.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winterSeason.png"></td>
-                <td id="gameBoxV" background="../assets/img/board/summerSeason.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winterSeason.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/summerSeason.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
-                <td id="gameBoxV" background="../assets/img/board/luckRotate.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/luckRotate.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
-                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/summer.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/questionRotate.png" style="transform: rotate(180deg);"></td>
-                <td id="gameBoxV" background="../assets/img/board/questionRotate.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/questionRotate.png" style="transform: rotate(180deg);"></td>
+                <td class="gameBoxV" background="../assets/img/board/questionRotate.png"></td>
             </tr>
 
             <tr>
-                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
-                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td class="gameBoxV" background="../assets/img/board/summer.png"></td>
             </tr>
 
             <!--Last Line-->
             <tr>
-                <td id="gameBoxS" background="../assets/img/board/jail.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/luck.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/automnSeason.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/question.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/community.png"></td>
-                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
-                <td id="gameBoxS" background="../assets/img/board/start.png"></td>
+                <td class="gameBoxS" background="../assets/img/board/jail.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/luck.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/automnSeason.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/question.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/community.png"></td>
+                <td class="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td class="gameBoxS" background="../assets/img/board/start.png"></td>
             </tr>
         </table>
     </div>
@@ -233,54 +231,54 @@
             <!--Infos-->
             <tbody>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             <tr>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
-                <td>Rien :(</td>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
             </tr>
             </tbody>
         </table>

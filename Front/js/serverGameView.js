@@ -46,6 +46,29 @@ ViewServer.prototype.displayBoxInfo = function(player){
     let box = this.game.board.grid[player.position[0]][player.position[1]];
     let type = "";
 
+    //Removing old text
+    boxType.innerText = "";
+    cardInfos.innerText = "";
+    imgDiv.style.backgroundImage = "none";
+
+    //Removing table
+    if (typeof info.children[0] !== 'undefined'){
+        info.removeChild(info.children[0]);
+    }
+
+    //Using an iteration loop to remove every button
+    if (typeof answersDiv.children[0] !== 'undefined'){
+        let iLength = answersDiv.children.length;
+        for (let i = 0; i < iLength; i++){
+            answersDiv.removeChild(answersDiv.children[0]);
+        }
+    }
+
+    //Same goes for the valid button
+    if (typeof validDiv.children[0] !== 'undefined'){
+        validDiv.removeChild(validDiv.children[0]);
+    }
+
     //We display for an Action box
     if (typeof box.money !== 'undefined') {
         let content = "";//Will be used in the cardContent span (cardInfos)
@@ -186,11 +209,29 @@ ViewServer.prototype.updatePawns = function(){
     //My centered board
     let board = document.getElementById('monopalimBoard');
 
+    for (let i = 0; i < 11; i++) {
+        for (let j = 0; j < 11; j++) {
+            if (typeof board.rows[i].cells[j] !== 'undefined'){
+                console.log("Board is defined on ", i, j);
+                if (typeof board.rows[i].cells[j].children[0] !== 'undefined') {
+                    console.log("We find a Children", board.rows[i].cells[j].children);
+                    //Removing every child
+                    let childSize = board.rows[i].cells[j].children.length;
+                    for (let childNbr = 0; childNbr < childSize; childNbr++){
+                        console.log("1 Child found");
+                        board.rows[i].cells[j].removeChild(board.rows[i].cells[j].children[0]);
+                    }
+                }
+            }
+        }
+    }
+
     //Display pawns
     for (let i = 0; i < this.game.playerOrder.length; i++){
         //Create an img element for every player
         let img = document.createElement('img');
         img.src = this.game.playerOrder[i].character;
+        img.style.position = "absolute";
 
         //Special bug with colspan
         if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] === 1){
@@ -245,16 +286,13 @@ ViewServer.prototype.displayActionButtons = function(which, request){
     }
     else if (which === "upgrades"){
         buttonDiv = document.getElementById('upgradeButtons')
-    }
-    else{
+    } else {
         console.log("Invalid buttons");
         return false;
     }
-
     if (request){
         buttonDiv.style.display = "block";
-    }
-    else{
+    } else {
         buttonDiv.style.display = "none";
     }
 
@@ -271,7 +309,7 @@ ViewServer.prototype.displayProprietyTab = function(player){
     let tab = document.getElementById('propriety');
     let line = 1;
     for (let i = 0; i < player.myPropriety.length; i++){
-        if (player.myPropriety[i] != undefined || typeof player.myPropriety[i] != "undefined" || player.myPropriety[i] != null || typeof player.myPropriety[i] != 'null' ){
+        if (!(player.myPropriety[i] === null)){
             //"Propriété" cell
             tab.rows[line].cells[0].innerText = player.myPropriety[i].name;
             //"Stade" cell
