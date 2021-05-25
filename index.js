@@ -408,12 +408,12 @@ io.on('connection', socket => {
             if (house.getWaiters().length >= 4) {
                 let waiters = house.popWaiters();
                 let room = house.addRoom(0, [waiters[0], waiters[1], waiters[2], waiters[3]]);
-                room.player1Tab = [0, waiters[0].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-                room.player2Tab = [1, waiters[1].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-                room.player3Tab = [2, waiters[2].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-                room.player4Tab = [3, waiters[3].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+                let player1 = [0, waiters[0].handshake.session.username, waiters[0].handshake.session.height, waiters[0].handshake.session.age, "../assets/img/pawn/amongUs40x40.gif", "red"];
+                let player2 = [1, waiters[1].handshake.session.username, waiters[1].handshake.session.height, waiters[1].handshake.session.age, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+                let player3 = [2, waiters[2].handshake.session.username, waiters[2].handshake.session.height, waiters[2].handshake.session.age, "../assets/img/pawn/booman40x40.gif", "green"];
+                let player4 = [3, waiters[3].handshake.session.username, waiters[3].handshake.session.height, waiters[3].handshake.session.age, "../assets/img/pawn/dog40x40.gif", "orange"];
 
-                room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab,  room.player4Tab);
+                room.game = new monopalim(player1, player2,  player3,  player4);
                 room.board = room.game.getBoard();
                 room.state = 0;
                 room.password = 0;
@@ -426,10 +426,10 @@ io.on('connection', socket => {
                 room.player2 = waiters[1];
                 room.player3 = waiters[2];
                 room.player4 = waiters[3];
-                room.player1.emit('init', room.game);
-                room.player2.emit('init', room.game);
-                room.player3.emit('init', room.game);
-                room.player4.emit('init', room.game);
+                room.player1.emit('init', room.game.getPlayer(0), room.game);
+                room.player2.emit('init', room.game.getPlayer(1), room.game);
+                room.player3.emit('init', room.game.getPlayer(2), room.game);
+                room.player4.emit('init', room.game.getPlayer(3), room.game);
 
             } else socket.emit('multiplayer');
         }
@@ -479,11 +479,11 @@ io.on('connection', socket => {
         if(privateRoom[index].length === 4){
             house.setNbPlayers(3);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3]]);
-            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player1 = [0, privateRoom[index][1].handshake.session.username, privateRoom[index][1].handshake.session.height, privateRoom[index][1].handshake.session.age, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, privateRoom[index][2].handshake.session.height, privateRoom[index][2].handshake.session.age, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, privateRoom[index][3].handshake.session.height, privateRoom[index][3].handshake.session.age, "../assets/img/pawn/booman40x40.gif", "green"];
 
-            room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab);
+            room.game = new monopalim(player1,  player2,  player3);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
@@ -495,19 +495,19 @@ io.on('connection', socket => {
             room.player1 = privateRoom[index][1];
             room.player2 = privateRoom[index][2];
             room.player3 = privateRoom[index][3];
-            room.player1.emit('init', room.game);
-            room.player2.emit('init', room.game);
-            room.player3.emit('init', room.game);
+            room.player1.emit('init', room.game.getPlayer(0), room.game);
+            room.player2.emit('init', room.game.getPlayer(1), room.game);
+            room.player3.emit('init', room.game.getPlayer(2), room.game);
         }
         else if(privateRoom[index].length === 5){
             house.setNbPlayers(4);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4]]);
-            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-            room.player4Tab = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+            let player1 = [0, privateRoom[index][1].handshake.session.username, privateRoom[index][1].handshake.session.height, privateRoom[index][1].handshake.session.age, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, privateRoom[index][2].handshake.session.height, privateRoom[index][2].handshake.session.age, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, privateRoom[index][3].handshake.session.height, privateRoom[index][3].handshake.session.age, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player4 = [3, privateRoom[index][4].handshake.session.username, privateRoom[index][4].handshake.session.height, privateRoom[index][4].handshake.session.age, "../assets/img/pawn/dog40x40.gif", "orange"];
 
-            room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab,  room.player4Tab);
+            room.game = new monopalim( player1,  player2,  player3,  player4);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
@@ -520,21 +520,21 @@ io.on('connection', socket => {
             room.player2 = privateRoom[index][2];
             room.player3 = privateRoom[index][3];
             room.player4 = privateRoom[index][4];
-            room.player1.emit('init', room.game);
-            room.player2.emit('init', room.game);
-            room.player3.emit('init', room.game);
-            room.player4.emit('init', room.game);
+            room.player1.emit('init', room.game.getPlayer(0), room.game);
+            room.player2.emit('init', room.game.getPlayer(1), room.game);
+            room.player3.emit('init', room.game.getPlayer(2), room.game);
+            room.player4.emit('init', room.game.getPlayer(3), room.game);
         }
         else if(privateRoom[index].length === 6){
             house.setNbPlayers(5);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5]]);
-            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-            room.player4Tab = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
-            room.player5Tab = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
+            let player1 = [0, privateRoom[index][1].handshake.session.username, privateRoom[index][1].handshake.session.height, privateRoom[index][1].handshake.session.age, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, privateRoom[index][2].handshake.session.height, privateRoom[index][2].handshake.session.age, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, privateRoom[index][3].handshake.session.height, privateRoom[index][3].handshake.session.age, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player4 = [3, privateRoom[index][4].handshake.session.username, privateRoom[index][4].handshake.session.height, privateRoom[index][4].handshake.session.age, "../assets/img/pawn/dog40x40.gif", "orange"];
+            let player5 = [4, privateRoom[index][5].handshake.session.username, privateRoom[index][5].handshake.session.height, privateRoom[index][5].handshake.session.age, "../assets/img/pawn/popoRun40x40.gif", "violet"];
 
-            room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab,  room.player4Tab,  room.player5Tab);
+            room.game = new monopalim( player1,  player2,  player3,  player4,  player5);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
@@ -548,23 +548,23 @@ io.on('connection', socket => {
             room.player3 = privateRoom[index][3];
             room.player4 = privateRoom[index][4];
             room.player5 = privateRoom[index][5];
-            room.player1.emit('init', room.game);
-            room.player2.emit('init', room.game);
-            room.player3.emit('init', room.game);
-            room.player4.emit('init', room.game);
-            room.player5.emit('init', room.game);
+            room.player1.emit('init', room.game.getPlayer(0), room.game);
+            room.player2.emit('init', room.game.getPlayer(1), room.game);
+            room.player3.emit('init', room.game.getPlayer(2), room.game);
+            room.player4.emit('init', room.game.getPlayer(3), room.game);
+            room.player5.emit('init', room.game.getPlayer(4), room.game);
         }
         else if(privateRoom[index].length === 7){
             house.setNbPlayers(6);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5], privateRoom[index][6]]);
-            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-            room.player4Tab = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
-            room.player5Tab = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
-            room.player6Tab = [5, privateRoom[index][6].handshake.session.username, 177, 20, "../assets/img/pawn/slime40x40.gif", "black"];
+            let player1 = [0, privateRoom[index][1].handshake.session.username, privateRoom[index][1].handshake.session.height, privateRoom[index][1].handshake.session.age, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            let player2 = [1, privateRoom[index][2].handshake.session.username, privateRoom[index][2].handshake.session.height, privateRoom[index][2].handshake.session.age, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            let player3 = [2, privateRoom[index][3].handshake.session.username, privateRoom[index][3].handshake.session.height, privateRoom[index][3].handshake.session.age, "../assets/img/pawn/booman40x40.gif", "green"];
+            let player4 = [3, privateRoom[index][4].handshake.session.username, privateRoom[index][4].handshake.session.height, privateRoom[index][4].handshake.session.age, "../assets/img/pawn/dog40x40.gif", "orange"];
+            let player5 = [4, privateRoom[index][5].handshake.session.username, privateRoom[index][5].handshake.session.height, privateRoom[index][5].handshake.session.age, "../assets/img/pawn/popoRun40x40.gif", "violet"];
+            let player6 = [5, privateRoom[index][6].handshake.session.username, privateRoom[index][6].handshake.session.height, privateRoom[index][6].handshake.session.age, "../assets/img/pawn/slime40x40.gif", "black"];
 
-            room.game = new monopalim(room.player1Tab, room.player2Tab, room.player3Tab, room.player4Tab, room.player5Tab, room.player6Tab);
+            room.game = new monopalim(player1, player2, player3, player4, player5, player6);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
@@ -579,12 +579,12 @@ io.on('connection', socket => {
             room.player4 = privateRoom[index][4];
             room.player5 = privateRoom[index][5];
             room.player6 = privateRoom[index][6];
-            room.player1.emit('init', room.game);
-            room.player2.emit('init', room.game);
-            room.player3.emit('init', room.game);
-            room.player4.emit('init', room.game);
-            room.player5.emit('init', room.game);
-            room.player6.emit('init', room.game);
+            room.player1.emit('init', room.game.getPlayer(0), room.game);
+            room.player2.emit('init', room.game.getPlayer(1), room.game);
+            room.player3.emit('init', room.game.getPlayer(2), room.game);
+            room.player4.emit('init', room.game.getPlayer(3), room.game);
+            room.player5.emit('init', room.game.getPlayer(4), room.game);
+            room.player6.emit('init', room.game.getPlayer(5), room.game);
         }
         else{
             socket.emit('notEnoughPlayers');

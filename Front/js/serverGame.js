@@ -55,7 +55,7 @@ socket.on('privateGame', ()=> {
     socket.emit('createRoom', passwordRoom);
 });
 
-socket.on('init', (roomGame) =>{
+socket.on('init', (player, roomGame) =>{
     validate.style.display = 'none';
     validateText.style.display = 'none';
     waiting.innerText = "Pour une meilleure visibilité, appuyez sur les touches fn + f11";
@@ -64,8 +64,7 @@ socket.on('init', (roomGame) =>{
     centerBox.style.display = 'block';
     topRightBox.style.display = 'block';
     bottomRightBox.style.display = 'block';
-    let interface = new View(roomGame);
-    interface.initView();
+    let interface = new ViewServer(player, roomGame, false, false, false);
 });
 
 socket.on('action', (roomGame) =>{

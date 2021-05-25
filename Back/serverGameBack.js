@@ -358,8 +358,8 @@ class monopalim{
         return this.isCast;
     }
 
-    getPlayer(){
-        return this.playerTab;
+    getPlayer(index){
+        return this.playerTab[index];
     }
 
     getBoard(){

@@ -27,7 +27,6 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="../assets/favicon/site.webmanifest">
     <link rel="mask-icon" href="../assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
@@ -57,7 +56,6 @@
     <p id="validateText" style="display: none" align="center">Valider quand tout ceux qui veulent jouer avec vous sont connectés dans cette partie</p>
     <button type="submit" class="btn" style="background-color: white; display: none;  margin: auto" id="validate" >Valider</button>
 </main>
-
 <!--First Part-->
 <!--Player State info (Money, HB, money at the center)-->
 <div id="topLeftBox" style="display: none">
@@ -70,9 +68,18 @@
             </span>
         <br>
         <span id="cardContent"></span>
-        <div id="answerContent"></div>
-        <div id="validAnswer"></div>
-        <div id="proprietyContent" style="overflow-x:auto;"></div>
+        <div id="answerContent" style="overflow-x:auto;">
+            <button style="display: none;">Réponse 1</button>
+            <button style="display: none;">Réponse 2</button>
+            <button style="display: none;">Réponse 3</button>
+            <button style="display: none;">Réponse 4</button>
+        </div>
+        <div id="validAnswer" style="display: none;">
+            <button>Valider</button>
+        </div>
+        <div id="proprietyContent" style="overflow-x:auto;">
+
+        </div>
     </div>
 </div>
 <div id="bottomLeftBox" style="display: none">
@@ -83,7 +90,7 @@
         <span id="hbValue">Score Nutritionnel :</span>
         <div id="hbDiv">
             <div class="progress">
-                <span id="hb" class="progress-bar" style="width: 50%"></span>
+                <span id="healthyBar" class="progress-bar" style="width: 50%"></span>
             </div>
         </div>
         <div id="taxesDiv">
@@ -279,8 +286,6 @@
         </table>
     </div>
 </div>
-
-
 <script>
     let socket = io();
 </script>
