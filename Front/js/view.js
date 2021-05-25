@@ -395,7 +395,7 @@ class view {
         //Dice
         let rollButton = document.getElementById('rollDice');
         rollButton.addEventListener('click', () => {
-            this.rollEvent();
+            this.rollEvent(this.game.playerOrder[this.game.orderIndex]);
         });
 
         //Div that contains buttons
@@ -461,25 +461,18 @@ class view {
     displayDice() {
         //Displaying the dice
         //HTML Elements we will change
-        let dice1Value = document.getElementById('dice1');
-        let dice2Value = document.getElementById('dice2');
+        let diceDiv = document.getElementById('diceDiv');
 
-        //Remove old Img
-        if (dice1Value.children[0] !== undefined) {
-            dice1Value.removeChild(dice1Value.children[0]);
-        }
-        if (dice2Value.children[0] !== undefined) {
-            dice2Value.removeChild(dice2Value.children[0]);
-        }
-        //Create new ones
-        //Img
+        //Create new images
         let img = document.createElement('img');
         let img2 = document.createElement('img');
         img.src = "../assets/img/dice/dice-six-faces-" + (this.game.dice1) + ".png";
         img2.src = "../assets/img/dice/dice-six-faces-" + (this.game.dice2) + ".png";
-        //Insert it
-        dice1Value.appendChild(img);
-        dice2Value.appendChild(img2);
+        
+        //Replace it
+        diceDiv.replaceChild(img, diceDiv.children[0]);
+        diceDiv.replaceChild(img2, diceDiv.children[1]);
+
         return true;
     }
     displayMoney() {
@@ -502,9 +495,9 @@ class view {
         //Delete old infos
         let line = 1;
         for (let i = 1; i <= 10; i++) {
-            proprietyTab.rows[i].cells[0].innerText = "Rien :(";
-            proprietyTab.rows[i].cells[1].innerText = "Rien :(";
-            proprietyTab.rows[i].cells[2].innerText = "Rien :(";
+            proprietyTab.rows[i].cells[0].innerText = "X";
+            proprietyTab.rows[i].cells[1].innerText = "X";
+            proprietyTab.rows[i].cells[2].innerText = "X";
         }
 
         //Add new infos
@@ -550,19 +543,6 @@ class view {
             info.removeChild(info.children[0]);
         }
 
-        //Using an iteration loop to remove every button
-        if (typeof answersDiv.children[0] !== 'undefined'){
-            let iLength = answersDiv.children.length;
-            for (let i = 0; i < iLength; i++){
-                answersDiv.removeChild(answersDiv.children[0]);
-            }
-        }
-
-        //Same goes for the valid button
-        if (typeof validDiv.children[0] !== 'undefined'){
-            validDiv.removeChild(validDiv.children[0]);
-        }
-
         let type = "null";
 
         //We display for an Action box
@@ -580,12 +560,13 @@ class view {
                         //Question that we will ask
                         content = this.game.board.qTab[this.game.qIndex].question;
 
-                        //Showing the right number of the button depending on possibilities
+                        //Implementing answers into the buttons
                         for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
-                            console.log(answersDiv.children[i]);
-                            answersDiv.children[i].style.display = "block";
                             answersDiv.children[i].innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
                         }
+                        
+                        //Show buttons
+                        this.displayQuestionButtons("block", this.game.board.qTab[this.game.qIndex].answer.length);
                     }
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/question.png')";
                     break;
@@ -751,6 +732,19 @@ class view {
         }
         return true;
     }
+    //Special display for Questions
+    displayQuestionButtons(request, howMany){
+        let answerDiv = document.getElementById('answerContent');
+        let validDiv = document.getElementById('validAnswer');
+        
+        if ((request !== "block" && request !== "none") || howMany > answerDiv.length) console.log("Error Requet");
+
+        for (let i = 0; i < howMany; i++){
+            answerDiv.children[i].style.display = request;
+        }
+        
+        validDiv.style.display = request;
+    }
     //Used to display pawns
     displayPawns(){
         let board = document.getElementById('monopalimBoard');
@@ -770,10 +764,9 @@ class view {
         }
     }
 
-
     //Event Functions
 
-    rollEvent() {//Used for the dice
+    rollEvent(player) {//Used for the dice
         if (this.game.isCast) {
             return false;//Only 1 roll is available per turn unless counter indication
         }
@@ -783,19 +776,25 @@ class view {
         this.displayDice();
 
         //Check Jail Status
-        if (this.game.jailInteraction(this.game.playerOrder[this.game.orderIndex]) === true) {
+        if (this.game.jailInteraction(player) === true) {
             //Play
             //We make the move 1 by 1
             for (let i = 1; i <= this.game.castValue; i++){
-                this.game.executeMove(this.game.playerOrder[this.game.orderIndex],  1);
-                this.displayMovement(this.game.playerOrder[this.game.orderIndex].position, this.game.playerOrder[this.game.orderIndex]);
+                this.game.executeMove(player,  1);
+                this.displayMovement(player.position, this.game.playerOrder[this.game.orderIndex]);
             }
 
-            this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
+            //View
+            this.displayBoxInfos(this.game.board.grid[player.position[0]][player.position[1]], "yes");
+            
+            alert("Déplacement Terminé - Interaction en cours");
+            
+            //Game
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
-            this.displayPawns();
 
-            //Update
+            //View
+            this.displayPawns();
+            this.displayBoxInfos(this.game.board.grid[player.position[0]][player.position[1]], "yes");
             this.displayMoney();//Need to be wrapped
             this.displayHealthyBar();//Same
 
@@ -816,13 +815,18 @@ class view {
         }
 
         else {
-            this.updatePawns();
+            alert("Vous êtes en prison");
+            this.displayPawns();
             this.displayActionButtons("actions", "disable");
             //If the player is still in Jail it's the end of it's turn
-            return this.endTurnEvent();
+        return this.endTurnEvent();
         }
 
         return true;//Worked well
+    }
+
+    interactionEvent(){
+
     }
 
     questionEvent(everyPossibleAnswer){
@@ -844,7 +848,7 @@ class view {
             alert("Aïe, mauvaise réponse :(");
         }
 
-        return this.actionEvent("nothing");
+        return this.displayQuestionButtons("none", 4);
     }
 
     actionEvent(action) {//Used for the action in game
@@ -885,8 +889,6 @@ class view {
     }
 
     endTurnEvent() {
-        //Game
-        this.game.updatePlayersHb();
         //Interface
         this.displayCurrentPlayer();
         this.displayMoney();
