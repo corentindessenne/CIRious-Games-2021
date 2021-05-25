@@ -125,7 +125,7 @@ class monopalim{
         //this.dice1 = Math.floor(Math.random() * 6) + 1;
         //this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
-        this.dice1 = 5;
+        this.dice1 = 2;
         this.dice2 = 2;
         this.castValue = this.dice1 + this.dice2;
 
@@ -328,7 +328,7 @@ class monopalim{
         }
 
         //If player is on the first parcel
-        if (player.position[0] === 10 && player.position[1] > 0){
+        if (player.position[0] === 10){
             //If player is exceeding the parcel
             if(player.position[1] - castValue < 0){
                 //New Cast value after crossing the last parcel
@@ -350,7 +350,7 @@ class monopalim{
             }
         }
         //Same but on the second parcel
-        else if (player.position[1] === 0 && player.position[0] > 0){
+        else if (player.position[1] === 0){
             //If player is exceeding the parcel
             if(player.position[0] - castValue < 0){
                 //New Cast value after crossing the last parcel
@@ -372,7 +372,7 @@ class monopalim{
             }
         }
         //Same but on the third parcel
-        else if (player.position[0] === 0 && player.position[1] < 10) {
+        else if (player.position[0] === 0) {
             //If player is exceeding the parcel
             if(player.position[1] + castValue > 10){
                 //New Cast value after crossing the last parcel
@@ -394,7 +394,7 @@ class monopalim{
             }
         }
         //Same but on the fourth parcel
-        else if (player.position[1] === 10 && player.position[0] < 10){
+        else if (player.position[1] === 10){
             //If player is exceeding the parcel
             if(player.position[0] + castValue > 10){
                 //New Cast value after crossing the last parcel
@@ -724,6 +724,7 @@ class monopalim{
         }
         
         this.checkEnd();
+        this.updatePlayersHb();
 
         //Check if player finished his turn
         if (this.dice1 !== this.dice2){
