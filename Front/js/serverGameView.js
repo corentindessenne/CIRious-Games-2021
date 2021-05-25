@@ -37,6 +37,56 @@ View.prototype.initPawns = function (){
 //Listeners we use for the game
 View.prototype.initListener = function () {
 
+//Dice
+    let rollButton = document.getElementById('rollDice');
+    rollButton.addEventListener('click', () => {
+        socket.emit('rollDice');
+    });
+
+    socket.on('rollDiceView', (monopalim) => {
+        let interface = new View(monopalim);
+        interface.rollEvent();
+    });
+
+//Actions on boxes
+    let buyButton = document.getElementById('buy');
+    let redeemButton = document.getElementById('redeem');
+    let upgradeButton = document.getElementById('upgrade');
+    let nothingButton = document.getElementById('nothing');
+    buyButton.addEventListener('click', () => {
+        this.actionEvent("buy");
+    });
+    redeemButton.addEventListener('click', () => {
+        this.actionEvent("redeem");
+    });
+    upgradeButton.addEventListener('click', () => {
+        this.actionEvent("upgrade");
+    });
+    nothingButton.addEventListener('click', () => {
+        this.actionEvent("nothing");
+    });
+
+//Upgrade Buttons
+    let button1 = document.getElementById('upgradeChoice1');
+    let button2 = document.getElementById('upgradeChoice2');
+    let button3 = document.getElementById('upgradeChoice3');
+    let button4 = document.getElementById('upgradeChoice4');
+    button1.addEventListener('click', () => {
+        this.game.upgradeRequest = button1.textContent;
+        return this.actionEvent("upgrade")
+    });
+    button2.addEventListener('click', () => {
+        this.game.upgradeRequest = button2.textContent;
+        return this.actionEvent("upgrade")
+    });
+    button3.addEventListener('click', () => {
+        this.game.upgradeRequest = button3.textContent;
+        return this.actionEvent("upgrade")
+    });
+    button4.addEventListener('click', () => {
+        this.game.upgradeRequest = button4.textContent;
+        return this.actionEvent("upgrade")
+    });
 }
 
 //Typical View Function we will use for the game

@@ -67,7 +67,7 @@
                                         <img id="profile_pic" name="profilePic" src="" alt="Photo de profil" style="background-color: white">
                                     </div>
                                     <div>
-                                        <h2 id="currentPseudo" style="color: white; margin-top: 1.5rem;">Pseudo</h2>
+                                        <h2 id="currentUsername" style="color: white; margin-top: 1.5rem;">Pseudo</h2>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     <div class="profile-head">
                                         <nav>
                                             <div class="nav nav-tabs" id="myTab" role="tablist">
-                                                <a class="nav-link active" id="nav-pseudo-tab" data-toggle="tab" href="#nav-pseudo" role="tab" aria-controls="nav-pseudo" aria-selected="true">Pseudo</a>
+                                                <a class="nav-link active" id="nav-username-tab" data-toggle="tab" href="#nav-username" role="tab" aria-controls="nav-username" aria-selected="true">Pseudo</a>
                                                 <a class="nav-link" id="nav-email-tab" data-toggle="tab" href="#nav-email" role="tab" aria-controls="nav-email" aria-selected="false">Adresse mail</a>
                                                 <a class="nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false">Mot de passe</a>
                                                 <a class="nav-link" id="nav-picture-tab" data-toggle="tab" href="#nav-picture" role="tab" aria-controls="nav-picture" aria-selected="false">Avatar</a>
@@ -86,8 +86,8 @@
                                         </nav>
                                     </div>
                                     <div class="tab-content profile-tab" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="nav-pseudo" role="tabpanel" aria-labelledby="nav-pseudo-tab">
-                                            <form action="/changePseudo" method="post">
+                                        <div class="tab-pane fade show active" id="nav-username" role="tabpanel" aria-labelledby="nav-username-tab">
+                                            <form action="/changeUsername" method="post">
                                                 <div class="form-group row mt-2">
                                                     <label for="newUsername" class="col-sm-3 col-form-label" style="color: black;">Nouveau pseudo</label>
                                                     <div class="col-sm-9">
@@ -190,7 +190,7 @@
                                                 <div class="form-group row">
                                                     <label for="confirmDeletion" class="col-sm-3 col-form-label mt-2" style="color: black;">Entrez votre pseudo :</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" class="form-control mt-3" id="confirmDeletion" name="pseudoDelete" placeholder="Pseudo" onkeyup="checkDeletion()">
+                                                        <input type="text" class="form-control mt-3" id="confirmDeletion" name="usernameDelete" placeholder="Pseudo" onkeyup="checkDeletion()">
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-danger mt-2" id="deleteAccount" disabled="disabled">Supprimer</button>

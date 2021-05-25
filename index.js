@@ -13,20 +13,23 @@ const session = require('express-session')({
         secure: false
     }
 });
-
 const sharedSession = require("express-socket.io-session");
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+//password encoding
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
 const salt = bcrypt.genSaltSync(saltRounds);
 
 /**** Import project libs ****/
 
-const monopalim = require('./back/serverGameBack.js');
+//rooms lib
 const House = require('./back/house.js');
+//game lib
+const monopalim = require('./back/serverGameBack.js');
+
 
 /**** Project configuration ****/
 
@@ -76,7 +79,8 @@ let privateRoomDeconnected = [];
 
 //first page when you are connected to the server
 app.get('/', (req, res) => {
-    if (req.session.loggedin) res.redirect('/menu');
+    if (req.session.loggedin) //checks if the player is already logged in
+        res.redirect('/menu');
     else res.sendFile(__dirname + '/Front/html/welcome.html');
 });
 
@@ -150,19 +154,22 @@ app.get('/aboutUs', (req, res) => {
 
 //login with identifiers when the person already has an account
 app.post('/connect', (req, res) => {
+    //will look for the input informations on the page
     let username = req.body.username;
     let password = req.body.password;
 
-    if(!playersConnected.includes(username)) { //if you are not already connected
+    if(!playersConnected.includes(username)) { //if the player is not already connected
         con.query('SELECT * FROM accounts WHERE BINARY username = ? collate utf8_bin', [username], function(error, result){
             if (error) {
                 throw error;
             } else if (result.length === 0) {
-                req.session.error = 'error2';
+                req.session.error = 'error2'; //username doesn't exist
                 res.redirect('../connection');
             } else {
+                //hash of the password
                 let passwordHash = bcrypt.hashSync(password, result[0].salt);
                 if (passwordHash === result[0].password) {
+                    //registration of session data
                     req.session.loggedin = true;
                     req.session.username = username;
                     req.session.password = passwordHash;
@@ -176,13 +183,13 @@ app.post('/connect', (req, res) => {
                     playersConnected.push(req.session.username);
                     res.redirect('../menu');
                 } else {
-                    req.session.error = 'error2';
+                    req.session.error = 'error2'; //password is not correct
                     res.redirect('../connection');
                 }
             }
         });
     } else {
-        req.session.error = 'error1';
+        req.session.error = 'error1'; //player already connected
         res.redirect('../connection');
     }
 
@@ -190,11 +197,15 @@ app.post('/connect', (req, res) => {
 
 //login with identifiers when the person doesn't have an account
 app.post('/register', (req, res) => {
+    //will look for the input informations on the page
     let username = req.body.username;
     let password = req.body.password;
     let email = req.body.email;
+
+    //hash of the password
     let passwordHash = bcrypt.hashSync(password, salt);
 
+    //registration in the database
     con.query('SELECT * FROM accounts WHERE BINARY username = ?', [username], function(error, results) {
         if (error) throw error;
         else if (results.length > 0) res.send('Ce pseudo est déjà pris !');
@@ -205,23 +216,21 @@ app.post('/register', (req, res) => {
             });
         }
     });
-    con.query("SELECT PLayerIndex FROM accounts WHERE Username = ? AND Password = ?", [username, password], function (err, result) {
-        if (err) throw err;
-        req.session.id = result;
-    });
 });
 
-app.post('/changePseudo', (req,res)=>{
-    let newPseudo = req.body.newUsername;
+//username modification
+app.post('/changeUsername', (req,res)=>{
+    let newUsername = req.body.newUsername;
     let username = req.session.username;
 
-    con.query('UPDATE accounts SET Username = ? WHERE Username = ?', [newPseudo, username], function(error){
+    con.query('UPDATE accounts SET Username = ? WHERE Username = ?', [newUsername, username], function(error){
         if(error)throw error;
-        req.session.username = newPseudo;
+        req.session.username = newUsername;
         res.redirect('../editProfile');
     });
 });
 
+//mail modification
 app.post('/changeMail', (req, res) => {
     let username = req.session.username;
     let newMail = req.body.newEmail;
@@ -232,6 +241,7 @@ app.post('/changeMail', (req, res) => {
     });
 });
 
+//picture modification
 app.post('/changePicture', (req, res) => {
     let username = req.session.username;
     let newPicture = req.body.newPicture;
@@ -255,6 +265,7 @@ app.post('/changePicture', (req, res) => {
     });
 });
 
+//check if the password input is correct in order to change the password in the database
 app.post('/verifyPassword', (req, res) => {
     let password = req.session.password;
     let hash = req.session.hash;
@@ -267,7 +278,7 @@ app.post('/verifyPassword', (req, res) => {
     res.redirect('../editProfile');
 });
 
-
+//password modification
 app.post('/changePassword', (req, res) => {
     let username = req.session.username;
     let newPassword = req.body.newPassword;
@@ -282,11 +293,12 @@ app.post('/changePassword', (req, res) => {
     res.redirect('../editProfile');
 });
 
+//when a player has made a difficult choice
 app.post('/deletion',(req, res) => {
     let username = req.session.username;
-    let pseudo = req.body.pseudoDelete;
+    let usernameDelete = req.body.usernameDelete;
 
-    if(username === pseudo){
+    if(username === usernameDelete){
         con.query('DELETE FROM accounts WHERE Username = ?', [username], function(err){
             if(err)throw err;
             let index = playersConnected.indexOf(req.session.username);
@@ -313,24 +325,26 @@ io.on('connection', socket => {
 
     /** Interaction with registration and connection **/
 
-    socket.on('temp', () =>{
+    //check if the password input is correct in order to change the password in the database
+    socket.on('checkLastPassword', () =>{
         if(socket.handshake.session.secuPassword === 1){
-            socket.emit('temp2');
+            socket.emit('lastPasswordIsChecked');
             socket.handshake.session.secuPassword = 0;
         }
     });
 
-    //handle errors and send a notification
+    //handle connection and registration errors and send a notification
     socket.on('errors', () =>{
-        if(socket.handshake.session.error === 'error1'){
+        if(socket.handshake.session.error === 'error1'){ //player already connected
             socket.emit('error1');
         }
-        else if(socket.handshake.session.error === 'error2'){
+        else if(socket.handshake.session.error === 'error2'){ //username doesn't exist or password doesn't match
             socket.emit('error2');
         }
         socket.handshake.session.error = '';
     });
 
+    //handle deconnection of a game and send a notification to the other players
     socket.on('errors2', () =>{
         for(let i = 0; i < privateRoomDeconnected.length; i++) {
             if (privateRoomDeconnected[i].handshake.sessionID === socket.handshake.sessionID) {
@@ -346,9 +360,10 @@ io.on('connection', socket => {
 
     /** Interaction with profile and profile edition **/
 
-    socket.on('callPseudo', () =>{
-        socket.emit('displayPseudo', socket.handshake.session.username);
+    socket.on('callUsername', () =>{
+        socket.emit('displayUsername', socket.handshake.session.username);
     });
+
     socket.on('callMail', () => {
         let username = socket.handshake.session.username;
         con.query('SELECT email FROM accounts WHERE username = ?', [username], function(err,res){
@@ -368,6 +383,7 @@ io.on('connection', socket => {
 
     /** Create a game **/
 
+    //type of game registration (multiplayer, private...)
     socket.on('typeGame', (typeGame) => {
         socket.handshake.session.game = typeGame;
         if(typeGame === 'gameAlreadyCreated'){
@@ -385,24 +401,22 @@ io.on('connection', socket => {
         }
     });
 
-    //create a multiplayer room
+    //create a multiplayer room with 4 players
     socket.on('multiplayer', ()=>{
         house.setNbPlayers(4);
         if (house.addWaiter(socket)) {
             if (house.getWaiters().length >= 4) {
                 let waiters = house.popWaiters();
                 let room = house.addRoom(0, [waiters[0], waiters[1], waiters[2], waiters[3]]);
+                room.player1Tab = [0, waiters[0].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+                room.player2Tab = [1, waiters[1].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+                room.player3Tab = [2, waiters[2].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+                room.player4Tab = [3, waiters[3].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
 
-                let player1 = [0, waiters[0].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-                let player2 = [1, waiters[1].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-                let player3 = [2, waiters[2].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-                let player4 = [3, waiters[3].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
-
-                room.game = new monopalim(player1, player2, player3, player4);
+                room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab,  room.player4Tab);
                 room.board = room.game.getBoard();
                 room.state = 0;
                 room.password = 0;
-
                 //chrono
                 room.timeDebut = 0;
                 room.timeFin = 0;
@@ -412,8 +426,6 @@ io.on('connection', socket => {
                 room.player2 = waiters[1];
                 room.player3 = waiters[2];
                 room.player4 = waiters[3];
-
-
                 room.player1.emit('init', room.game);
                 room.player2.emit('init', room.game);
                 room.player3.emit('init', room.game);
@@ -465,16 +477,16 @@ io.on('connection', socket => {
         }
         //privateRoom[index].length = all players of this room + 1 (password)
         if(privateRoom[index].length === 4){
+            house.setNbPlayers(3);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3]]);
-            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
 
-            room.game = new monopalim(player1, player2, player3);
+            room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
-
             //chrono
             room.timeDebut = 0;
             room.timeFin = 0;
@@ -483,23 +495,22 @@ io.on('connection', socket => {
             room.player1 = privateRoom[index][1];
             room.player2 = privateRoom[index][2];
             room.player3 = privateRoom[index][3];
-
             room.player1.emit('init', room.game);
             room.player2.emit('init', room.game);
             room.player3.emit('init', room.game);
         }
         else if(privateRoom[index].length === 5){
+            house.setNbPlayers(4);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4]]);
-            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-            let player4 = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            room.player4Tab = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
 
-            room.game = new monopalim(player1, player2, player3, player4);
+            room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab,  room.player4Tab);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
-
             //chrono
             room.timeDebut = 0;
             room.timeFin = 0;
@@ -509,26 +520,24 @@ io.on('connection', socket => {
             room.player2 = privateRoom[index][2];
             room.player3 = privateRoom[index][3];
             room.player4 = privateRoom[index][4];
-
             room.player1.emit('init', room.game);
             room.player2.emit('init', room.game);
             room.player3.emit('init', room.game);
             room.player4.emit('init', room.game);
         }
         else if(privateRoom[index].length === 6){
+            house.setNbPlayers(5);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5]]);
+            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            room.player4Tab = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+            room.player5Tab = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
 
-            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-            let player4 = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
-            let player5 = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
-
-            room.game = new monopalim(player1, player2, player3, player4, player5);
+            room.game = new monopalim( room.player1Tab,  room.player2Tab,  room.player3Tab,  room.player4Tab,  room.player5Tab);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
-
             //chrono
             room.timeDebut = 0;
             room.timeFin = 0;
@@ -539,7 +548,6 @@ io.on('connection', socket => {
             room.player3 = privateRoom[index][3];
             room.player4 = privateRoom[index][4];
             room.player5 = privateRoom[index][5];
-
             room.player1.emit('init', room.game);
             room.player2.emit('init', room.game);
             room.player3.emit('init', room.game);
@@ -547,20 +555,19 @@ io.on('connection', socket => {
             room.player5.emit('init', room.game);
         }
         else if(privateRoom[index].length === 7){
+            house.setNbPlayers(6);
             let room = house.addRoom(passwordRoom, [privateRoom[index][1], privateRoom[index][2], privateRoom[index][3], privateRoom[index][4], privateRoom[index][5], privateRoom[index][6]]);
+            room.player1Tab = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
+            room.player2Tab = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
+            room.player3Tab = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
+            room.player4Tab = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
+            room.player5Tab = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
+            room.player6Tab = [5, privateRoom[index][6].handshake.session.username, 177, 20, "../assets/img/pawn/slime40x40.gif", "black"];
 
-            let player1 = [0, privateRoom[index][1].handshake.session.username, 190, 20, "../assets/img/pawn/amongUs40x40.gif", "red"];
-            let player2 = [1, privateRoom[index][2].handshake.session.username, 181, 18, "../assets/img/pawn/spaceshipOpen40x40.gif", "blue"];
-            let player3 = [2, privateRoom[index][3].handshake.session.username, 176, 19, "../assets/img/pawn/booman40x40.gif", "green"];
-            let player4 = [3, privateRoom[index][4].handshake.session.username, 175, 20, "../assets/img/pawn/dog40x40.gif", "orange"];
-            let player5 = [4, privateRoom[index][5].handshake.session.username, 186, 19, "../assets/img/pawn/popoRun40x40.gif", "violet"];
-            let player6 = [5, privateRoom[index][6].handshake.session.username, 177, 20, "../assets/img/pawn/slime40x40.gif", "black"];
-
-            room.game = new monopalim(player1, player2, player3, player4, player5, player6);
+            room.game = new monopalim(room.player1Tab, room.player2Tab, room.player3Tab, room.player4Tab, room.player5Tab, room.player6Tab);
             room.board = room.game.getBoard();
             room.state = 0;
             room.password = passwordRoom;
-
             //chrono
             room.timeDebut = 0;
             room.timeFin = 0;
@@ -572,7 +579,6 @@ io.on('connection', socket => {
             room.player4 = privateRoom[index][4];
             room.player5 = privateRoom[index][5];
             room.player6 = privateRoom[index][6];
-
             room.player1.emit('init', room.game);
             room.player2.emit('init', room.game);
             room.player3.emit('init', room.game);
@@ -590,27 +596,25 @@ io.on('connection', socket => {
     let room;
 
     socket.on('rollDice', ()=>{
-        house.setNbPlayers(4);
         room = house.joinRoom(socket);
         socket.emit('rollDiceView', room.game);
     });
 
     socket.on('update', ()=>{
-        house.setNbPlayers(4);
         room = house.joinRoom(socket);
         //checker username avant de jouer
         if(room) {
-            if (room.player1) room.player1.emit('update');
-            if (room.player2) room.player2.emit('test');
-            if (room.player3) room.player3.emit('test');
+            if (room.player1) room.player1.emit('action', room.game);
+            if (room.player2) room.player2.emit('action', room.game);
+            if (room.player3) room.player3.emit('action', room.game);
         }
     });
 
-
-
+    //handle the deconnection of someone
     socket.on('disconnect', ()=>{
         if (house.isWaiter(socket)) house.deleteWaiter(socket);
         else if (room) {
+            //if room.player1 exist and socket is different of the room.player1 to send the msg to the concerned people
             if (room.player1 && socket.handshake.sessionID !== room.player1.handshake.sessionID) {
                 room.player1.emit('backHome');
                 room.player1.handshake.session.error = 'deconnection';
@@ -645,6 +649,7 @@ io.on('connection', socket => {
         }
     });
 
+    //log out a player and redirect him at the welcome page
     socket.on('logout', () => {
         let index = playersConnected.indexOf(socket.handshake.session.username);
         if (index > -1) {
