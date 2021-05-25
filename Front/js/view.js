@@ -1,13 +1,14 @@
 class view {
     constructor(monopalimInstance) {
         this.game = monopalimInstance;
-        this.initPawns();
+        this.initView();
+        /*this.initPawns();
         this.displayPlayerTurn();
         this.initListener();
         this.displayActionButtons("actions", "disable");
-        this.displayActionButtons("upgrades", "disable");
+        this.displayActionButtons("upgrades", "disable");*/
     }
-
+    /*//New View
     //First view function we call to set the pawns on board
     initPawns(){
         //My centered board
@@ -357,12 +358,26 @@ class view {
         document.getElementById('healthyBar').style.width = player.healthyBar + "%";
         //Pot
         document.getElementById('taxesMoney').innerText = this.game.taxesMoney;
-    }
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //Old VIEW
-    /*initView() {
+    initView() {
         this.initListener();
-        this.updatePawns();
+        this.displayPawns();
         this.displayCurrentPlayer();
         //this.initBoardVisual();
         this.displayGameInfos();
@@ -371,61 +386,56 @@ class view {
         this.displayMoney();
         this.displayHealthyBar();
         this.displayProprietyTab();
-        this.actionButtons("disable");
-        this.upgradeButtons("disable");
-    }*/
+        this.displayActionButtons("actions", "disable");
+        this.displayActionButtons("upgrades", "disable");
+    }
 
     //Listeners we use for the game
-    /*initListener() {
+    initListener() {
         //Dice
         let rollButton = document.getElementById('rollDice');
         rollButton.addEventListener('click', () => {
             this.rollEvent();
         });
 
-        //Actions on boxes
-        let buyButton = document.getElementById('buy');
-        let redeemButton = document.getElementById('redeem');
-        let upgradeButton = document.getElementById('upgrade');
-        let nothingButton = document.getElementById('nothing');
-        buyButton.addEventListener('click', () => {
-            this.actionEvent("buy");
-        });
-        redeemButton.addEventListener('click', () => {
-            this.actionEvent("redeem");
-        });
-        upgradeButton.addEventListener('click', () => {
-            this.actionEvent("upgrade");
-        });
-        nothingButton.addEventListener('click', () => {
-            this.actionEvent("nothing");
+        //Div that contains buttons
+        let actionDiv = document.getElementById('actionButtons');
+        //Access to the buttons & add an event Listener for each
+        for (let i = 0; i < actionDiv.children.length; i++){
+            actionDiv.children[i].addEventListener('click', () => {
+                this.actionEvent(actionDiv.children[i].textContent);//.textContent let us access to the "value" of the button
+            });
+        }
+
+        //Upgrade Buttons, SAME
+        let upgradeDiv = document.getElementById('upgradeButtons');
+        for (let i = 0; i < upgradeDiv.children.length; i++){
+            upgradeDiv.children[i].addEventListener('click', () => {
+                this.upgradeEvent(upgradeDiv.children[i].textContent);//.textContent let us access to the "value" of the button
+            });
+        }
+
+        //Question Buttons
+        let answerDiv = document.getElementById('answerContent');
+        for (let i = 0; i < answerDiv.children.length; i++){
+            answerDiv.children[i].addEventListener('click', () => {
+                if (answerDiv.children[i].style.backgroundColor === "green"){
+                    answerDiv.children[i].style.backgroundColor = "";
+                }
+                else{
+                    answerDiv.children[i].style.backgroundColor = "green";
+                }
+            });
+        }
+        //Validate your questions button
+        document.getElementById('validAnswer').children[0].addEventListener('click', () => {
+            this.questionEvent(answerDiv.children);
         });
 
-        //Upgrade Buttons
-        let button1 = document.getElementById('upgradeChoice1');
-        let button2 = document.getElementById('upgradeChoice2');
-        let button3 = document.getElementById('upgradeChoice3');
-        let button4 = document.getElementById('upgradeChoice4');
-        button1.addEventListener('click', () => {
-            this.game.upgradeRequest = button1.textContent;
-            return this.actionEvent("upgrade")
-        });
-        button2.addEventListener('click', () => {
-            this.game.upgradeRequest = button2.textContent;
-            return this.actionEvent("upgrade")
-        });
-        button3.addEventListener('click', () => {
-            this.game.upgradeRequest = button3.textContent;
-            return this.actionEvent("upgrade")
-        });
-        button4.addEventListener('click', () => {
-            this.game.upgradeRequest = button4.textContent;
-            return this.actionEvent("upgrade")
-        });
-    }*/
+    }
 
     //Typical View Function we will use for the game
-    /*updateMap() {//Displaying the map and the stuff on it
+    updateMap() {//Displaying the map and the stuff on it
         let gameBoard = document.getElementById('monopalimBoard');
         //We clear the board
         for (let a = 0; a < 11; a++) {
@@ -480,11 +490,7 @@ class view {
         return true;
     }
     displayHealthyBar() {
-        let hb = document.getElementById('hb');
-        hb.value = this.game.playerOrder[this.game.orderIndex].healthyBar;
-        let hbDiv = document.getElementById('hbDiv2');
-        hbDiv.innerText = this.game.playerOrder[this.game.orderIndex].healthyBar;
-        return true;
+        document.getElementById('healthyBar').style.width = this.game.playerOrder[this.game.orderIndex].healthyBar + "%";
     }
     displayCurrentPlayer() {//Used to set up the turn
         let currentPlayer = document.getElementById('playerName');
@@ -517,32 +523,6 @@ class view {
             }
         }
     }
-    actionButtons(request) {//Used to enable or disable buttons
-        let buttonGroup = document.getElementById('actionButtons');
-
-        if (request === "enable"){
-            buttonGroup.style.display = "block";
-        }
-        else{
-            buttonGroup.style.display = "none";
-        }
-
-        return true;
-    }
-    upgradeButtons(request) {
-        this.actionButtons("disable");
-
-        let buttonGroup = document.getElementById('upgradeButtons');
-
-        if (request === "enable"){
-            buttonGroup.style.display = "block";
-        }
-        else{
-            buttonGroup.style.display = "none";
-        }
-
-        return true;
-    }
     displayJailStatus() {
         let jailText = document.getElementById('jailStatus');
         if (this.game.playerOrder[this.game.orderIndex].isJailed) {
@@ -553,17 +533,17 @@ class view {
         return true;
     }
     displayBoxInfos(box, order) {
-        //Before displaying, we clear every span & div
-        let boxType = document.getElementById('boxType');
-        let boxInfo = document.getElementById('cardContent');
-        let info = document.getElementById('proprietyContent');
-        let answersDiv = document.getElementById('answerContent');
-        let validDiv = document.getElementById('validAnswer');
-        let globalDiv = document.getElementById('topLeftBox');
+        let imgDiv = document.getElementById('boxInfo');//Img fo the box will be displayed in the background
+        let boxType = document.getElementById('boxType');//Text describing the box player is on
+        let cardInfos = document.getElementById('cardContent');//Specific for community & chance cards
+        let answersDiv = document.getElementById('answerContent');//Every possible answers for question cards
+        let validDiv = document.getElementById('validAnswer');//Will display a valid button
+        let info = document.getElementById('proprietyContent');//Will display a tab with the propriety infos if it's a propriety
+        
         //Removing old text
         boxType.innerText = "";
-        boxInfo.innerText = "";
-        globalDiv.style.backgroundImage = "none";
+        cardInfos.innerText = "";
+        imgDiv.style.backgroundImage = "none";
 
         //Removing table
         if (typeof info.children[0] !== 'undefined'){
@@ -592,68 +572,51 @@ class view {
                 case "community":
                     content = this.game.board.ccTab[this.game.ccIndex].string;
                     type = "Case Caisse de Communauté";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
                     break;
                 case"question":
                     type = "Case Question";
                     if (order === "yes"){
+                        //Question that we will ask
                         content = this.game.board.qTab[this.game.qIndex].question;
-                        //Creating a group of buttons for player's answers;
-                        let answerTab = [];//Tab that will help to gather every answer
-                        for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
-                            let button = document.createElement("button");
-                            button.innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
-                            button.addEventListener("click", () => {
-                                if (button.style.backgroundColor !== "green"){
-                                    button.style.backgroundColor = "green";
-                                }
-                                else {
-                                    button.style.backgroundColor = "";
-                                }
-                            });
-                            answersDiv.appendChild(button);
-                            //We store the button into a tab
-                            answerTab.push(button);
-                        }
 
-                        //Creating the "validation" button
-                        let validBtn = document.createElement("button");
-                        validBtn.innerHTML = "Valider";//Value
-                        validBtn.addEventListener("click", () => {
-                            this.questionEvent(answerTab);//Will transfer the tab of buttons above
-                        });
-                        validDiv.appendChild(validBtn);
+                        //Showing the right number of the button depending on possibilities
+                        for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
+                            console.log(answersDiv.children[i]);
+                            answersDiv.children[i].style.display = "block";
+                            answersDiv.children[i].innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
+                        }
                     }
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/question.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/question.png')";
                     break;
                 case"chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
                     type = "Case Chance";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/chance.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/chance.png')";
                     break;
                 case"start":
                     type = "Case spéciale";
                     content = "Passez par là pour obtenir 200 blés !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/start.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/start.png')";
                     break;
                 case"visitPrison":
                     type = "Case spéciale";
                     content = "Si vous n'êtes pas emprisonné, vous pouvez narguez ceux qui le sont !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
                     break;
                 case"getStockedBasket":
                     type = "Case spéciale";
                     content = "Vous gagnez le panier de fruit !";
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/fruitBucket.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/fruitBucket.png')";
                     break;
                 default:
                     type = "Case spéciale";
                     content = "Allez en diète !"
-                    globalDiv.style.backgroundImage = "url('../assets/img/cards/jail.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/jail.png')";
                     break;
             }
             if (order === "yes"){
-                boxInfo.innerHTML = "La carte dit : " + content;
+                cardInfos.innerHTML = "La carte dit : " + content;
             }
         }
         //We display for a Propriety box
@@ -719,11 +682,10 @@ class view {
             //Style
             tbl.setAttribute("border", "2");
 
-            globalDiv.style.backgroundImage = "url('../assets/img/cards/property.png')";
+            imgDiv.style.backgroundImage = "url('../assets/img/cards/property.png')";
         }
 
         boxType.innerHTML = "Vous êtes sur une " + type;
-
     }
     //Used to display every pawn & animations when they move
     displayMovement(position, player){
@@ -761,8 +723,55 @@ class view {
         this.displayMoney();
         this.displayJailStatus();
     }
+    //Used for showing buttons
+    displayActionButtons(which, request){
+        let buttonDiv = ""
 
-    //Listener functions
+        if (which === "actions"){
+            buttonDiv = document.getElementById('actionButtons');
+        }
+        else if (which === "upgrades"){
+            buttonDiv = document.getElementById('upgradeButtons')
+        }
+        else{
+            console.log("Invalid buttons");
+            return false;
+        }
+
+        switch (request){
+            case "disable":
+                buttonDiv.style.display = "none";
+                break;
+            case"enable":
+                buttonDiv.style.display = "block";
+                break;
+            default:
+                console.log("Invalid Request");
+                return false;
+        }
+        return true;
+    }
+    //Used to display pawns
+    displayPawns(){
+        let board = document.getElementById('monopalimBoard');
+
+        //Display pawns
+        for (let i = 0; i < this.game.playerOrder.length; i++){
+            //Special bug with colspan
+            if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] === 1){
+                board.rows[this.game.playerTab[i].position[0]].cells[2].appendChild(this.game.playerTab[i].character);
+            }
+            else if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] < 10){
+                board.rows[this.game.playerTab[i].position[0]].cells[1].appendChild(this.game.playerTab[i].character);
+            }
+            else {
+                board.rows[this.game.playerTab[i].position[0]].cells[this.game.playerTab[i].position[1]].appendChild(this.game.playerTab[i].character);
+            }
+        }
+    }
+
+
+    //Event Functions
 
     rollEvent() {//Used for the dice
         if (this.game.isCast) {
@@ -784,7 +793,7 @@ class view {
 
             this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "yes");
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
-            this.updatePawns();
+            this.displayPawns();
 
             //Update
             this.displayMoney();//Need to be wrapped
@@ -800,16 +809,15 @@ class view {
                 return this.endTurnEvent();
             }
 
-
-            //If it's not an action
+            //If we have to do something
             if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
-                this.actionButtons("enable");
+                this.displayActionButtons("actions", "enable");
             }
         }
 
         else {
             this.updatePawns();
-            this.actionButtons("disable");
+            this.displayActionButtons("actions", "disable");
             //If the player is still in Jail it's the end of it's turn
             return this.endTurnEvent();
         }
@@ -841,20 +849,42 @@ class view {
 
     actionEvent(action) {//Used for the action in game
         if (!this.game.hasMoved) return false;
+        
+        //Initialisation
+        let doWhat = ""
 
-        //Asking player for the upgrade
-        if (action === "upgrade" && typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
-            this.actionButtons("disable");
-            return this.upgradeButtons("enable");
+        //Translating in Enligsh
+        switch (action){
+            case "Acheter":
+                doWhat = "buy";
+                break;
+            case "Racheter":
+                doWhat = "redeem";
+                break;
+            case"Améliorer":
+                doWhat = "upgrade";
+                //We show the buttons for upgrade choice
+                if (typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
+                    this.displayActionButtons("actions", "disable");
+                    return this.upgradeButtons("upgrades", "enable");
+                }
+                return;
+            case"Rien":
+                doWhat = "nothing";
+                break;
+            default:
+                console.log("Action undefined");
+                return false;
         }
 
-        this.game.executeAction(action);
+        //Play in console
+        this.game.executeAction(doWhat);
 
         //End turn
         return this.endTurnEvent();
-    }*/
+    }
 
-    /*endTurnEvent() {
+    endTurnEvent() {
         //Game
         this.game.updatePlayersHb();
         //Interface
@@ -866,10 +896,9 @@ class view {
         this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "no");
         this.displayGameInfos();
         //Buttons
-        this.actionButtons("disable");
-        this.upgradeButtons("disable");
+        this.displayActionButtons("actions", "disable");
+        this.displayActionButtons("upgrades", "disable");
 
         return true;
-    }*/
+    }
 }
-

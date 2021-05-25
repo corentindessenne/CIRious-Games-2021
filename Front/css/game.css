@@ -83,6 +83,10 @@ body{
     background-repeat: no-repeat;
     background-size: 97%;
 }
+#monopalimBoard td{
+    padding-bottom: 5%;
+    padding-right: 5%;
+}
 
 /*Cards On left Top Side*/
 #topLeftBox{

@@ -11,6 +11,13 @@
     img4.src = "../assets/img/pawn/dog40x40.gif";
     img5.src = "../assets/img/pawn/popoRun40x40.gif";
     img6.src = "../assets/img/pawn/slime40x40.gif";
+    img1.style.position = "absolute";
+    img1.style.padding = "auto";
+    img2.style.position = "absolute";
+    img3.style.position = "absolute";
+    img4.style.position = "absolute";
+    img5.style.position = "absolute";
+    img6.style.position = "absolute";
     let player1 = new player(0, "Armand", 190, 20, img1, "red");
     let player2 = new player(1, "Marie", 181, 18, img2, "blue");
     let player3 = new player(2, "Corentin", 176, 19, img3, "green");
