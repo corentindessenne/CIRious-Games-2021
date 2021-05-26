@@ -23,7 +23,6 @@ body{
 #center{
     grid-area: b;
     border: solid 2px red;
-    margin: auto;
 }
 
 #topRightBox{
@@ -36,57 +35,6 @@ body{
 }
 
 /*Visual*/
-
-/*Centered Board*/
-#center{
-    justify-self: center;
-}
-#monopalimBoard{
-    display: block;
-    width: 100%;
-}
-/*Every Box*/
-#monopalimBoard #gameBoxS{
-    border: solid 2px white;
-	box-sizing: border-box;
-	vertical-align: middle;
-	text-align: center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    width: 80px;
-    height: 80px;
-}
-#monopalimBoard #gameBoxH{
-    border: solid 2px white;
-	box-sizing: border-box;
-	vertical-align: middle;
-	text-align: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 65px;
-    height: 80px;
-    
-}
-#monopalimBoard #gameBoxV{
-    border: solid 2px white;
-	box-sizing: border-box;
-	vertical-align: middle;
-	text-align: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 80px;
-    height: 65px;
-}
-#monopalimBoard #centerBox{
-    background: #C5E0B4;
-    background-image: url("../assets/img/board/midmap.png");
-    background-repeat: no-repeat;
-    background-size: 97%;
-}
-#monopalimBoard td{
-    padding-bottom: 5%;
-    padding-right: 5%;
-}
 
 /*Cards On left Top Side*/
 #topLeftBox{
@@ -268,8 +216,62 @@ body{
 }
 
 /*Game in the middle*/
+#center{
+    justify-self: center;
+}
+#monopalimBoard{
+    display: block;
+    width: 100%;
+}
+/*Every Box*/
+#monopalimBoard #gameBoxS{
+    border: solid 2px white;
+	box-sizing: border-box;
+	vertical-align: middle;
+	text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 80px;
+    height: 80px;
+}
+#monopalimBoard #gameBoxH{
+    border: solid 2px white;
+	box-sizing: border-box;
+	vertical-align: middle;
+	text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 65px;
+    height: 80px;
+    
+}
+#monopalimBoard #gameBoxV{
+    border: solid 2px white;
+	box-sizing: border-box;
+	vertical-align: middle;
+	text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 80px;
+    height: 65px;
+}
+#monopalimBoard #centerBox{
+    background: #C5E0B4;
+    background-image: url("../assets/img/board/midmap.png");
+    background-repeat: no-repeat;
+    background-size: 97%;
+}
+#monopalimBoard td{
+    padding-bottom: 5%;
+    padding-right: 5%;
+}
 
-/*Actions in the top right corner*/
+/*TOP RIGHT BOX*/
+/*Ranking TAB*/
+#rankingTab table{
+    
+}
+/*Action buttons*/
 #totalTurnDiv{
     font-weight: bold;
     font-size: 18px;
@@ -303,7 +305,6 @@ body{
   .btn:hover {
     text-decoration: none;
   }
-  
   /*btn_background*/
   .effect04 {
     --uismLinkDisplay: var(--smLinkDisplay, inline-flex);
@@ -315,25 +316,21 @@ body{
     overflow: hidden;
     font-weight: bold;
   }
-  
   .effect04::before,
   .effect04 span{
       margin: 0 auto;
       transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
       transition-duration: 0.4s;
   }
-
   .effect04:hover{
   
     background-color: #89D1D9;
   }
-  
   /* HOVER */
   .effect04:hover span{
     -webkit-transform: translateY(-400%) scale(-0.1,20);
             transform: translateY(-400%) scale(-0.1,20);
   }
-  
   .effect04::before{
     content: attr(data-sm-link-text);
       color: red;
@@ -345,14 +342,12 @@ body{
     -webkit-transform: translateY(500%) scale(-0.1,20);
             transform: translateY(500%) scale(-0.1,20);
   }
-  
   /* HOVER */
   .effect04:hover::before{
     letter-spacing: 0.05em;
     -webkit-transform: translateY(0) scale(1,1);
             transform: translateY(0) scale(1,1);
 }
-
 /*Action buttons*/
 #actionButtons{
     filter: drop-shadow(3px 10px 15px rgba(0, 0, 0, 0.45));
@@ -384,7 +379,6 @@ body{
     filter: none;
     transform: scale(.95);
 }
-
 #upgradeButtons{
     filter: drop-shadow(3px 10px 15px rgba(0, 0, 0, 0.45));
 }
@@ -415,6 +409,7 @@ body{
     filter: none;
     transform: scale(.95);
 }
+
 /*Propriety Tab in the Bottom right corner*/
 #bottomRightBox{
     font-weight: bold;

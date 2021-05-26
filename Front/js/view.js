@@ -388,6 +388,8 @@ class view {
         this.displayProprietyTab();
         this.displayActionButtons("actions", "disable");
         this.displayActionButtons("upgrades", "disable");
+
+        this.viewIsFinished = false; //View just started and still works
     }
 
     //Listeners we use for the game
@@ -488,7 +490,18 @@ class view {
     displayCurrentPlayer() {//Used to set up the turn
         let currentPlayer = document.getElementById('playerName');
         currentPlayer.innerText = this.game.playerOrder[this.game.orderIndex].username;
-        return true;
+
+        //Displaying player's GIF
+        let gifDiv = document.getElementById('gifTurn');
+        //Removing olg child
+        if (typeof gifDiv.children[0] !== 'undefined'){
+            gifDiv.removeChild(gifDiv.children[0]);
+        }
+        //Creating New
+        let newGif = document.createElement("img");
+        newGif.src = this.game.playerOrder[this.game.orderIndex].character.src;
+        //Diplaying it
+        gifDiv.appendChild(newGif);
     }
     displayProprietyTab() {
         let proprietyTab = document.getElementById('propriety');
@@ -530,7 +543,6 @@ class view {
         let boxType = document.getElementById('boxType');//Text describing the box player is on
         let cardInfos = document.getElementById('cardContent');//Specific for community & chance cards
         let answersDiv = document.getElementById('answerContent');//Every possible answers for question cards
-        let validDiv = document.getElementById('validAnswer');//Will display a valid button
         let info = document.getElementById('proprietyContent');//Will display a tab with the propriety infos if it's a propriety
         
         //Removing old text
@@ -749,6 +761,17 @@ class view {
     displayPawns(){
         let board = document.getElementById('monopalimBoard');
 
+        for (let i = 0; i < 11; i++){
+            for (let j = 0; j < 11; j++){
+                if (typeof board.rows[i].cells[j] !== 'undefined' && typeof board.rows[i].cells[j].children[0] !== 'undefined'){
+                    let childNbr = board.rows[i].cells[j].children.length;
+                    for (let removeNbr = 0; removeNbr < childNbr; removeNbr++){
+                        board.rows[i].cells[j].removeChild(board.rows[i].cells[j].children[0]);
+                    }
+                }
+            }
+        }
+
         //Display pawns
         for (let i = 0; i < this.game.playerOrder.length; i++){
             //Special bug with colspan
@@ -762,6 +785,15 @@ class view {
                 board.rows[this.game.playerTab[i].position[0]].cells[this.game.playerTab[i].position[1]].appendChild(this.game.playerTab[i].character);
             }
         }
+    }
+    //Used at the end of the game
+    displayRankingTab(){
+        document.getElementById('rankingTab').style.display = "block";
+    }
+    displayBoard(request){
+        if (request !== "block" && request !== "none") return false;
+        let game = document.getElementById('dice');
+        game.style.display = request;
     }
 
     //Event Functions
@@ -825,10 +857,6 @@ class view {
         return true;//Worked well
     }
 
-    interactionEvent(){
-
-    }
-
     questionEvent(everyPossibleAnswer){
         //Security
         if (everyPossibleAnswer.length < 1) return false;
@@ -870,7 +898,7 @@ class view {
                 //We show the buttons for upgrade choice
                 if (typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
                     this.displayActionButtons("actions", "disable");
-                    return this.upgradeButtons("upgrades", "enable");
+                    return this.displayActionButtons("upgrades", "enable");
                 }
                 return;
             case"Rien":
@@ -888,7 +916,50 @@ class view {
         return this.endTurnEvent();
     }
 
+    upgradeEvent(upgrade){
+        //Initialisation
+        let upgradeRequest = ""
+
+        //Translating in Enligsh
+        switch (upgrade){
+            case "Epicerie":
+                upgradeRequest = "grocery";
+                break;
+            case "Marché":
+                upgradeRequest = "market";
+                break;
+            case"Supermarché":
+                upgradeRequest = "supermarket";
+                break;
+            case"Magasin Bio":
+                upgradeRequest = "organic shop";
+                break;
+            default:
+                console.log("Action undefined");
+                return false;
+        }
+
+        //Play in console
+        this.game.upgradeRequest = upgradeRequest;
+        this.game.executeAction("upgrade");
+
+        //View
+        alert("Upgrade in " + upgrade + " completed");
+
+        return this.endTurnEvent();
+    }
+
+    endGameEvent(){
+        if (this.game.isFinished){
+            alert("Partie TERMINE !");
+            this.viewIsFinished = true;
+            this.displayRankingTab();
+            this.displayBoard("none");
+        }
+    }
+
     endTurnEvent() {
+        this.endGameEvent();
         //Interface
         this.displayCurrentPlayer();
         this.displayMoney();

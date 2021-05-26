@@ -5,7 +5,9 @@ class monopalim{
         this.playerTab.push(player1);
         this.playerTab.push(player2);
         this.playerTab.push(player3);
-        this.playerTab.push(player4);
+        if (typeof player4 != 'undefined'){
+            this.playerTab.push(player4);
+        }
         if (typeof player5 != 'undefined'){
             this.playerTab.push(player5);
         }
@@ -50,12 +52,15 @@ class monopalim{
         let randomIndex = 0;
         //Generate every Index possibility
         let possibleIndex = [0, 1, 2, 3];
-        if (objectTab.length > 4){
-            possibleIndex.push(4);
-            if(objectTab.length > 5){
-                possibleIndex.push(5);
+        if (objectTab.length > 3){
+            if (objectTab.length > 4){
+                possibleIndex.push(4);
+                if(objectTab.length > 5){
+                    possibleIndex.push(5);
+                }
             }
         }
+        
         //Generate the order tab
         this.playerOrder = new Array (objectTab.length);
         for (let i = 0; i < objectTab.length; i++){
@@ -77,8 +82,20 @@ class monopalim{
         //Full check
         if ((player.healthyBar <= 0 || player.money <= 0) && player.state){
             player.state = false;//Update player state
-            this.playerRanking[i].push(player);//Push him into the ranking tab
-            this.playerTab.splice(player.id, 1);//Delete him from the player tab
+            this.playerRanking.push(player);//Push him into the ranking tab
+
+            //Deleting player from old tab
+            let idToDelete = 0;
+            this.playerTab.forEach(element => {
+                if (element.id === player.id){
+                    this.playerTab.splice(idToDelete, 1);//Delete him from the player tab
+                }
+                else{
+                    idToDelete++;
+                }
+            });
+            //this.playerTab.splice(idToDelete, 1);//Delete him from the player tab
+
             //Checking in the order tab
             for (let j = 0; j < this.playerOrder.length; j++){
                 //If we find the right player
@@ -97,7 +114,7 @@ class monopalim{
 
     checkEnd(){
         this.playerTab.forEach(element => this.checkState(element));
-
+        console.log(this.playerTab);
         if (this.playerTab.length <= 1 || this.turnNb >= 20){
             this.isFinished = true;
             this.makeRanking();
@@ -125,7 +142,7 @@ class monopalim{
         //this.dice1 = Math.floor(Math.random() * 6) + 1;
         //this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
-        this.dice1 = 5;
+        this.dice1 = 3;
         this.dice2 = 5;
         this.castValue = this.dice1 + this.dice2;
 
@@ -157,7 +174,10 @@ class monopalim{
 
     pay(payer, amount, paid){
         if (payer.money < amount){
-            return false;
+            if (paid !== "bank"){
+                paid.money += payer.money;
+            }  
+            payer.money = 0;
         }
         
         payer.money -= amount;
