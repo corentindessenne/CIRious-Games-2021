@@ -114,7 +114,6 @@ class monopalim{
 
     checkEnd(){
         this.playerTab.forEach(element => this.checkState(element));
-        console.log(this.playerTab);
         if (this.playerTab.length <= 1 || this.turnNb >= 20){
             this.isFinished = true;
             this.makeRanking();

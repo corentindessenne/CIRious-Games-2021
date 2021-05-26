@@ -544,7 +544,8 @@ class view {
         let cardInfos = document.getElementById('cardContent');//Specific for community & chance cards
         let answersDiv = document.getElementById('answerContent');//Every possible answers for question cards
         let info = document.getElementById('proprietyContent');//Will display a tab with the propriety infos if it's a propriety
-        
+        let factDiv = document.getElementById('proprietyFact');//Used to display the fact about a propriety
+
         //Removing old text
         boxType.innerText = "";
         cardInfos.innerText = "";
@@ -676,6 +677,9 @@ class view {
             tbl.setAttribute("border", "2");
 
             imgDiv.style.backgroundImage = "url('../assets/img/cards/property.png')";
+
+            //Fact
+            factDiv.innerText = box.fact;
         }
 
         boxType.innerHTML = "Vous êtes sur une " + type;

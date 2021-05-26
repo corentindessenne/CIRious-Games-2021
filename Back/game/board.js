@@ -107,7 +107,7 @@ class board{
         this.grid[10][5] = new propriety (2, "AUTOMNE", 200, "orange", 200, 5, "season", 50);
         this.grid[10][4] = new propriety (3, "BOULEVARD DE LA TÊTE D'OEUF", 25, "orange", 10, 4, "classic", 6);
         this.grid[10][3] = new action (3, 10, 3, "chance", 0);
-        this.grid[10][2] = new propriety (4, "RUE SERRÉE COMME DES SARDINES", 25, "orange", 10, 2, "classic", 6);
+        this.grid[10][2] = new propriety (4, "RUE SERRÉE COMME DES SARDINES", 25, "orange", 10, 2, "classic", 6, ") Le miel peut se garder plus de 100 ans ! Côté alimentation, le miel est un peu le premier de la classe. En plus d’avoir de nombreuses propriétés bonnes pour l’organisme, il est impérissable. Il contient en effet des antibiotiques naturels qui empêchent la naissance de bactéries.");
         this.grid[10][1] = new propriety (5, "AVENUE DE L\'EAU À LA BOUCHE", 30, "orange", 10, 1, "classic", 8);
         this.grid[10][0] = new action (4, 10, 0, "visitPrison", 0);//Exception à gérer
 

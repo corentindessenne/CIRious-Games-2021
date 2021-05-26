@@ -2,7 +2,7 @@
 //a nutriscore, a color (team), coordinates, a belonging propriety, 
 //an img (view purpose) and an upgrade rank (0,1,2).
 class propriety {
-    constructor(id, name, value, color, x, y, type, income) {
+    constructor(id, name, value, color, x, y, type, income, fact) {
         //Will be changed on every instance
         this.id = id;//Number
         this.name = name; //String
@@ -11,7 +11,7 @@ class propriety {
         this.x = x;//Coord x
         this.y = y;//Coord y
         this.type = type;//Either it's a season propriety or just a regular one : "season" || "classic"
-
+        this.fact = fact;
         //Calculations
         //Depends the propriety type
         if (this.type === "classic") {
