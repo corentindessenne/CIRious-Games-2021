@@ -41,6 +41,7 @@ ViewServer.prototype.displayBoxInfo = function(player){
     let answersDiv = document.getElementById('answerContent');//Every possible answers for question cards
     let validDiv = document.getElementById('validAnswer');//Will display a valid button
     let info = document.getElementById('proprietyContent');//Will display a tab with the propriety infos if it's a propriety
+    let factDiv = document.getElementById('proprietyFact'); //Used to display the fact about a propriety
 
     //Variable for the box the player is
     let box = this.game.board.grid[player.position[0]][player.position[1]];
@@ -50,6 +51,7 @@ ViewServer.prototype.displayBoxInfo = function(player){
     boxType.innerText = "";
     cardInfos.innerText = "";
     imgDiv.style.backgroundImage = "none";
+    factDiv.innerText = "";
 
     //Removing table
     if (typeof info.children[0] !== 'undefined'){
@@ -66,7 +68,6 @@ ViewServer.prototype.displayBoxInfo = function(player){
 
     //Same goes for the valid button
     if (typeof validDiv.children[0] !== 'undefined'){
-        console.log('yo');
         validDiv.style.display = 'none';
     }
 
@@ -130,66 +131,70 @@ ViewServer.prototype.displayBoxInfo = function(player){
     //We display for a Propriety box
     else {
         type = "Case Propriété";
+        if (this.questionShow){
+            // creates a <table> element and a <tbody> element
+            let tbl = document.createElement("table");
+            let tblThead = document.createElement('thead');
+            let tblBody = document.createElement("tbody");
 
-        // creates a <table> element and a <tbody> element
-        let tbl = document.createElement("table");
-        let tblThead = document.createElement('thead');
-        let tblBody = document.createElement("tbody");
+            //Creating the thead
+            let theadRow = document.createElement("tr");
 
-        //Creating the thead
-        let theadRow = document.createElement("tr");
+            for (let i = 0; i < 4; i++){
+                let cellText = document.createTextNode("Création en cours");
+                let cell = document.createElement('th');
+                cell.appendChild(cellText);
+                theadRow.appendChild(cell);
+            }
+            //We plug it into the Thead
+            tblThead.appendChild(theadRow);
 
-        for (let i = 0; i < 4; i++){
-            let cellText = document.createTextNode("Création en cours");
-            let cell = document.createElement('th');
-            cell.appendChild(cellText);
-            theadRow.appendChild(cell);
+            //Creating the Body
+            // creates a table row
+            let row = document.createElement("tr");
+
+            for (let j = 0; j < 4; j++) {
+                // Create a <td> element and a text node, make the text
+                // node the contents of the <td>, and put the <td> at
+                // the end of the table row
+                let cell = document.createElement("td");
+                let cellText = document.createTextNode("Création en cours");
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            // add the row to the end of the table body
+            tblBody.appendChild(row);
+
+            // put the <tbody> in the <table>
+            tbl.appendChild(tblThead);
+            tbl.appendChild(tblBody);
+            // appends <table> into <body>
+            info.appendChild(tbl);
+
+
+            //Displaying infos
+            tbl.rows[0].cells[0].innerText = "Nom";
+            tbl.rows[0].cells[1].innerText = "Prix";
+            tbl.rows[0].cells[2].innerText = "Bien";
+            tbl.rows[0].cells[3].innerText = "Loyer";
+            tbl.rows[1].cells[0].innerText = box.name;
+            tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
+            if (box.belonging !== "none"){
+                tbl.rows[1].cells[2].innerText = this.game.playerTab[box.belonging].username;
+            }
+            else{
+                tbl.rows[1].cells[2].innerText = "Non achetée"
+            }
+            tbl.rows[1].cells[3].innerText = box.income[box.upgradeRate];
+
+            //Style
+            tbl.setAttribute("border", "2");
         }
-        //We plug it into the Thead
-        tblThead.appendChild(theadRow);
-
-        //Creating the Body
-        // creates a table row
-        let row = document.createElement("tr");
-
-        for (let j = 0; j < 4; j++) {
-            // Create a <td> element and a text node, make the text
-            // node the contents of the <td>, and put the <td> at
-            // the end of the table row
-            let cell = document.createElement("td");
-            let cellText = document.createTextNode("Création en cours");
-            cell.appendChild(cellText);
-            row.appendChild(cell);
-        }
-
-        // add the row to the end of the table body
-        tblBody.appendChild(row);
-
-        // put the <tbody> in the <table>
-        tbl.appendChild(tblThead);
-        tbl.appendChild(tblBody);
-        // appends <table> into <body>
-        info.appendChild(tbl);
-
-
-        //Displaying infos
-        tbl.rows[0].cells[0].innerText = "Nom";
-        tbl.rows[0].cells[1].innerText = "Prix";
-        tbl.rows[0].cells[2].innerText = "Bien";
-        tbl.rows[0].cells[3].innerText = "Loyer";
-        tbl.rows[1].cells[0].innerText = box.name;
-        tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
-        if (box.belonging !== "none"){
-            tbl.rows[1].cells[2].innerText = this.game.playerTab[box.belonging].username;
-        }
+        //Show fact !!
         else{
-            tbl.rows[1].cells[2].innerText = "Non achetée"
+            factDiv.innerText = "Fun Fact " + box.fact;
         }
-        tbl.rows[1].cells[3].innerText = box.income[box.upgradeRate];
-
-        //Style
-        tbl.setAttribute("border", "2");
-
         imgDiv.style.backgroundImage = "url('../assets/img/cards/property.png')";
     }
 
@@ -267,7 +272,11 @@ ViewServer.prototype.displayWhoseTurn = function(username){
         gifDiv.removeChild(gifDiv.children[0]);
     }
     let img = document.createElement('img');
-    img.src = this.game.playerOrder[this.game.orderIndex].character;
+    for (let i = 0; i < this.game.playerTab.length; i++){
+        if (this.game.playerTab[i].username === username){
+            img.src = this.game.playerTab[i].character;
+        }
+    }
     //Showing it
     gifDiv.appendChild(img);
 }
@@ -310,6 +319,7 @@ ViewServer.prototype.displayActionButtons = function(which, request){
     return true;
 }
 ViewServer.prototype.displayJailStatus = function(player){
+    document.getElementById('jailStatus').innerText ="";
     if (!player.isJailed) return;
     document.getElementById('jailStatus').innerText = "Vous êtes en prison ! Essayez de faire un double pour vous libérer";
     return true;
@@ -320,19 +330,11 @@ ViewServer.prototype.displayProprietyTab = function(player){
     let tab = document.getElementById('propriety');
     let line = 1;
 
-    //Reset tab
-    for (let i = 1; i <= 10; i++) {
-        proprietyTab.rows[i].cells[0].innerText = "X";
-        proprietyTab.rows[i].cells[1].innerText = "X";
-        proprietyTab.rows[i].cells[2].innerText = "X";
-    }
-
     //Filling it
     for (let i = 0; i < player.myPropriety.length; i++){
         if (!(player.myPropriety[i] === null)){
             //"Propriété" cell
             tab.rows[line].cells[0].innerText = player.myPropriety[i].name;
-            tab.rows[line].cells[0].style.fontSize = '12px';
             //"Stade" cell
             let upgradeWord = "";
             switch (player.myPropriety[i].upgradeRate) {
@@ -361,5 +363,13 @@ ViewServer.prototype.displayProprietyTab = function(player){
             //Incrementing Line
             line++;
         }
+    }
+
+    //Clear the part we dont use
+    //Reset tab
+    for (let i = line; i <= 10; i++) {
+        tab.rows[i].cells[0].innerText = "X";
+        tab.rows[i].cells[1].innerText = "X";
+        tab.rows[i].cells[2].innerText = "X";
     }
 }

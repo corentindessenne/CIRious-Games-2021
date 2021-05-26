@@ -23,26 +23,21 @@ body{
 
 #topLeftBox{
     grid-area: a;
-    border: solid 2px black;
 }
 #bottomLeftBox{
     grid-area: e; /* row start / column start / row end / column end*/
-    border: solid 2px blue;
 }
 
 #center{
     grid-area: b;
-    border: solid 2px red;
     margin: auto;
 }
 
 #topRightBox{
     grid-area: c;
-    border: solid 2px orange;
 }
 #bottomRightBox{
     grid-area: d;
-    border: solid 2px green;
 }
 
 /*Visual*/

@@ -17,7 +17,6 @@ const sharedSession = require("express-socket.io-session");
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const path = require('path');
-const fileUpload = require('express-fileupload');
 //password encoding
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
@@ -51,12 +50,7 @@ app.use(jsonParser);
 app.use(express.static(path.join(__dirname, '/front/')));
 app.use(urlencodedParser);
 app.use(session);
-app.use(fileUpload({
-    createParentPath: true,
-    limits:{
-        fileSize: 10*1024*1024*1024,
-    }
-}));
+
 
 io.use(sharedSession(session, {
     autoSave: true
@@ -607,77 +601,137 @@ io.on('connection', socket => {
 
     socket.on('rollDice', ()=>{
         room = house.joinRoom(socket);
-        if(!room.game.getIsFinished()){
+        if(!room.game.checkEnd()){ //checkEnd
             if (!room.game.getCast() && room.game.getOrderIndexUsername() === socket.handshake.session.username) {
                 room.game.castTheDice();
+                room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+
                 if(room.game.getPlayer(0) === room.game.getOrderIndex()) {
-                    room.game.executeMove(room.game.getPlayer(0), room.game.getCastValue());
-                    room.game.executeInteraction(room.game.getPlayer(0));
-                    room.player1.emit('action', room.game.getPlayer(0), room.game, true, false, true);
-                    room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
-                    room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                    if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
-                    if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
-                    if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
-                }
-                else if(room.game.getPlayer(1) === room.game.getOrderIndex()) {
-                    room.game.executeMove(room.game.getPlayer(1), room.game.getCastValue());
-                    room.game.executeInteraction(room.game.getPlayer(1));
-                    room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
-                    room.player2.emit('action', room.game.getPlayer(1), room.game, true, false, true);
-                    room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                    if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
-                    if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
-                    if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
-                }
-                else if(room.game.getPlayer(2) === room.game.getOrderIndex()) {
-                    room.game.executeMove(room.game.getPlayer(2), room.game.getCastValue());
-                    room.game.executeInteraction(room.game.getPlayer(2));
-                    room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
-                    room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
-                    room.player3.emit('action', room.game.getPlayer(2), room.game, true, false, true);
-                    if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
-                    if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
-                    if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
-                }
-                else if(room.nbPlayer > 3){
-                    if(room.game.getPlayer(3) === room.game.getOrderIndex()) {
-                        room.game.executeMove(room.game.getPlayer(3), room.game.getCastValue());
-                        room.game.executeInteraction(room.game.getPlayer(3));
+                    if(room.game.jailInteraction(room.game.getPlayer(0))) {
+                        room.game.executeMove(room.game.getPlayer(0), room.game.getCastValue());
+                        room.game.executeInteraction(room.game.getPlayer(0));
+                        room.player1.emit('action', room.game.getPlayer(0), room.game, true, false, true);
+                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                        if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                    } else {
                         room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
                         room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
                         room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                        room.player4.emit('action', room.game.getPlayer(3), room.game, true, false, true);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                        if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                    }
+                }
+                else if(room.game.getPlayer(1) === room.game.getOrderIndex()) {
+                    if(room.game.jailInteraction(room.game.getPlayer(1))) {
+                        room.game.executeMove(room.game.getPlayer(1), room.game.getCastValue());
+                        room.game.executeInteraction(room.game.getPlayer(1));
+                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                        room.player2.emit('action', room.game.getPlayer(1), room.game, true, false, true);
+                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                        if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                    } else {
+                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                        if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                    }
+                }
+                else if(room.game.getPlayer(2) === room.game.getOrderIndex()) {
+                    if(room.game.jailInteraction(room.game.getPlayer(2))) {
+                        room.game.executeMove(room.game.getPlayer(2), room.game.getCastValue());
+                        room.game.executeInteraction(room.game.getPlayer(2));
+                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                        room.player3.emit('action', room.game.getPlayer(2), room.game, true, false, true);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                        if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                    } else {
+                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                        if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                    }
+                }
+                else if(room.nbPlayer > 3){
+                    if(room.game.getPlayer(3) === room.game.getOrderIndex()) {
+                        if(room.game.jailInteraction(room.game.getPlayer(3))) {
+                            room.game.executeMove(room.game.getPlayer(3), room.game.getCastValue());
+                            room.game.executeInteraction(room.game.getPlayer(3));
+                            room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                            room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                            room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                            room.player4.emit('action', room.game.getPlayer(3), room.game, true, false, true);
+                            if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                            if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                        }
+                    } else {
+                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                        if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
                         if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
                         if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
                     }
                 }
                 else if(room.nbPlayer > 4){
                     if(room.game.getPlayer(4) === room.game.getOrderIndex()) {
-                        room.game.executeMove(room.game.getPlayer(4), room.game.getCastValue());
-                        room.game.executeInteraction(room.game.getPlayer(4));
-                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
-                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
-                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                        room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
-                        room.player5.emit('action', room.game.getPlayer(4), room.game, true, false, true);
-                        if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                        if(room.game.jailInteraction(room.game.getPlayer(4))) {
+                            room.game.executeMove(room.game.getPlayer(4), room.game.getCastValue());
+                            room.game.executeInteraction(room.game.getPlayer(4));
+                            room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                            room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                            room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                            room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                            room.player5.emit('action', room.game.getPlayer(4), room.game, true, false, true);
+                            if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                        } else {
+                            room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                            room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                            room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                            if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                            if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                            if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                        }
                     }
                 }
                 else if(room.nbPlayer > 5){
                     if(room.game.getPlayer(5) === room.game.getOrderIndex()) {
-                        room.game.executeMove(room.game.getPlayer(5), room.game.getCastValue());
-                        room.game.executeInteraction(room.game.getPlayer(5));
-                        room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
-                        room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
-                        room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                        room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
-                        room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
-                        room.player6.emit('action', room.game.getPlayer(5), room.game, true, false, true);
+                        if(room.game.jailInteraction(room.game.getPlayer(5))) {
+                            room.game.executeMove(room.game.getPlayer(5), room.game.getCastValue());
+                            room.game.executeInteraction(room.game.getPlayer(5));
+                            room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                            room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                            room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                            room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                            room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                            room.player6.emit('action', room.game.getPlayer(5), room.game, true, false, true);
+                        } else {
+                            room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
+                            room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
+                            room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
+                            if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
+                            if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
+                            if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                        }
                     }
                 }
             }
-
             else{
                 socket.emit('notYourTurn');
             }
@@ -799,8 +853,6 @@ io.on('connection', socket => {
 
     socket.on('validateQuestion', (choices) => {
         //Security
-
-        console.log(choices);
         if (choices.length < 1) return false;
 
         room.game.setCurrentAnswer(choices);
@@ -808,11 +860,9 @@ io.on('connection', socket => {
         //We make the interaction with the game with his answers & Telling the player if he succeeded
         if (room.game.answerInteraction(room.game.getOrderIndex(), room.game.getQuestionTab())){//Correct answer
             socket.emit('goodAnswer');
-            //alert("Bonne réponse !!");
         }
         else{
             socket.emit('badAnswer');
-            //alert("Aïe, mauvaise réponse :(");
         }
 
         if(room.game.getPlayer(0) === room.game.getOrderIndex()){
