@@ -60,13 +60,14 @@ ViewServer.prototype.displayBoxInfo = function(player){
     if (typeof answersDiv.children[0] !== 'undefined'){
         let iLength = answersDiv.children.length;
         for (let i = 0; i < iLength; i++){
-            answersDiv.removeChild(answersDiv.children[0]);
+            answersDiv.children[i].style.display = 'none';
         }
     }
 
     //Same goes for the valid button
     if (typeof validDiv.children[0] !== 'undefined'){
-        validDiv.removeChild(validDiv.children[0]);
+        console.log('yo');
+        validDiv.style.display = 'none';
     }
 
     //We display for an Action box
@@ -84,7 +85,6 @@ ViewServer.prototype.displayBoxInfo = function(player){
                 if (this.questionShow){
                     //Question that we will ask
                     content = this.game.board.qTab[this.game.qIndex].question;
-
                     //Showing the right number of the button depending on possibilities
                     for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
                         console.log(answersDiv.children[i]);
@@ -312,6 +312,7 @@ ViewServer.prototype.displayProprietyTab = function(player){
         if (!(player.myPropriety[i] === null)){
             //"Propriété" cell
             tab.rows[line].cells[0].innerText = player.myPropriety[i].name;
+            tab.rows[line].cells[0].style.fontSize = '12px';
             //"Stade" cell
             let upgradeWord = "";
             switch (player.myPropriety[i].upgradeRate) {

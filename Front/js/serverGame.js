@@ -43,19 +43,19 @@ upgrade.addEventListener('click', event => {
 });
 
 upgradeChoice1.addEventListener('click', event =>{
-    socket.emit('upgradeView', 'upgradeChoice1');
+    socket.emit('upgradeView', 'grocery');
 });
 
 upgradeChoice2.addEventListener('click', event =>{
-    socket.emit('upgradeView', 'upgradeChoice2');
+    socket.emit('upgradeView', 'supermarket');
 });
 
 upgradeChoice3.addEventListener('click', event =>{
-    socket.emit('upgradeView', 'upgradeChoice3');
+    socket.emit('upgradeView', 'market');
 });
 
 upgradeChoice4.addEventListener('click', event =>{
-    socket.emit('upgradeView', 'upgradeChoice4');
+    socket.emit('upgradeView', 'organic shop');
 });
 
 nothing.addEventListener('click', event => {
@@ -74,7 +74,16 @@ for (let i = 0; i < answerDiv.children.length; i++){
 }
 //Validate your questions button
 document.getElementById('validAnswer').children[0].addEventListener('click', () => {
-    this.questionEvent(answerDiv.children);
+
+    let choices = [];
+
+    for (let i = 0; i < answerDiv.children.length; i++){
+        if (answerDiv.children[i].style.backgroundColor === "green"){
+            choices.push(answerDiv.children[i].textContent);
+        }
+    }
+    console.log(choices);
+    socket.emit('validateQuestion', choices);
 });
 
 validate.addEventListener('click', event =>{
@@ -113,6 +122,24 @@ socket.on('notYourTurn', ()=>{
         types: [{ type: 'error', background: '#F2A413'}]
     });
     notyf.error('Ce n\'est pas à votre tour de jouer');
+});
+
+socket.on('goodAnswer', ()=>{
+    let notyf = new Notyf({
+        duration: 3000,
+        types: [{ type: 'error', background: '#008000'}],
+        x: 'left'
+    });
+    notyf.error('Wow, vous n\'en avez fait qu\'une bouchée (50 blés)');
+});
+
+socket.on('badAnswer', ()=>{
+    let notyf = new Notyf({
+        duration: 3000,
+        types: [{ type: 'error', background: '#FF0000'}],
+        x: 'left'
+    });
+    notyf.error('Aïe, vous avez fait chou blanc');
 });
 
 socket.on('backHome', ()=>{

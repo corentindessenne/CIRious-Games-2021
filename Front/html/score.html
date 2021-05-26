@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <!-- CSS links -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -50,89 +51,27 @@
     <div class="container-fluid row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10 rounded-3 border shadow-lg" style="background-color: white">
-            <table id="score" class="table table-striped border" style="margin-top: 15px">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th sbsortable="name" scope="col">
-                        <span>Joueur 1</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Joueur 2</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Joueur 3</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Joueur 4</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Joueur 5</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Joueur 6</span>
-                    </th>
-                    <th sbsortable="area" scope="col">
-                        <span>Temps</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Nb tours</span>
-                    </th>
-                    <th sbsortable="population" scope="col">
-                        <span>Stade</span>
-                    </th>
-                    <th sbsortable="name" scope="col">
-                        <span>Gagnant</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight>17 min</ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight>10</ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight>Gagné</ngb-highlight>
-                    </td>
-                    <td>
-                        <img class="mr-2" style="width: 20px" src="../assets/img/avatars/random.png">
-                        <ngb-highlight>Test</ngb-highlight>
-                    </td>
-                </tr>
-             </tbody>
+            <table id="score" class="table table-striped border" style="margin-top: 15px; text-align: center">
+                <td style="background-color: #F8D088"><strong>#</strong></td>
+                <td style="background-color: #F8D088"><strong>Joueur 1</strong></td>
+                <td style="background-color: #F8D088"><strong>Joueur 2</strong></td>
+                <td style="background-color: #F8D088"><strong>Joueur 3</strong></td>
+                <td style="background-color: #F8D088"><strong>Joueur 4</strong></td>
+                <td style="background-color: #F8D088"><strong>Joueur 5</strong></td>
+                <td style="background-color: #F8D088"><strong>Joueur 6</strong></td>
+                <td style="background-color: #F8D088"><strong>Temps</strong></td>
+                <td style="background-color: #F8D088"><strong>Tours</strong></td>
+                <td style="background-color: #F8D088"><strong>Stade</strong></td>
+                <td style="background-color: #F8D088"><strong>Gagnant</strong></td>
             </table>
         </div>
     </div>
     </div>
 </main>
-<script src="../js/header.js"></script>
 </body>
+<script>
+    let socket = io();
+</script>
+<script src="../js/score.js"></script>
+<script src="../js/header.js"></script>
 </html>

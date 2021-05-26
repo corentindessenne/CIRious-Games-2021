@@ -357,12 +357,12 @@ class monopalim{
     getCastValue(){ return this.castValue; }
     getIsFinished(){ return this.isFinished; }
     getPlayer(index){ return this.playerTab[index]; }
-    getPlayerUsername(index){ return this.playerTab[index].username; }
     getOrderIndex() { return this.playerOrder[this.orderIndex]; }
     getOrderIndexUsername() { return this.playerOrder[this.orderIndex].username; }
     getBoard(){ return this.board; }
-
-    setUpgrade(upgradeChoice){ this.upgradeRequest = upgradeChoice; }
+    getQuestionTab(){ return this.board.qTab[this.qIndex]; }
+    getNbTurns() { return this.turnNb; }
+    getWinner() { return this.playerRanking[this.playerRanking.length - 1]; }
 
     //Initialisation Function
     //Tested and functional
@@ -445,11 +445,11 @@ class monopalim{
     //Actions in the game
     castTheDice(){
         //Roll the dice !
-        this.dice1 = Math.floor(Math.random() * 6) + 1;
-        this.dice2 = Math.floor(Math.random() * 6) + 1;
+        //this.dice1 = Math.floor(Math.random() * 6) + 1;
+        //this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
-        //this.dice1 = 2;
-        //this.dice2 = 2;
+        this.dice1 = 2;
+        this.dice2 = 2;
         this.castValue = this.dice1 + this.dice2;
 
         //Jail speciality
@@ -801,6 +801,10 @@ class monopalim{
             default:
                 return this.specialInteraction(this.playerOrder[this.orderIndex], box);
         }
+    }
+
+    setCurrentAnswer(choices){
+        this.currentAnswer = choices;
     }
 
     //Finished and need tests

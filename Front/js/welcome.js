@@ -1,7 +1,7 @@
 let config = {
     type: Phaser.AUTO,
-    width: 1265,
-    height: 592,
+    width: 1585,
+    height: 750,
     scene: {
         preload: preload,
         create: create
@@ -21,7 +21,7 @@ function preload() {
     let progressBar = this.add.graphics();
     let progressBox = this.add.graphics();
     progressBox.fillStyle(0x000000, 0.7);
-    progressBox.fillRect(442, 270, 360, 50);
+    progressBox.fillRect(612, 350, 360, 50);
 
     let width = this.cameras.main.width;
     let height = this.cameras.main.height;
@@ -51,7 +51,7 @@ function preload() {
         percentText.setText(parseInt(value * 100) + '%');
         progressBar.clear();
         progressBar.fillStyle(0x000000, 1);
-        progressBar.fillRect(452, 280, 340 * value, 30);
+        progressBar.fillRect(622, 360, 340 * value, 30);
     });
 
     this.load.on('complete', function () {

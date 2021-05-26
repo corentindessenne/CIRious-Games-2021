@@ -81,7 +81,7 @@ body{
     height: 80px;
 
 }
-#monopalimBoard #gameBoxV{
+#monopalimBoard .gameBoxV{
     border: solid 2px white;
     box-sizing: border-box;
     vertical-align: middle;

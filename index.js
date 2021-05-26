@@ -417,7 +417,7 @@ io.on('connection', socket => {
                 room.board = room.game.getBoard();
                 room.nbPlayer = 4;
                 room.password = '';
-                room.state = 0;
+                room.state = '';
                 room.winner = '';
                 //chrono
                 room.timeDebut = new Date;
@@ -489,7 +489,7 @@ io.on('connection', socket => {
             room.board = room.game.getBoard();
             room.nbPlayer = 3;
             room.password = passwordRoom;
-            room.state = 0;
+            room.state = '';
             room.winner = '';
             //chrono
             room.timeDebut = new Date;
@@ -515,7 +515,8 @@ io.on('connection', socket => {
             room.board = room.game.getBoard();
             room.nbPlayer = 4;
             room.password = passwordRoom;
-            room.state = 0;
+            room.state = '';
+            room.winner = '';
             //chrono
             room.timeDebut = new Date;
             room.timeFin = 0;
@@ -543,7 +544,7 @@ io.on('connection', socket => {
             room.board = room.game.getBoard();
             room.nbPlayer = 5;
             room.password = passwordRoom;
-            room.state = 0;
+            room.state = '';
             room.winner = '';
             //chrono
             room.timeDebut = new Date;
@@ -575,7 +576,7 @@ io.on('connection', socket => {
             room.board = room.game.getBoard();
             room.nbPlayer = 6;
             room.password = passwordRoom;
-            room.state = 0;
+            room.state = '';
             room.winner = '';
             //chrono
             room.timeDebut = new Date;
@@ -612,7 +613,7 @@ io.on('connection', socket => {
                 if(room.game.getPlayer(0) === room.game.getOrderIndex()) {
                     room.game.executeMove(room.game.getPlayer(0), room.game.getCastValue());
                     room.game.executeInteraction(room.game.getPlayer(0));
-                    room.player1.emit('action', room.game.getPlayer(0), room.game, true, false, false);
+                    room.player1.emit('action', room.game.getPlayer(0), room.game, true, false, true);
                     room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
                     room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
                     if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
@@ -623,7 +624,7 @@ io.on('connection', socket => {
                     room.game.executeMove(room.game.getPlayer(1), room.game.getCastValue());
                     room.game.executeInteraction(room.game.getPlayer(1));
                     room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
-                    room.player2.emit('action', room.game.getPlayer(1), room.game, true, false, false);
+                    room.player2.emit('action', room.game.getPlayer(1), room.game, true, false, true);
                     room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
                     if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
                     if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
@@ -634,7 +635,7 @@ io.on('connection', socket => {
                     room.game.executeInteraction(room.game.getPlayer(2));
                     room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
                     room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
-                    room.player3.emit('action', room.game.getPlayer(2), room.game, true, false, false);
+                    room.player3.emit('action', room.game.getPlayer(2), room.game, true, false, true);
                     if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
                     if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
                     if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
@@ -646,7 +647,7 @@ io.on('connection', socket => {
                         room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
                         room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
                         room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                        room.player4.emit('action', room.game.getPlayer(3), room.game, true, false, false);
+                        room.player4.emit('action', room.game.getPlayer(3), room.game, true, false, true);
                         if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
                         if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
                     }
@@ -659,7 +660,7 @@ io.on('connection', socket => {
                         room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
                         room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
                         room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
-                        room.player5.emit('action', room.game.getPlayer(4), room.game, true, false, false);
+                        room.player5.emit('action', room.game.getPlayer(4), room.game, true, false, true);
                         if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
                     }
                 }
@@ -670,9 +671,9 @@ io.on('connection', socket => {
                         room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
                         room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
                         room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
-                        room.player4.emit('action', room.game.getPlayer(3), room.game, true, false, false);
+                        room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
                         room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
-                        room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
+                        room.player6.emit('action', room.game.getPlayer(5), room.game, true, false, true);
                     }
                 }
             }
@@ -684,6 +685,8 @@ io.on('connection', socket => {
         else {
             room.timeFin = new Date;
             room.timeGame = room.timeFin.getTime() - room.timeDebut.getTime();
+            room.state = 'terminé'
+            room.winner = room.game.getWinner();
 
             let h, m, s;
             h = Math.floor(room.timeGame / 1000 / 60 / 60);
@@ -696,23 +699,26 @@ io.on('connection', socket => {
             let username1 = room.player1.handshake.session.username;
             let username2 = room.player2.handshake.session.username;
             let username3 = room.player3.handshake.session.username;
+            let username4;
+            let username5;
+            let username6;
             if (room.player4) {
-                let username4 = room.player4.handshake.session.username;
+                username4 = room.player4.handshake.session.username;
                 if (room.player5) {
-                    let username5 = room.player5.handshake.session.username;
+                    username5 = room.player5.handshake.session.username;
                     if (room.player6) {
-                        let username6 = room.player6.handshake.session.username;
+                        username6 = room.player6.handshake.session.username;
                     } else {
-                        let username6 = '';
+                        username6 = '';
                     }
                 } else {
-                    let username5 = '';
-                    let username6 = '';
+                    username5 = '';
+                    username6 = '';
                 }
             } else {
-                let username4 = '';
-                let username5 = '';
-                let username6 = '';
+                username4 = '';
+                username5 = '';
+                username6 = '';
             }
 
             con.query('SELECT * FROM monopalimsave', (error, results) => {
@@ -771,7 +777,7 @@ io.on('connection', socket => {
     });
 
     socket.on('upgradeView', (upgradeChoice) => {
-        room.game.setUpgrade(upgradeChoice);
+        room.game.requestUpgrade(upgradeChoice);
         room.game.executeAction('upgrade');
         room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
         room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
@@ -779,8 +785,6 @@ io.on('connection', socket => {
         if (room.player4) room.player4.emit('action', room.game.getPlayer(3), room.game, false, false, false);
         if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
         if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
-
-
     })
 
     socket.on('nothingListener', () =>{
@@ -793,10 +797,97 @@ io.on('connection', socket => {
         if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
     });
 
+    socket.on('validateQuestion', (choices) => {
+        //Security
+
+        console.log(choices);
+        if (choices.length < 1) return false;
+
+        room.game.setCurrentAnswer(choices);
+
+        //We make the interaction with the game with his answers & Telling the player if he succeeded
+        if (room.game.answerInteraction(room.game.getOrderIndex(), room.game.getQuestionTab())){//Correct answer
+            socket.emit('goodAnswer');
+            //alert("Bonne réponse !!");
+        }
+        else{
+            socket.emit('badAnswer');
+            //alert("Aïe, mauvaise réponse :(");
+        }
+
+        if(room.game.getPlayer(0) === room.game.getOrderIndex()){
+            room.player1.emit('action', room.game.getPlayer(0), room.game, true, false, false);
+        }
+        else if(room.game.getPlayer(1) === room.game.getOrderIndex()){
+            room.player2.emit('action', room.game.getPlayer(1), room.game, true, false, false);
+        }
+        else if(room.game.getPlayer(2) === room.game.getOrderIndex()){
+            room.player3.emit('action', room.game.getPlayer(2), room.game, true, false, false);
+        }
+        else if (room.nbPlayer > 3){
+            if(room.game.getPlayer(3) === room.game.getOrderIndex()){
+                room.player4.emit('action', room.game.getPlayer(3), room.game, true, false, false);
+            }
+        }
+        else if (room.nbPlayer > 4){
+            if(room.game.getPlayer(4) === room.game.getOrderIndex()){
+                room.player5.emit('action', room.game.getPlayer(4), room.game, true, false, false);
+            }
+        }
+        else if (room.nbPlayer > 5){
+            if(room.game.getPlayer(5) === room.game.getOrderIndex()){
+                room.player6.emit('action', room.game.getPlayer(5), room.game, true, false, false);
+            }
+        }
+    });
+
     //handle the deconnection of someone
     socket.on('disconnect', ()=>{
         if (house.isWaiter(socket)) house.deleteWaiter(socket);
         else if (room) {
+            room.timeFin = new Date;
+            room.timeGame = room.timeFin.getTime() - room.timeDebut.getTime();
+            room.state = 'abandon';
+            room.winner = 'abandon';
+
+            let h, m, s;
+            h = Math.floor(room.timeGame / 1000 / 60 / 60);
+            m = Math.floor((room.timeGame / 1000 / 60 / 60 - h) * 60);
+            s = Math.floor(((room.timeGame / 1000 / 60 / 60 - h) * 60 - m) * 60);
+            if (s < 10) s = '0' + s;
+            if (m < 10) m = '0' + m;
+            if (h < 10) h = '0' + h;
+
+            let username1 = room.player1.handshake.session.username;
+            let username2 = room.player2.handshake.session.username;
+            let username3 = room.player3.handshake.session.username;
+            let username4;
+            let username5;
+            let username6;
+            if (room.player4) {
+                username4 = room.player4.handshake.session.username;
+                if (room.player5) {
+                    username5 = room.player5.handshake.session.username;
+                    if (room.player6) {
+                        username6 = room.player6.handshake.session.username;
+                    } else {
+                        username6 = '';
+                    }
+                } else {
+                    username5 = '';
+                    username6 = '';
+                }
+            } else {
+                username4 = '';
+                username5 = '';
+                username6 = '';
+            }
+
+            con.query('SELECT * FROM monopalimsave', (error, results) => {
+                if (!error) {
+                    con.query('INSERT INTO monopalimsave (player1, player2, player3, player4, player5, player6, time, gameState, nbTurns, winner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [username1, username2, username3, username4, username5, username6, h + ':' + m + ':' + s, room.state, room.game.getNbTurns(), room.winner]);
+                }
+            });
 
             //if room.player1 exist and socket is different of the room.player1 to send the msg to the concerned people
             if (room.player1 && socket.handshake.sessionID !== room.player1.handshake.sessionID) {
@@ -829,16 +920,14 @@ io.on('connection', socket => {
                 room.player6.handshake.session.error = 'deconnection';
                 privateRoomDeconnected.push(room.player6);
             }
-            room.state = 'abandonment';
         }
     });
 
     /** score **/
 
     socket.on('displayScore', ()=>{
-        let player1, player2, player3, player4, player5, player6, time, nbTurns, gameState,  winner;
-
-        con.query('SELECT * FROM strategosave', function(error, results) {
+        let player1, player2, player3, player4, player5, player6, time, nbTurns, gameState, winner;
+        con.query('SELECT * FROM monopalimsave', function(error, results) {
             if(!error) {
                 let x = 0;
                 if(results.length > 10) x = results.length - 10;
