@@ -601,9 +601,10 @@ io.on('connection', socket => {
 
     socket.on('rollDice', ()=>{
         room = house.joinRoom(socket);
-        if(!room.game.checkEnd()){ //checkEnd
+        if(!room.game.checkEnd()){ //check if the game is finished
             if (!room.game.getCast() && room.game.getOrderIndexUsername() === socket.handshake.session.username) {
-                room.game.castTheDice();
+                room.game.castTheDice(); //roll the dice
+                //display the dice for every player
                 room.player1.emit('action', room.game.getPlayer(0), room.game, false, false, false);
                 room.player2.emit('action', room.game.getPlayer(1), room.game, false, false, false);
                 room.player3.emit('action', room.game.getPlayer(2), room.game, false, false, false);
@@ -611,8 +612,9 @@ io.on('connection', socket => {
                 if (room.player5) room.player5.emit('action', room.game.getPlayer(4), room.game, false, false, false);
                 if (room.player6) room.player6.emit('action', room.game.getPlayer(5), room.game, false, false, false);
 
+                //verify whose turn
                 if(room.game.getPlayer(0) === room.game.getOrderIndex()) {
-                    if(room.game.jailInteraction(room.game.getPlayer(0))) {
+                    if(room.game.jailInteraction(room.game.getPlayer(0))) { //verify if the player is in jail
                         room.game.executeMove(room.game.getPlayer(0), room.game.getCastValue());
                         room.game.executeInteraction(room.game.getPlayer(0));
                         room.player1.emit('action', room.game.getPlayer(0), room.game, true, false, true);
@@ -780,6 +782,13 @@ io.on('connection', socket => {
                     con.query('INSERT INTO monopalimsave (player1, player2, player3, player4, player5, player6, time, gameState, nbTurns, winner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [username1, username2, username3, username4, username5, username6, h + ':' + m + ':' + s, room.state, room.game.getNbTurns(), room.winner]);
                 }
             });
+
+            room.player1.emit('redirectFinished');
+            room.player2.emit('redirectFinished');
+            room.player3.emit('redirectFinished');
+            if(room.player4) room.player4.emit('redirectFinished');
+            if(room.player5) room.player5.emit('redirectFinished');
+            if(room.player6) room.player6.emit('redirectFinished');
         }
     });
 

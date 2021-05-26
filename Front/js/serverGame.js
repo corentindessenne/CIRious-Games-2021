@@ -146,6 +146,10 @@ socket.on('backHome', ()=>{
    window.location.href = '/menu';
 });
 
+socket.on('redirectFinished', ()=>{
+    window.location.href = '/score';
+});
+
 socket.on('privateGame', ()=> {
     socket.emit('createRoom', passwordRoom);
 });
