@@ -590,7 +590,7 @@ class view {
                 case"start":
                     type = "Case spéciale";
                     content = "Passez par là pour obtenir 200 blés !";
-                    imgDiv.style.backgroundImage = "url('../assets/img/cards/startv2.png')";
+                    imgDiv.style.backgroundImage = "url('../assets/img/cards/start.png')";
                     break;
                 case"visitPrison":
                     type = "Case spéciale";

@@ -111,7 +111,7 @@ ViewServer.prototype.displayBoxInfo = function(player){
             case"visitPrison":
                 type = "Case spéciale";
                 content = "Si vous n'êtes pas emprisonné, vous pouvez narguez ceux qui le sont !";
-                imgDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
+                imgDiv.style.backgroundImage = "url('../assets/img/cards/goToDiet.png')";
                 break;
             case"getStockedBasket":
                 type = "Case spéciale";
@@ -121,7 +121,7 @@ ViewServer.prototype.displayBoxInfo = function(player){
             default:
                 type = "Case spéciale";
                 content = "Allez en diète !"
-                imgDiv.style.backgroundImage = "url('../assets/img/cards/jail.png')";
+                imgDiv.style.backgroundImage = "url('../assets/img/cards/diet.png')";
                 break;
         }
 
