@@ -403,7 +403,7 @@ class view {
         //Div that contains buttons
         let actionDiv = document.getElementById('actionButtons');
         //Access to the buttons & add an event Listener for each
-        for (let i = 0; i < actionDiv.children.length; i++){
+        for (let i = 0; i < actionDiv.children.length; i++) {
             actionDiv.children[i].addEventListener('click', () => {
                 this.actionEvent(actionDiv.children[i].textContent);//.textContent let us access to the "value" of the button
             });
@@ -411,7 +411,7 @@ class view {
 
         //Upgrade Buttons, SAME
         let upgradeDiv = document.getElementById('upgradeButtons');
-        for (let i = 0; i < upgradeDiv.children.length; i++){
+        for (let i = 0; i < upgradeDiv.children.length; i++) {
             upgradeDiv.children[i].addEventListener('click', () => {
                 this.upgradeEvent(upgradeDiv.children[i].textContent);//.textContent let us access to the "value" of the button
             });
@@ -419,12 +419,12 @@ class view {
 
         //Question Buttons
         let answerDiv = document.getElementById('answerContent');
-        for (let i = 0; i < answerDiv.children.length; i++){
+        for (let i = 0; i < answerDiv.children.length; i++) {
             answerDiv.children[i].addEventListener('click', () => {
-                if (answerDiv.children[i].style.backgroundColor === "green"){
+                if (answerDiv.children[i].style.backgroundColor === "green") {
                     answerDiv.children[i].style.backgroundColor = "";
                 }
-                else{
+                else {
                     answerDiv.children[i].style.backgroundColor = "green";
                 }
             });
@@ -442,7 +442,7 @@ class view {
         //We clear the board
         for (let a = 0; a < 11; a++) {
             for (let b = 0; b < 11; b++) {
-                if (typeof gameBoard.rows[a].cells[b] !== 'undefined'){
+                if (typeof gameBoard.rows[a].cells[b] !== 'undefined') {
                     gameBoard.rows[a].cells[b].innerText = '';
                     gameBoard.rows[a].cells[b].style.backgroundColor = '';
                 }
@@ -454,7 +454,7 @@ class view {
         }
         //Do it with every player
         for (let i = 0; i < this.game.playerTab.length; i++) {
-            for(let pNbr = 0; pNbr < this.game.playerTab[i].myPropriety.length; pNbr++){
+            for (let pNbr = 0; pNbr < this.game.playerTab[i].myPropriety.length; pNbr++) {
             }
             gameBoard.rows[this.game.playerOrder[i].position[0]].cells[this.game.playerOrder[i].position[1]].innerText = this.game.playerOrder[i].username;
             //Will be changed to image after
@@ -470,7 +470,7 @@ class view {
         let img2 = document.createElement('img');
         img.src = "../assets/img/dice/dice-six-faces-" + (this.game.dice1) + ".png";
         img2.src = "../assets/img/dice/dice-six-faces-" + (this.game.dice2) + ".png";
-        
+
         //Replace it
         diceDiv.replaceChild(img, diceDiv.children[0]);
         diceDiv.replaceChild(img2, diceDiv.children[1]);
@@ -494,7 +494,7 @@ class view {
         //Displaying player's GIF
         let gifDiv = document.getElementById('gifTurn');
         //Removing olg child
-        if (typeof gifDiv.children[0] !== 'undefined'){
+        if (typeof gifDiv.children[0] !== 'undefined') {
             gifDiv.removeChild(gifDiv.children[0]);
         }
         //Creating New
@@ -507,11 +507,6 @@ class view {
         let proprietyTab = document.getElementById('propriety');
         //Delete old infos
         let line = 1;
-        for (let i = 1; i <= 10; i++) {
-            proprietyTab.rows[i].cells[0].innerText = "X";
-            proprietyTab.rows[i].cells[1].innerText = "X";
-            proprietyTab.rows[i].cells[2].innerText = "X";
-        }
 
         //Add new infos
         for (let i = 0; i < this.game.playerOrder[this.game.orderIndex].myPropriety.length; i++) {
@@ -522,11 +517,44 @@ class view {
                         proprietyTab.rows[line].insertCell(cpt);
                     }
                 }
+                //"Propriété" cell
                 proprietyTab.rows[line].cells[0].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].name;
-                proprietyTab.rows[line].cells[1].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].upgradeRate;
+                proprietyTab.rows[line].cells[0].style.fontSize = '12px';
+                //"Stade" cell
+                let upgradeWord = "";
+                switch (this.game.playerOrder[this.game.orderIndex].myPropriety[i].upgradeRate) {
+                    case 0:
+                        upgradeWord = "Plantation";
+                        break;
+                    case 1:
+                        upgradeWord = "Epicerie";
+                        break;
+                    case 2:
+                        upgradeWord = "Supermarché";
+                        break;
+                    case 3:
+                        upgradeWord = "Marché";
+                        break;
+                    case 4:
+                        upgradeWord = "Magasin Bio";
+                        break;
+                    default:
+                        console.log("Unavailable Upgrade Rate");
+                        return false;
+                }
+                proprietyTab.rows[line].cells[1].innerText = upgradeWord;
+                //"Apports" cell
                 proprietyTab.rows[line].cells[2].innerText = this.game.playerOrder[this.game.orderIndex].myPropriety[i].income[this.game.playerOrder[this.game.orderIndex].myPropriety[i].upgradeRate];
+                //Incrementing Line
                 line++;
             }
+        }
+
+        //Clear other infos
+        for (let i = line; i <= 10; i++) {
+            proprietyTab.rows[i].cells[0].innerText = "X";
+            proprietyTab.rows[i].cells[1].innerText = "X";
+            proprietyTab.rows[i].cells[2].innerText = "X";
         }
     }
     displayJailStatus() {
@@ -549,10 +577,11 @@ class view {
         //Removing old text
         boxType.innerText = "";
         cardInfos.innerText = "";
+        factDiv.innerText = "";
         imgDiv.style.backgroundImage = "none";
 
         //Removing table
-        if (typeof info.children[0] !== 'undefined'){
+        if (typeof info.children[0] !== 'undefined') {
             info.removeChild(info.children[0]);
         }
 
@@ -567,38 +596,38 @@ class view {
                     type = "Case Caisse de Communauté";
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/communaute.png')";
                     break;
-                case"question":
+                case "question":
                     type = "Case Question";
-                    if (order === "yes"){
+                    if (order === "yes") {
                         //Question that we will ask
                         content = this.game.board.qTab[this.game.qIndex].question;
 
                         //Implementing answers into the buttons
-                        for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++){
+                        for (let i = 0; i < this.game.board.qTab[this.game.qIndex].answer.length; i++) {
                             answersDiv.children[i].innerHTML = this.game.board.qTab[this.game.qIndex].answer[i];
                         }
-                        
+
                         //Show buttons
                         this.displayQuestionButtons("block", this.game.board.qTab[this.game.qIndex].answer.length);
                     }
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/question.png')";
                     break;
-                case"chance":
+                case "chance":
                     content = this.game.board.chTab[this.game.chIndex].string;
                     type = "Case Chance";
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/chance.png')";
                     break;
-                case"start":
+                case "start":
                     type = "Case spéciale";
                     content = "Passez par là pour obtenir 200 blés !";
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/start.png')";
                     break;
-                case"visitPrison":
+                case "visitPrison":
                     type = "Case spéciale";
                     content = "Si vous n'êtes pas emprisonné, vous pouvez narguez ceux qui le sont !";
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/diet.png')";
                     break;
-                case"getStockedBasket":
+                case "getStockedBasket":
                     type = "Case spéciale";
                     content = "Vous gagnez le panier de fruit !";
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/fruitBucket.png')";
@@ -609,7 +638,7 @@ class view {
                     imgDiv.style.backgroundImage = "url('../assets/img/cards/goToDier.png')";
                     break;
             }
-            if (order === "yes"){
+            if (order === "yes") {
                 cardInfos.innerHTML = "La carte dit : " + content;
             }
         }
@@ -617,83 +646,86 @@ class view {
         else {
             type = "Case Propriété";
 
-            // creates a <table> element and a <tbody> element
-            let tbl = document.createElement("table");
-            let tblThead = document.createElement('thead');
-            let tblBody = document.createElement("tbody");
+            if (order === "yes") {
+                // creates a <table> element and a <tbody> element
+                let tbl = document.createElement("table");
+                let tblThead = document.createElement('thead');
+                let tblBody = document.createElement("tbody");
 
-            //Creating the thead
-            let theadRow = document.createElement("tr");
+                //Creating the thead
+                let theadRow = document.createElement("tr");
 
-            for (let i = 0; i < 4; i++){
-                let cellText = document.createTextNode("Création en cours");
-                let cell = document.createElement('th');
-                cell.appendChild(cellText);
-                theadRow.appendChild(cell);
+                for (let i = 0; i < 4; i++) {
+                    let cellText = document.createTextNode("Création en cours");
+                    let cell = document.createElement('th');
+                    cell.appendChild(cellText);
+                    theadRow.appendChild(cell);
+                }
+                //We plug it into the Thead
+                tblThead.appendChild(theadRow);
+
+                //Creating the Body
+                // creates a table row
+                let row = document.createElement("tr");
+
+                for (let j = 0; j < 4; j++) {
+                    // Create a <td> element and a text node, make the text
+                    // node the contents of the <td>, and put the <td> at
+                    // the end of the table row
+                    let cell = document.createElement("td");
+                    let cellText = document.createTextNode("Création en cours");
+                    cell.appendChild(cellText);
+                    row.appendChild(cell);
+                }
+
+                // add the row to the end of the table body
+                tblBody.appendChild(row);
+
+                // put the <tbody> in the <table>
+                tbl.appendChild(tblThead);
+                tbl.appendChild(tblBody);
+                // appends <table> into <body>
+                info.appendChild(tbl);
+
+
+                //Displaying infos
+                tbl.rows[0].cells[0].innerText = "Nom";
+                tbl.rows[0].cells[1].innerText = "Prix";
+                tbl.rows[0].cells[2].innerText = "Bien";
+                tbl.rows[0].cells[3].innerText = "Loyer";
+                tbl.rows[1].cells[0].innerText = box.name;
+                tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
+                if (box.belonging !== "none") {
+                    tbl.rows[1].cells[2].innerText = this.game.playerTab[box.belonging].username;
+                }
+                else {
+                    tbl.rows[1].cells[2].innerText = "Non achetée"
+                }
+                tbl.rows[1].cells[3].innerText = box.income[box.upgradeRate];
+
+                //Style
+                tbl.setAttribute("border", "2");
             }
-            //We plug it into the Thead
-            tblThead.appendChild(theadRow);
-
-            //Creating the Body
-            // creates a table row
-            let row = document.createElement("tr");
-
-            for (let j = 0; j < 4; j++) {
-                // Create a <td> element and a text node, make the text
-                // node the contents of the <td>, and put the <td> at
-                // the end of the table row
-                let cell = document.createElement("td");
-                let cellText = document.createTextNode("Création en cours");
-                cell.appendChild(cellText);
-                row.appendChild(cell);
+            else {
+                //Fact
+                factDiv.innerText = "Fun Fact: " + box.fact;
             }
-
-            // add the row to the end of the table body
-            tblBody.appendChild(row);
-
-            // put the <tbody> in the <table>
-            tbl.appendChild(tblThead);
-            tbl.appendChild(tblBody);
-            // appends <table> into <body>
-            info.appendChild(tbl);
-
-
-            //Displaying infos
-            tbl.rows[0].cells[0].innerText = "Nom";
-            tbl.rows[0].cells[1].innerText = "Prix";
-            tbl.rows[0].cells[2].innerText = "Bien";
-            tbl.rows[0].cells[3].innerText = "Loyer";
-            tbl.rows[1].cells[0].innerText = box.name;
-            tbl.rows[1].cells[1].innerText = box.price[box.upgradeRate];
-            if (box.belonging !== "none"){
-                tbl.rows[1].cells[2].innerText = this.game.playerTab[box.belonging].username;
-            }
-            else{
-                tbl.rows[1].cells[2].innerText = "Non achetée"
-            }
-            tbl.rows[1].cells[3].innerText = box.income[box.upgradeRate];
-
-            //Style
-            tbl.setAttribute("border", "2");
 
             imgDiv.style.backgroundImage = "url('../assets/img/cards/property.png')";
-
-            //Fact
-            factDiv.innerText = box.fact;
         }
 
         boxType.innerHTML = "Vous êtes sur une " + type;
     }
     //Used to display every pawn & animations when they move
-    displayMovement(position, player){
+    displayMovement(position, player) {
         let gameTab = document.getElementById('monopalimBoard');
 
         //We create the animated GIF
         let element = player.character;
-        if (position[0] === 1 && position[1] === 10){
+        if (position[0] === 1 && position[1] === 10) {
             gameTab.rows[position[0]].cells[2].appendChild(element);
         }
-        else if(position[1] === 10 && position[0] < 10){
+        else if (position[1] === 10 && position[0] < 10) {
             gameTab.rows[position[0]].cells[1].appendChild(element);
         }
         else {
@@ -701,14 +733,14 @@ class view {
         }
     }
     //Used update most of the information a player needs like his money, his HB, etc...
-    displayGameInfos(){
+    displayGameInfos() {
         let turn = document.getElementById('gameTurn');
 
         //Grammar Stuff lul
-        if(this.game.turnNb < 19){
+        if (this.game.turnNb < 19) {
             turn.innerText = 20 - this.game.turnNb + " tours !";
         }
-        else{
+        else {
             turn.innerText = 20 - this.game.turnNb + " tour !";
         }
     }
@@ -721,25 +753,25 @@ class view {
         this.displayJailStatus();
     }
     //Used for showing buttons
-    displayActionButtons(which, request){
+    displayActionButtons(which, request) {
         let buttonDiv = ""
 
-        if (which === "actions"){
+        if (which === "actions") {
             buttonDiv = document.getElementById('actionButtons');
         }
-        else if (which === "upgrades"){
+        else if (which === "upgrades") {
             buttonDiv = document.getElementById('upgradeButtons')
         }
-        else{
+        else {
             console.log("Invalid buttons");
             return false;
         }
 
-        switch (request){
+        switch (request) {
             case "disable":
                 buttonDiv.style.display = "none";
                 break;
-            case"enable":
+            case "enable":
                 buttonDiv.style.display = "block";
                 break;
             default:
@@ -749,27 +781,27 @@ class view {
         return true;
     }
     //Special display for Questions
-    displayQuestionButtons(request, howMany){
+    displayQuestionButtons(request, howMany) {
         let answerDiv = document.getElementById('answerContent');
         let validDiv = document.getElementById('validAnswer');
-        
+
         if ((request !== "block" && request !== "none") || howMany > answerDiv.length) console.log("Error Requet");
 
-        for (let i = 0; i < howMany; i++){
+        for (let i = 0; i < howMany; i++) {
             answerDiv.children[i].style.display = request;
         }
-        
+
         validDiv.style.display = request;
     }
     //Used to display pawns
-    displayPawns(){
+    displayPawns() {
         let board = document.getElementById('monopalimBoard');
 
-        for (let i = 0; i < 11; i++){
-            for (let j = 0; j < 11; j++){
-                if (typeof board.rows[i].cells[j] !== 'undefined' && typeof board.rows[i].cells[j].children[0] !== 'undefined'){
+        for (let i = 0; i < 11; i++) {
+            for (let j = 0; j < 11; j++) {
+                if (typeof board.rows[i].cells[j] !== 'undefined' && typeof board.rows[i].cells[j].children[0] !== 'undefined') {
                     let childNbr = board.rows[i].cells[j].children.length;
-                    for (let removeNbr = 0; removeNbr < childNbr; removeNbr++){
+                    for (let removeNbr = 0; removeNbr < childNbr; removeNbr++) {
                         board.rows[i].cells[j].removeChild(board.rows[i].cells[j].children[0]);
                     }
                 }
@@ -777,12 +809,12 @@ class view {
         }
 
         //Display pawns
-        for (let i = 0; i < this.game.playerOrder.length; i++){
+        for (let i = 0; i < this.game.playerOrder.length; i++) {
             //Special bug with colspan
-            if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] === 1){
+            if (this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] === 1) {
                 board.rows[this.game.playerTab[i].position[0]].cells[2].appendChild(this.game.playerTab[i].character);
             }
-            else if(this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] < 10){
+            else if (this.game.playerTab[i].position[1] === 10 && this.game.playerTab[i].position[0] < 10) {
                 board.rows[this.game.playerTab[i].position[0]].cells[1].appendChild(this.game.playerTab[i].character);
             }
             else {
@@ -791,9 +823,10 @@ class view {
         }
     }
     //Used at the end of the game
-    displayRankingTab(){
+    displayRankingTab() {
         document.getElementById('rankingTab').style.display = "block";
         document.getElementById('dice').style.display = "none"
+        console.log(this.game.winner);
     }
 
     //Event Functions
@@ -802,7 +835,6 @@ class view {
         if (this.game.isCast) {
             return false;//Only 1 roll is available per turn unless counter indication
         }
-
         //Roll
         this.game.castTheDice();
         this.displayDice();
@@ -811,16 +843,16 @@ class view {
         if (this.game.jailInteraction(player) === true) {
             //Play
             //We make the move 1 by 1
-            for (let i = 1; i <= this.game.castValue; i++){
-                this.game.executeMove(player,  1);
+            for (let i = 1; i <= this.game.castValue; i++) {
+                this.game.executeMove(player, 1);
                 this.displayMovement(player.position, this.game.playerOrder[this.game.orderIndex]);
             }
 
             //View
             this.displayBoxInfos(this.game.board.grid[player.position[0]][player.position[1]], "yes");
-            
+
             alert("Déplacement Terminé - Interaction en cours");
-            
+
             //Game
             this.game.executeInteraction(this.game.playerOrder[this.game.orderIndex]);
 
@@ -831,48 +863,48 @@ class view {
             this.displayHealthyBar();//Same
 
             //Check if it's over
-            if (this.game.checkState(this.game.playerOrder[this.game.orderIndex])){
+            if (this.game.checkState(this.game.playerOrder[this.game.orderIndex])) {
                 this.updatePawns();
                 this.playerLostEvent();
-                if(this.game.checkEnd()){
+                if (this.game.checkEnd()) {
                     this.endOfTheGameEvent();
                 }
                 return this.endTurnEvent();
             }
 
             //If we have to do something
-            if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question"){
+            if (typeof this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]].type !== "question") {
                 this.displayActionButtons("actions", "enable");
             }
         }
 
         else {
-            alert("Vous êtes en prison");
+            alert("Vous êtes envoyé en diet");
             this.displayPawns();
             this.displayActionButtons("actions", "disable");
             //If the player is still in Jail it's the end of it's turn
-        return this.endTurnEvent();
+            return this.endTurnEvent();
         }
 
         return true;//Worked well
     }
 
-    questionEvent(everyPossibleAnswer){
+    questionEvent(everyPossibleAnswer) {
         //Security
         if (everyPossibleAnswer.length < 1) return false;
 
         //Sorting answers and the others
-        for (let i = 0; i < everyPossibleAnswer.length; i++){
-            if (everyPossibleAnswer[i].style.backgroundColor === "green"){
+        for (let i = 0; i < everyPossibleAnswer.length; i++) {
+            if (everyPossibleAnswer[i].style.backgroundColor === "green") {
                 this.game.currentAnswer.push(everyPossibleAnswer[i].textContent);
             }
         }
 
         //We make the interaction with the game with his answers & Telling the player if he succeeded
-        if (this.game.answerInteraction(this.game.playerOrder[this.game.orderIndex], this.game.board.qTab[this.game.qIndex])){//Correct answer
+        if (this.game.answerInteraction(this.game.playerOrder[this.game.orderIndex], this.game.board.qTab[this.game.qIndex])) {//Correct answer
             alert("Bonne réponse !!");
         }
-        else{
+        else {
             alert("Aïe, mauvaise réponse :(");
         }
 
@@ -881,19 +913,19 @@ class view {
 
     actionEvent(action) {//Used for the action in game
         if (!this.game.hasMoved) return false;
-        
+
         //Initialisation
         let doWhat = ""
 
         //Translating in Enligsh
-        switch (action){
+        switch (action) {
             case "Acheter":
                 doWhat = "buy";
                 break;
             case "Racheter":
                 doWhat = "redeem";
                 break;
-            case"Améliorer":
+            case "Améliorer":
                 doWhat = "upgrade";
                 //We show the buttons for upgrade choice
                 if (typeof this.game.upgradeRequest === 'undefined' && this.game.isUpgradeable(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]])) {
@@ -901,7 +933,7 @@ class view {
                     return this.displayActionButtons("upgrades", "enable");
                 }
                 return;
-            case"Rien":
+            case "Rien":
                 doWhat = "nothing";
                 break;
             default:
@@ -916,22 +948,22 @@ class view {
         return this.endTurnEvent();
     }
 
-    upgradeEvent(upgrade){
+    upgradeEvent(upgrade) {
         //Initialisation
         let upgradeRequest = ""
 
         //Translating in Enligsh
-        switch (upgrade){
+        switch (upgrade) {
             case "Epicerie":
                 upgradeRequest = "grocery";
                 break;
             case "Marché":
                 upgradeRequest = "market";
                 break;
-            case"Supermarché":
+            case "Supermarché":
                 upgradeRequest = "supermarket";
                 break;
-            case"Magasin Bio":
+            case "Magasin Bio":
                 upgradeRequest = "organic shop";
                 break;
             default:
@@ -949,15 +981,15 @@ class view {
         return this.endTurnEvent();
     }
 
-    endGameEvent(){
-        if (this.game.isFinished){
+    endGameEvent() {
+        if (this.game.isFinished) {
             alert("Partie TERMINE !");
             this.viewIsFinished = true;
             this.displayRankingTab();
         }
     }
 
-    playerLostEvent(){
+    playerLostEvent() {
 
     }
 
@@ -969,7 +1001,7 @@ class view {
         this.displayHealthyBar();
         this.displayProprietyTab();
         this.displayJailStatus();
-        this.displayBoxInfos(this.game.board.grid [this.game.playerOrder[this.game.orderIndex].position[0]] [this.game.playerOrder[this.game.orderIndex].position[1]], "no");
+        this.displayBoxInfos(this.game.board.grid[this.game.playerOrder[this.game.orderIndex].position[0]][this.game.playerOrder[this.game.orderIndex].position[1]], "no");
         this.displayGameInfos();
         //Buttons
         this.displayActionButtons("actions", "disable");

@@ -22,12 +22,6 @@
     //Game Instance
     let gameInstance = new monopalim(player1, player2, player3, player4);
 
-    //Test Purpose
-    gameInstance.board.grid[10][2].belonging = player1.id;
-    player2.money = 5;
-    player3.money = 5;
-    player4.money = 5;
-
     //View Instance
     let gameView = new view(gameInstance);
 })();

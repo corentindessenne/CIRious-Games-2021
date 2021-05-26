@@ -15,7 +15,7 @@ class monopalim{
             this.playerTab.push(player6);
         }
         
-        this.playerRanking = [];
+        this.winner = undefined;//No winner
 
         //Initiate players order
         this.initPlayerOrder(this.playerTab);
@@ -82,8 +82,7 @@ class monopalim{
         //Full check
         if ((player.healthyBar <= 0 || player.money <= 0) && player.state){
             player.state = false;//Update player state
-            this.playerRanking.push(player);//Push him into the ranking tab
-
+            
             //Deleting player from old tab
             let idToDelete = 0;
             this.playerTab.forEach(element => {
@@ -94,7 +93,6 @@ class monopalim{
                     idToDelete++;
                 }
             });
-            //this.playerTab.splice(idToDelete, 1);//Delete him from the player tab
 
             //Checking in the order tab
             for (let j = 0; j < this.playerOrder.length; j++){
@@ -119,10 +117,12 @@ class monopalim{
             this.makeRanking();
             return true;
         }
+        
         return false;
     }
 
     makeRanking(){
+        this.updatePlayersHb();
         let tempTab = [];
         for (let i = 0; i < this.playerTab.length; i++){
             this.playerTab[i].rankPoints = this.playerTab[i].healthyBar * 20 + this.playerTab[i].money
@@ -130,19 +130,80 @@ class monopalim{
         }
         //Sort elements
         tempTab.sort((a, b) => a.rankPoints - b.rankPoints);
-        //Elements implemented
-        tempTab.forEach(element => this.playerRanking.push(element));
+        this.winner = tempTab[tempTab.length - 1];
         return true;
+    }
+
+    checkWinByPropriety(player){
+        //We stock the variable for a lighter if
+        let grid = this.board.grid;
+
+        //If player has 4 seasons
+        if (grid[5][10].belonging === player.id && grid[0][5].belonging === player.id && grid[5][0].belonging === player.id && grid[10][5].belonging === player.id){
+            this.winner = player;
+            this.isFinished = true;
+            return true;
+        }
+
+        //If player has a completed line
+        //Initialiation
+        let wonByLine = true;
+        let start = 0;
+        let end = 6;
+        //Browse the game board
+        for (let parcel = 0; parcel < 4; parcel++){
+            //Changing start & end value depending on the parcel we are searching in
+            if (parcel === 1){
+                start = 6;
+                end = 13;
+            }
+            else if (parcel === 2){
+                start = end;
+                end = 20;
+            }
+            else if (parcel === 3){
+                start = end;
+                end = 25;
+            }
+
+            //Searching if the player doesn't have a propriety
+            for (let i = start; i < end; i++){
+                if (typeof player.myPropriety[i] === 'undefined'){
+                    wonByLine = false;//It's not won by line
+                }
+            }
+
+            //Player wins
+            if (wonByLine){
+                this.winner = player;
+                this.isFinished = true;
+                return true;
+            }
+            //We go for the next parcel
+            else{
+                wonByLine = true;
+            }
+        }
+        return false;   
+    }
+
+    checkWinByHb(player){
+        if (player.healthyBar >= 100){
+            this.isFinished;
+            this.winner = player;
+            return true;
+        }
+        return false;
     }
 
     //Actions in the game
     castTheDice(){
         //Roll the dice !
-        //this.dice1 = Math.floor(Math.random() * 6) + 1;
-        //this.dice2 = Math.floor(Math.random() * 6) + 1;
+        this.dice1 = Math.floor(Math.random() * 6) + 1;
+        this.dice2 = Math.floor(Math.random() * 6) + 1;
         /* Test Purpose*/
-        this.dice1 = 3;
-        this.dice2 = 5;
+        //this.dice1 = 2;
+        //this.dice2 = 3;
         this.castValue = this.dice1 + this.dice2;
 
         //Jail speciality
@@ -153,7 +214,7 @@ class monopalim{
                 this.playerOrder[this.orderIndex].position = [10, 0];
                 this.playerOrder[this.orderIndex].isJailed = true;
                 this.isCast = false;
-                this.orderIndex = (this.orderIndex + 1) %5;
+                this.orderIndex = (this.orderIndex + 1) % this.playerOrder.length;
                 return true;
             }
         }
@@ -208,6 +269,9 @@ class monopalim{
             box.belonging = player.id;
             //Gets the propriety
             player.myPropriety[box.id] = box;
+            //Check Win
+            this.checkWinByPropriety(player);
+            this.checkWinByHb(player);
             return true;//Bought
         }
         return false;//Not Bought
@@ -228,6 +292,9 @@ class monopalim{
             box.belonging = player.id;
             //Gets the propriety
             player.myPropriety[box.id] = box;
+            //Check win
+            this.checkWinByPropriety(player);
+            this.checkWinByHb(player);
             return true;//Bought
         }
         return false;//Not bought
@@ -267,6 +334,7 @@ class monopalim{
 
         box.upgradeRate = upgradeId;
         this.pay(this.playerOrder[this.orderIndex], box.price[upgradeId], "bank");
+        this.checkWinByHb(player);
         return true;
     }
 
@@ -320,6 +388,8 @@ class monopalim{
             //Final addition
             this.playerTab[i].healthyBar = this.playerTab[i].imc + this.playerTab[i].ratio + this.playerTab[i].proprietyHb;
         }
+        this.playerTab.forEach(element => this.checkWinByHb(element));
+        return true;
     }
 
     //Functional
@@ -342,7 +412,7 @@ class monopalim{
 
     //TESTED AND FUNCTIONAL
     move(player, castValue){
-        if (player.isJailed || !player.state){
+        if (player.isJailed || !player.state || this.isFinished){
             return true;
         }
 
@@ -705,7 +775,7 @@ class monopalim{
 
     //Main function
     executeMove(player, castValue){
-        if (!this.isCast){
+        if (!this.isCast || this.isFinished){
             return false;
         }
         //We make the Movement
@@ -718,6 +788,7 @@ class monopalim{
     }
 
     executeInteraction(player){
+        if (this.isFinished) return false;
         //Action box
         if (typeof this.board.grid[player.position[0]][player.position[1]].money !== 'undefined') {
             this.actionInteraction(this.board.grid[player.position[0]][player.position[1]]);
@@ -731,6 +802,7 @@ class monopalim{
     }
 
     executeAction(whatToDo){
+        if (this.isFinished) return false;
         //Security
         if (this.hasMoved === false){
             return this.executeMove();
@@ -756,6 +828,4 @@ class monopalim{
 
         return true;
     }
-
-
 }

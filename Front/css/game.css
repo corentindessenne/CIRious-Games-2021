@@ -146,6 +146,12 @@ body{
 #proprietyContent table td:hover{
     background-color: #F2A413;
 }
+/*Css Propriety Fact*/
+#proprietyFact{
+    font-weight: 9px!important;
+    font-weight: bold;
+    margin: auto;
+}
 
 /*Infos on bottom left side*/
 #bottomLeftBox{
@@ -269,7 +275,7 @@ body{
 /*TOP RIGHT BOX*/
 /*Ranking TAB*/
 #rankingTab table{
-    
+
 }
 /*Action buttons*/
 #totalTurnDiv{
