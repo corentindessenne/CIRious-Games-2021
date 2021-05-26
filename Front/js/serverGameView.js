@@ -259,6 +259,17 @@ ViewServer.prototype.displayTurnNb = function(turnNb){
 }
 ViewServer.prototype.displayWhoseTurn = function(username){
     document.getElementById('playerName').innerText = username;
+    
+    //Displaying player's GIF
+    let gifDiv = document.getElementById('gifTurn');
+    //Removing old child
+    if (typeof gifDiv.children[0] !== 'undefined'){
+        gifDiv.removeChild(gifDiv.children[0]);
+    }
+    let img = document.createElement('img');
+    img.src = this.game.playerOrder[this.game.orderIndex].character;
+    //Showing it
+    gifDiv.appendChild(img);
 }
 ViewServer.prototype.displayDice = function(value1, value2){
     //Get them into variables
@@ -308,6 +319,15 @@ ViewServer.prototype.displayProprietyTab = function(player){
     //Get the tab
     let tab = document.getElementById('propriety');
     let line = 1;
+
+    //Reset tab
+    for (let i = 1; i <= 10; i++) {
+        proprietyTab.rows[i].cells[0].innerText = "X";
+        proprietyTab.rows[i].cells[1].innerText = "X";
+        proprietyTab.rows[i].cells[2].innerText = "X";
+    }
+
+    //Filling it
     for (let i = 0; i < player.myPropriety.length; i++){
         if (!(player.myPropriety[i] === null)){
             //"Propriété" cell

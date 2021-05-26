@@ -793,11 +793,7 @@ class view {
     //Used at the end of the game
     displayRankingTab(){
         document.getElementById('rankingTab').style.display = "block";
-    }
-    displayBoard(request){
-        if (request !== "block" && request !== "none") return false;
-        let game = document.getElementById('dice');
-        game.style.display = request;
+        document.getElementById('dice').style.display = "none"
     }
 
     //Event Functions
@@ -958,8 +954,11 @@ class view {
             alert("Partie TERMINE !");
             this.viewIsFinished = true;
             this.displayRankingTab();
-            this.displayBoard("none");
         }
+    }
+
+    playerLostEvent(){
+
     }
 
     endTurnEvent() {
