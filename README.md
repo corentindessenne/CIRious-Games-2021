@@ -7,9 +7,9 @@ A serious game created for CIRious Games 2021 about healthy diet.
 - [Adel Eutamene](https://github.com/BG-du-59)
 - [Antoine Fournet](https://github.com/antoinefournet)
 - [Armand Deffrennes](https://github.com/JambonPasFrais)
+- [Corentin Dessenne](https://github.com/Corentin-Dessenne)
 - [Marie Pivette](https://github.com/mariePivette)
 - [Noé Klopocki](https://github.com/Lorthender)
-- [Corentin Dessenne](https://github.com/Corentin-Dessenne)
 
 ## Installation
 
