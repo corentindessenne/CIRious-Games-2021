@@ -276,8 +276,11 @@ body{
 
 /*TOP RIGHT BOX*/
 /*Ranking TAB*/
-#rankingTab table{
-
+#rankingTab{
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    text-transform: uppercase;
 }
 /*Action buttons*/
 #totalTurnDiv{
