@@ -1,6 +1,8 @@
 # Monopalim
 A serious game created for CIRious Games 2021 about healthy diet.
 
+Created with [Adel Eutamene](https://github.com/BG-du-59), [Antoine Fournet](https://github.com/antoinefournet), [Armand Deffrennes](https://github.com/JambonPasFrais), [Marie Pivette](https://github.com/mariePivette) and [Noé Klopocki](https://github.com/Lorthender).
+
 ## Installation
 
 ```bash
