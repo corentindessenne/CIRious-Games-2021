@@ -1,0 +1,435 @@
+body{
+    background: #89D1D9;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr 3fr 3fr 3fr;
+    grid-template-areas:
+    "f f f f f"
+    "a b b b c"
+    "a b b b d"
+    "e b b b d";
+    text-align: center;
+}
+
+/*Placement*/
+
+#header{
+    grid-area: f;
+    margin-bottom: 20px;
+}
+
+#topLeftBox{
+    grid-area: a;
+    border: solid 2px black;
+}
+#bottomLeftBox{
+    grid-area: e; /* row start / column start / row end / column end*/
+    border: solid 2px blue;
+}
+
+#center{
+    grid-area: b;
+    border: solid 2px red;
+}
+
+#topRightBox{
+    grid-area: c;
+    border: solid 2px orange;
+}
+#bottomRightBox{
+    grid-area: d;
+    border: solid 2px green;
+}
+
+/*Visual*/
+
+/*Cards On left Top Side*/
+#topLeftBox{
+    position: relative;
+    /*Images*/
+    background-repeat: no-repeat;
+}
+#boxInfo{
+    font-size: 18px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    /*Vertical align for text inside*/
+    height: 100%;
+    /*Vertical Align for image*/
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-top: 30%;
+}
+/*Css for box type */
+#boxType{
+    color: red;
+    font-weight: bold;
+    /*Vertical Align*/
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
+}
+/*Css Community & Chance cards*/
+#cardContent{
+    font-size: 20px;
+    margin: 2px;
+    color: black;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 5px red;
+}
+/*Css Question*/
+/*Button "Answers"*/
+#answerContent button{
+    transition-duration: 0.4s;
+    width: 70%;
+    height: 40%;
+    border-radius: 4px;
+    padding: 15px 32px;
+    margin: auto;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    border: 2px solid #4CAF50;
+}
+#answerContent button:hover{
+    background-color: #4CAF50;
+    color: white;
+}
+/*Button "Valider"*/
+#validAnswer button{
+    position: relative;
+    border-radius: 8px;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 15px;
+    color: #FFFFFF;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    margin: 1px;
+}
+#validAnswer button::after {
+    content: "";
+    background: #f1f1f1;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+#validAnswer button:active:after{
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+/*Css Propriety*/
+#proprietyContent table{
+    border: 1px solid #dee2e6;
+    border-collapse: collapse;
+    width: 90%;
+    transform: translateX(5%);
+}
+#proprietyContent table th{
+    border: 1px solid #dee2e6;
+    font-size: 15px!important;
+    background-color: #dc3545;
+    height: 60px;
+}
+#proprietyContent table td{
+    border: 1px solid #dee2e6;
+    background-color: #17a2b8;
+    height: 60px;
+}
+#proprietyContent table td:hover{
+    background-color: #F2A413;
+}
+/*Css Propriety Fact*/
+#proprietyFact{
+    font-weight: 9px !important;
+    font-weight: bold;
+    margin: auto;
+}
+
+/*Infos on bottom left side*/
+#bottomLeftBox{
+    position: relative;
+}
+#playerInfo{
+    font-size: 18px;
+    border: none;
+    width:100%;
+    font-weight: bold;
+    /*Vertical Align*/
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+/*Player's money*/
+#moneyDiv{
+    color: red;
+}
+#moneyTxt img{
+    width: 15%;
+    height: auto;
+}
+/*Player's HB*/
+#hbValue{
+    color: green;
+}
+#hbDiv{
+    align-items: center;
+    justify-content: center;
+    display:flex;
+}
+.progress{
+    width: 100%;
+    max-width: 260px;
+    height: 6px;
+    background: #e1e4e8;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.progress-bar{
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg,#ffd33d,#ea4aaa 17%,#b34bff 34%,#01feff 51%,#ffd33d 68%,#ea4aaa 85%,#b34bff);
+    background-size: 300% 100%;
+    animation: progress-animation 2s linear infinite;
+}
+@-webkit-keyframes progress-animation {
+    0% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0;
+    }
+}
+
+@keyframes progress-animation {
+    0% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0;
+    }
+}
+/*taxe's pot*/
+#taxesDiv{
+    color: blue;
+}
+
+/*Game in the middle*/
+#center{
+    justify-self: center;
+}
+#monopalimBoard{
+    display: block;
+    width: 100%;
+}
+/*Every Box*/
+#monopalimBoard #gameBoxS{
+    border: solid 2px white;
+    box-sizing: border-box;
+    vertical-align: middle;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 80px;
+    height: 80px;
+}
+#monopalimBoard #gameBoxH{
+    border: solid 2px white;
+    box-sizing: border-box;
+    vertical-align: middle;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 65px;
+    height: 80px;
+
+}
+#monopalimBoard #gameBoxV{
+    border: solid 2px white;
+    box-sizing: border-box;
+    vertical-align: middle;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 80px;
+    height: 65px;
+}
+#monopalimBoard #centerBox{
+    background: #C5E0B4;
+    background-image: url("../assets/img/board/midmap.png");
+    background-repeat: no-repeat;
+    background-size: 97%;
+}
+#monopalimBoard td{
+    padding-bottom: 5%;
+    padding-right: 5%;
+}
+
+/*TOP RIGHT BOX*/
+/*Ranking TAB*/
+#rankingTab table{
+
+}
+/*Action buttons*/
+#totalTurnDiv{
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+#turnDiv{
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+}
+#playerName{
+    text-decoration: underline;
+    color: red;
+}
+#diceDiv img{
+    width: 23%;
+}
+/*Button "lancer"*/
+/* Credit : https://twitter.com/masuwa1018*/
+.btn {
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 45px;
+    max-width: 160px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.btn:hover {
+    text-decoration: none;
+}
+/*btn_background*/
+.effect04 {
+    --uismLinkDisplay: var(--smLinkDisplay, inline-flex);
+    display: var(--uismLinkDisplay);
+    color: #2484BF;
+    outline: solid  2px #2484BF;
+    position: relative;
+    transition-duration: 0.4s;
+    overflow: hidden;
+    font-weight: bold;
+}
+.effect04::before,
+.effect04 span{
+    margin: 0 auto;
+    transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+    transition-duration: 0.4s;
+}
+.effect04:hover{
+
+    background-color: #89D1D9;
+}
+/* HOVER */
+.effect04:hover span{
+    -webkit-transform: translateY(-400%) scale(-0.1,20);
+    transform: translateY(-400%) scale(-0.1,20);
+}
+.effect04::before{
+    content: attr(data-sm-link-text);
+    color: red;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-weight: bold;
+    -webkit-transform: translateY(500%) scale(-0.1,20);
+    transform: translateY(500%) scale(-0.1,20);
+}
+/* HOVER */
+.effect04:hover::before{
+    letter-spacing: 0.05em;
+    -webkit-transform: translateY(0) scale(1,1);
+    transform: translateY(0) scale(1,1);
+}
+/*Action buttons*/
+#actionButtons{
+    filter: drop-shadow(3px 10px 15px rgba(0, 0, 0, 0.45));
+}
+#actionButtons button{
+    height: 37px;
+    width: 75px;
+    background: linear-gradient(to bottom, #C5E0B4, #548235);
+    font-weight: bold;
+    color: white;
+    font-size: 13px;
+    border: none;
+    margin: -5px;
+    padding: 0;
+    stroke: black;
+    outline: none;
+}
+#actionButtons :nth-child(1){
+    border-radius: 20px 0 0 20px;
+}
+#actionButtons :nth-child(4){
+    border-radius: 0 20px 20px 0;
+}
+#actionButtons button:hover{
+    cursor: pointer;
+    filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+}
+#actionButtons button:active{
+    filter: none;
+    transform: scale(.95);
+}
+#upgradeButtons{
+    filter: drop-shadow(3px 10px 15px rgba(0, 0, 0, 0.45));
+}
+#upgradeButtons button{
+    height: 37px;
+    width:79px;
+    background: linear-gradient(to bottom, #F2A413, #F8D088);
+    font-weight: bold;
+    color: white;
+    font-size: 11px;
+    border: none;
+    margin: -5px;
+    padding: 0;
+    stroke: black;
+    outline: none;
+}
+#upgradeButtons :nth-child(1){
+    border-radius: 20px 0 0 20px;
+}
+#upgradeButtons :nth-child(4){
+    border-radius: 0 20px 20px 0;
+}
+#upgradeButtons button:hover{
+    cursor: pointer;
+    filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+}
+#upgradeButtons button:active{
+    filter: none;
+    transform: scale(.95);
+}
+
+/*Propriety Tab in the Bottom right corner*/
+#bottomRightBox {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#bottomRightBox table{
+    width: 100%;
+    height: 100%;
+}
