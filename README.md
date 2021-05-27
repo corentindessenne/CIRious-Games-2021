@@ -25,3 +25,5 @@ This project is made with the following npm packages :
 - [Phaser](https://github.com/photonstorm/phaser) for the loading bar at the beginning.
 
 ## Preview
+
+![gamepreview.png](https://github.com/Corentin-Dessenne/CIRious-Games-2021/blob/main/gamePreview.PNG)
