@@ -22,12 +22,6 @@
     //Game Instance
     let gameInstance = new monopalim(player1, player2, player3, player4);
 
-    player1.myPropriety[1] = gameInstance.board.grid[10][7];
-    gameInstance.board.grid[10][7].belonging = player1.id;
-    player2.money = 3;
-    player3.money = 3;
-    player4.money = 3;
-
     //View Instance
     let gameView = new view(gameInstance);
 })();

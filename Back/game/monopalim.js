@@ -201,9 +201,6 @@ class monopalim{
         //Roll the dice !
         this.dice1 = Math.floor(Math.random() * 6) + 1;
         this.dice2 = Math.floor(Math.random() * 6) + 1;
-        /* Test Purpose*/
-        this.dice1 = 2;
-        this.dice2 = 1;
         this.castValue = this.dice1 + this.dice2;
 
         //Jail speciality

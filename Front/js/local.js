@@ -1187,30 +1187,6 @@ class view {
 
     }
 
-    //Typical View Function we will use for the game
-    updateMap() {//Displaying the map and the stuff on it
-        let gameBoard = document.getElementById('monopalimBoard');
-        //We clear the board
-        for (let a = 0; a < 11; a++) {
-            for (let b = 0; b < 11; b++) {
-                if (typeof gameBoard.rows[a].cells[b] !== 'undefined') {
-                    gameBoard.rows[a].cells[b].innerText = '';
-                    gameBoard.rows[a].cells[b].style.backgroundColor = '';
-                }
-                //We change the background color if we have this propriety
-                if (typeof this.game.board.grid[a][b] !== 'undefined' && this.game.board.grid[a][b].belonging === this.game.playerOrder[this.game.orderIndex].id) {
-                    gameBoard.rows[a].cells[b].style.backgroundColor = 'red';
-                }
-            }
-        }
-        //Do it with every player
-        for (let i = 0; i < this.game.playerTab.length; i++) {
-            for (let pNbr = 0; pNbr < this.game.playerTab[i].myPropriety.length; pNbr++) {
-            }
-            gameBoard.rows[this.game.playerOrder[i].position[0]].cells[this.game.playerOrder[i].position[1]].innerText = this.game.playerOrder[i].username;
-            //Will be changed to image after
-        }
-    }
     displayDice() {
         //Displaying the dice
         //HTML Elements we will change
@@ -1496,7 +1472,6 @@ class view {
         }
     }
     updateInfos() {
-        this.displayMap();
         this.displayCurrentPlayer();
         this.displayProprietyTab();
         this.displayHealthyBar();
@@ -1576,8 +1551,9 @@ class view {
     //Used at the end of the game
     displayRankingTab() {
         document.getElementById('rankingTab').style.display = "block";
-        document.getElementById('dice').style.display = "none"
-        console.log(this.game.winner);
+        document.getElementById('rankingTab').innerText= "Le gagnant est " + this.game.winner.username;
+        document.getElementById('rankingTab').appendChild(this.game.winner.character);
+        document.getElementById('dice').style.display = "none";
     }
 
     //Event Functions
@@ -1653,12 +1629,12 @@ class view {
 
         //We make the interaction with the game with his answers & Telling the player if he succeeded
         if (this.game.answerInteraction(this.game.playerOrder[this.game.orderIndex], this.game.board.qTab[this.game.qIndex])) {//Correct answer
-            alert("Bonne réponse !!");
+            alert("Vous n'en avez fait qu'une bouchée !");
         }
         else {
-            alert("Aïe, mauvaise réponse :(");
+            alert("Aïe, vous aver fait chou blanc");
         }
-
+        this.updateInfos();
         return this.displayQuestionButtons("none", 4);
     }
 
@@ -1735,13 +1711,8 @@ class view {
     endGameEvent() {
         if (this.game.isFinished) {
             alert("Partie TERMINE !");
-            this.viewIsFinished = true;
             this.displayRankingTab();
         }
-    }
-
-    playerLostEvent() {
-
     }
 
     endTurnEvent() {
