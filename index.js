@@ -119,7 +119,7 @@ app.get('/game', (req, res) => {
 //redirection local game page
 app.get('/localGame', (req, res) => {
     if (req.session.loggedin)
-        res.sendFile(path.join(__dirname + '/Front/html/game.html'));
+        res.sendFile(path.join(__dirname + '/Front/html/localGame.html'));
     else res.redirect('/');
 });
 

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Monopalim - Game</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/game.css" />
+    <link href="../css/menu.css" rel="stylesheet">
+
+
+    <!-- SCRIPT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    <link rel="mask-icon" href="../assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+<header id="header">
+    <div class="navbar navbar-dark">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center" style="margin-left: 15px">
+                <img id="home" src="../assets/img/menu/home.png" width="40" height="40">
+            </a>
+            <a class="navbar-brand d-flex align-items-center" style="margin-left: 10px">
+                <img id="img" src="../assets/img/banner/gameBanner.png" width="400" height="70">
+            </a>
+            <a href="#" class="navbar-brand d-flex align-items-center" >
+                <img id="profile" src="../assets/img/menu/profile.png" width="40" height="40">
+            </a>
+        </div>
+    </div>
+</header>
+<!--First Part-->
+<!--Player State info (Money, HB, money at the center)-->
+<div id="topLeftBox">
+    <div id="boxInfo" style="background-image: url('../assets/img/cards/start.png');">
+            <span id="boxType" style="color: red;">Bienvenue sur la case départ !
+                <br>
+                Vous commencez la partie avec 1500 blés.
+                <br>
+                Bon amusement !
+            </span>
+        <br>
+        <span id="cardContent"></span>
+        <div id="answerContent" style="overflow-x:auto;">
+            <button style="display: none;">Réponse 1</button>
+            <button style="display: none;">Réponse 2</button>
+            <button style="display: none;">Réponse 3</button>
+            <button style="display: none;">Réponse 4</button>
+        </div>
+        <div id="validAnswer" style="display: none;">
+            <button>Valider</button>
+        </div>
+        <div id="proprietyContent" style="overflow-x:auto;">
+
+        </div>
+        <div id="proprietyFact">
+
+        </div>
+    </div>
+</div>
+<div id="bottomLeftBox">
+    <div id="playerInfo">
+        <div id="moneyDiv">
+            <p id="moneyTxt">Vous avez <span id="playerMoney">1500</span>  <img src="../assets/img/money/monnaie.png" alt="new"/></p>
+        </div>
+        <span id="hbValue">Score Nutritionnel :</span>
+        <div id="hbDiv">
+            <div class="progress">
+                <span id="healthyBar" class="progress-bar" style="width: 50%"></span>
+            </div>
+        </div>
+        <div id="taxesDiv">
+            Valeur du panier de fruit : <span id="taxesMoney">0</span>
+        </div>
+    </div>
+</div>
+
+<!--Second Part-->
+<!--Game Board-->
+<div id="center">
+    <div id="game" style="overflow-x:auto;">
+        <table id="monopalimBoard">
+            <!--First Line-->
+            <tr>
+                <td id="gameBoxS" background="../assets/img/board/fruitBucket.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/luck.png" style="transform: rotate(180deg);"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/springSeason.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/question.png" style="transform: rotate(180deg);"></td>
+                <td id="gameBoxH" background="../assets/img/board/spring.png"></td>
+                <td id="gameBoxS" background="../assets/img/board/gotojail.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="centerBox" colspan="9" rowspan="9"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/communityRotate.png" style="transform: rotate(180deg);"></td>
+
+                <td id="gameBoxV" background="../assets/img/board/communityRotate.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winterSeason.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summerSeason.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/luckRotate.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/questionRotate.png" style="transform: rotate(180deg);"></td>
+                <td id="gameBoxV" background="../assets/img/board/questionRotate.png"></td>
+            </tr>
+
+            <tr>
+                <td id="gameBoxV" background="../assets/img/board/winter.png"></td>
+                <td id="gameBoxV" background="../assets/img/board/summer.png"></td>
+            </tr>
+
+            <!--Last Line-->
+            <tr>
+                <td id="gameBoxS" background="../assets/img/board/jail.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/luck.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automnSeason.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/question.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/community.png"></td>
+                <td id="gameBoxH" background="../assets/img/board/automn.png"></td>
+                <td id="gameBoxS" background="../assets/img/board/start.png"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!--Third Part-->
+<!--Propriety Tab & Game Info-->
+<div id="topRightBox">
+    <div id="dice" style="display:block;">
+        <div id="totalTurnDiv">
+            Il reste <span id="gameTurn">20 tours !</span>
+        </div>
+        <div id="turnDiv">
+            C'est au tour de <span id="playerName">Joueur 1</span>
+            <div id="gifTurn"></div>
+        </div>
+        <div id="diceDiv">
+            <img src="../assets/img/dice/dice-six-faces-1.png" id="dice1">
+            <img src="../assets/img/dice/dice-six-faces-1.png" id="dice2">
+            <br>
+            <button id="rollDice" class="btn effect04" target="_blank" data-sm-link-text="CLICK"><span>LANCER</span></button>
+        </div>
+        <br>
+        <div id="actionButtons">
+            <button type="button" id="buy">Acheter</button>
+            <button type="button" id="redeem">Racheter</button>
+            <button type="button" id="upgrade">Améliorer</button>
+            <button type="button" id="nothing">Rien</button>
+        </div>
+        <br>
+        <div id="upgradeButtons">
+            <button type="button" id="upgradeChoice1">Epicerie</button>
+            <button type="button" id="upgradeChoice2">Marché</button>
+            <button type="button" id="upgradeChoice3">Supermarché</button>
+            <button type="button" id="upgradeChoice4">Magasin Bio</button>
+        </div>
+        <span id="jailStatus"></span>
+    </div>
+    <div id="rankingTab" style="display:none;">
+        <table>
+            <thead>
+            <tr>
+                <th>Classement</th>
+                <th>Pseudonyme</th>
+                <th>Blés</th>
+                <th>Healthy Bar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="bottomRightBox">
+    <div id="myPropriety" style="overflow-x:auto;">
+        <table id="propriety" class="table table-hover table-bordered table-striped table-primary">
+            <!--Titles-->
+            <thead class="bg-danger">
+            <tr>
+                <th>Propriétés</th>
+                <th>Stade</th>
+                <th>Apports</th>
+            </tr>
+            </thead>
+            <!--Infos-->
+            <tbody>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>X</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="../js/local.js"></script>
+<script src="../js/header.js"></script>
+</body>
+</html>
